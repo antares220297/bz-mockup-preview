@@ -1,0 +1,120 @@
+/* r8 home only: FAQ a due colonne, trust a tutta larghezza, Regali desktop affiancati.
+   Collegare dopo r7.css, solo su home.html. */
+
+/* ---------- 1) FAQ: due colonne su desktop, pannello crema sul contenuto ---------- */
+html body .faq-wide .faq-card{
+  display:grid;
+  grid-template-columns:minmax(220px,.4fr) minmax(0,1fr);
+  gap:8px 40px;
+  align-items:start;
+}
+html body .faq-wide .faq-side,
+html body .faq-wide .bz-sh{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:16px;
+  margin:0;
+  min-width:0;
+}
+html body .faq-wide .faq-card h2{
+  margin:0;
+}
+@media (min-width:1024px) and (max-width:1439px){
+  html body .faq-wide .faq-card{ padding:40px; }
+}
+@media (min-width:1440px){
+  html body .faq-wide .faq-card{
+    padding:48px 40px;
+    grid-template-columns:minmax(300px,.46fr) minmax(0,1fr);
+  }
+  html body .faq-wide .bz-pills{ flex-wrap:nowrap; }
+}
+@media (min-width:1024px){
+  html body .faq-wide #faq-content .faq-item:first-child{ border-top:0; }
+  html body .faq-wide #faq-content .faq-item:first-child .faq-q button{ padding-top:0; }
+  html body .faq-wide #faq-content .faq-item:last-child .faq-a{ padding-bottom:0; }
+  html body .faq-wide #faq-content .faq-item:last-child .faq-q button{ padding-bottom:0; }
+}
+
+@media (min-width:1024px){
+  html body .faq-wide .bz-pills{
+    flex-wrap:wrap;
+    width:100%;
+  }
+}
+html body .faq-wide #faq-content{
+  margin-top:0;
+  min-width:0;
+}
+
+/* 1024: due colonne se c'è spazio; i pill possono andare a capo nella colonna sinistra */
+@media (max-width:1023px){
+  html body .faq-wide .faq-card{
+    display:block;
+  }
+  html body .faq-wide #faq-content{ margin-top:22px; }
+}
+
+/* Trust: stessa larghezza della FAQ, quattro colonne pari da 768 */
+html body #main-content > .trust-strip{
+  width:100%;
+  max-width:none;
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  justify-items:center;
+  align-items:center;
+  gap:16px 12px;
+  padding:20px 16px;
+}
+html body #main-content > .trust-strip > span{
+  justify-content:center;
+  min-width:0;
+  text-align:center;
+}
+@media (max-width:767px){
+  html body #main-content > .trust-strip{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    padding:20px 14px;
+  }
+}
+
+/* ---------- 2) Regali desktop: foto e testo affiancati, altezza contenuta ---------- */
+@media (min-width:1024px){
+  html body .mala-band > .mala-lead{
+    display:grid !important;
+    grid-template-columns:minmax(0,1.38fr) minmax(16em,.95fr) !important;
+    flex-direction:unset !important;
+    align-items:stretch;
+    min-height:0 !important;
+    overflow:hidden;
+  }
+  html body .mala-band .mala-photo{
+    aspect-ratio:auto;
+    width:100%;
+    height:clamp(360px,27.5vw,420px);
+    min-height:0;
+  }
+  html body .mala-band .mala-photo picture,
+  html body .mala-band .mala-photo img{
+    height:100%;
+    object-fit:cover;
+    object-position:center center;
+  }
+  html body .mala-band .mala-copy{
+    display:flex;
+    flex-direction:column;
+    flex-wrap:nowrap;
+    justify-content:center;
+    align-items:flex-start;
+    align-self:stretch;
+    gap:16px;
+    padding:28px 32px 28px 28px;
+  }
+  html body .mala-band .mala-copy > .btn{
+    margin-top:4px;
+    align-self:flex-start;
+  }
+}
+/* 390 e 768: restano come r7 (foto sopra, testo sotto). */
