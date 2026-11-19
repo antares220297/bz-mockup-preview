@@ -23,11 +23,17 @@
      resta larga come prima (0,5 × 94 ≈ 0,6 × 79 = 47px a 390), le carte crescono del 19%. Il 3+3 usa la stessa carta.
      Da 768 in su il 10 occupa il 92% della colonna (era 85%), tetto 156px (era 140): sempre ≥ 16px dal bordo del pannello.
      edge: distanza minima della carta estratta (ingrandita) dal bordo dello stage. */
-  const P={rot:3,curve:.03,rowGap:.8,wide:1.07,sp:.79,spMobile:.5,fw:.92,sideMobile:18,cap:156,minTwoCol:100,deckCol:.6,edge:16,edgeMobile:10};
+  /* 19/11 notte (Michael: «allargare un po' tutte… trovare l'equilibrio»).
+     Mobile: file da 3 a passo 0,8 (nomi interi, la carta non cambia); file da 5 da 0,5 a 0,55 (carta −6%).
+     Per avere ≥85% di nome anche su Concentrazione/Comunicazione nel 5+5 servirebbe passo 0,73 → carta 72,5px a 390: nome 8,1px e le pietre (10px)
+     non ci stanno più (il disco scende al 12% della carta). Misure in shots/finale-pannelli/controlli.md.
+     Desktop: file da 3 a passo 0,95; quando la carta è al tetto anche il passo del 5+5 cresce fino a spMax. */
+  const P={rot:3,curve:.03,rowGap:.8,wide:1.07,sp:.79,spMax:.95,spMobile:.55,sp3:.95,sp3Mobile:.8,fw:.92,sideMobile:18,cap:156,minTwoCol:100,deckCol:.6,edge:16,edgeMobile:10};
   const MOB=()=>innerWidth<768;
   const spNow=()=>MOB()?P.spMobile:P.sp;
+  const sp3Now=()=>MOB()?P.sp3Mobile:P.sp3; // passo delle file da 3 (il 3+3): può essere più ampio, c'è spazio ai lati
   /* la carta più grande per cui il mazzo da 10 (5+5) sta nella larghezza W (desktop: 92% di W; mobile: W meno 18px per lato) */
-  function fit10(W){ const sp=spNow(), avail=MOB()?W-2*P.sideMobile:P.fw*W;
+  function fit10(W,spk){ const sp=spk||spNow(), avail=MOB()?W-2*P.sideMobile:P.fw*W;
     for(let cw=P.cap;cw>=50;cw-=.5){ const ch=cw*12/7; let a=0;
       for(let i=0;i<10;i++){ const row=i<5?0:1,rel=i%5-2,x=rel*sp*cw*(row?P.wide:1),r=rad(rel*P.rot);
         a=Math.max(a,Math.abs(x)+cw/2*Math.cos(r)+ch/2*Math.abs(Math.sin(r))); }
@@ -62,7 +68,7 @@
     function pose(i,o,g){
       const open=o.open, act=open?o.act:-1, [row,col]=rowOf(i), cnt=rowsArr[row], rel=col-(cnt-1)/2;
       const k=open?1:g.ck, wf=row===rowsArr.length-1?P.wide:1;
-      let x=rel*g.sp*k*wf, a=rel*g.rot*(open?1:.45), y=row*g.rowGap+g.curve*rel*rel*(open?1:.45)+(open?0:g.ch*.03);
+      let x=rel*(cnt<=3?g.sp3:g.sp)*k*wf, a=rel*g.rot*(open?1:.45), y=row*g.rowGap+g.curve*rel*rel*(open?1:.45)+(open?0:g.ch*.03);
       const isA=i===act;
       if(act>=0&&!isA&&rowOf(act)[0]===row) x+=Math.sign(i-act)*g.pushX;
       let rot=a, sc=act>=0?(isA?g.scale:.97):1;
@@ -99,11 +105,15 @@
        Il titolo delle coperte scivola a sinistra (al massimo fino al bordo interno del cartiglio) quanto basta per stare nella striscia. */
     function geom(){
       TM=null; // il corpo del nome dipende dalla larghezza: rimisuro
-      const W=stage.clientWidth, cw=fit10(W), ch=cw*12/7, sp=cw*spNow(), fine=FINE.matches;
-      root.style.setProperty('--cw',cw+'px'); const T=titleMetrics(); // misuro i nomi alla taglia giusta
-      const g={cw,ch,sp,rot:P.rot,rowGap:ch*P.rowGap,curve:ch*P.curve,ck:.34,pushX:cw*.05,lift:ch*(fine?.05:.07),scale:fine?1.1:1.15,hw:W/2-(MOB()?P.edgeMobile:P.edge)};
+      const W=stage.clientWidth, cw=fit10(W), ch=cw*12/7; let spk=spNow();
+      // carta al tetto (schermi larghi): lo spazio che avanza allarga il passo, fino a spMax, senza rimpicciolire la carta
+      if(!MOB()&&cw>=P.cap) while(spk+.01<=P.spMax&&fit10(W,spk+.01)>=P.cap) spk+=.01;
+      const sp=cw*spk, sp3=cw*(MOB()?P.sp3Mobile:Math.max(P.sp3,spk)), fine=FINE.matches;
+      root.style.setProperty('--cw',cw+'px');
+      const T=titleMetrics(); // misuro i nomi alla taglia giusta
+      const g={cw,ch,sp,sp3,rot:P.rot,rowGap:ch*P.rowGap,curve:ch*P.curve,ck:.34,pushX:cw*.05,lift:ch*(fine?.05:.07),scale:fine?1.1:1.15,hw:W/2-(MOB()?P.edgeMobile:P.edge)};
       const tx=els.map((_,i)=>{ if(!T) return 0; const [r,col]=rowOf(i); if(col===rowsArr[r]-1) return 0;
-        const sw=sp*(r===rowsArr.length-1?P.wide:1), need=(T[i].l+T[i].w)*cw-(sw-4); return need>0?Math.max((T[i].lo-T[i].l)*cw,-need):0; });
+        const sw=(rowsArr[r]<=3?sp3:sp)*(r===rowsArr.length-1?P.wide:1), need=(T[i].l+T[i].w)*cw-(sw-4); return need>0?Math.max((T[i].lo-T[i].l)*cw,-need):0; });
       els.forEach((el,i)=>el.style.setProperty('--tx',tx[i].toFixed(1)+'px'));
       const e=extent(g), top=-e.minY+2, H=Math.ceil(e.maxY-e.minY+4);
       G={W,top,H,H0:H,...g,ext:e};
