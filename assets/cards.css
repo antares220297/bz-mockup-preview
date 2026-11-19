@@ -62,39 +62,49 @@
 .tc__motto{display:block;margin-top:1.6cqw;font:italic 400 7.4cqw/1.2 var(--serif,Baskervville,Georgia,serif);color:rgba(227,203,149,.82)}
 .no-motti .tc__motto{display:none}
 /* pietre: 10px; su carte sotto i ~72px scenderebbero fino a 7cqw per restare dentro la carta (oggi la carta più piccola è 79,5px: sempre 10px) */
-/* ---------- RETRO v2 (19/11 23:00): il dorso approvato diventa il retro informativo; si vede solo sulla carta scelta, dopo il flip ----------
-   Dal dorso: fondo bordeaux («Come ti senti») / blu notte («Cosa desideri») con la grana a losanghe e la luce al centro,
-   cornice doppia (bordo + filetto a 3,6cqw come i fronti, più il filetto tenue a 5,6cqw del dorso), logo BZ Buddha + ensō in oro (assets/bz-dorso-oro.webp) come sigillo.
-   Sotto: nome in serif oro, filetto con punto, le tre pietre in avorio separate da punti oro, motto in corsivo sopra un filetto, «Benessere Zen» spaziato (solo ≥768px).
-   Corpi misurati sulla carta ingrandita (--sa = scala della carta scelta): a schermo nome ≥ 10,5px, pietre ≥ 10px, motto ≥ 9,5px. */
-.tc__back{transform:rotateY(180deg);justify-content:flex-start;padding:8cqw 7cqw 7.5cqw;color:var(--goldl);text-align:center;
+/* ---------- RETRO v3 (19/11 23:30, ultimo giro): griglia vera ----------
+   Unità u = 4% della larghezza della carta (cqw del flipper). Cornice doppia a distanze costanti: bordo → filetto a 1u → filetto a 1,5u.
+   Margine interno M uguale sui 4 lati (2,5u desktop, 2u mobile). Colonna: sigillo in alto a M dal bordo, firma «Benessere Zen» in basso a M dal bordo;
+   in mezzo il gruppo nome · filetto con punto · 3 pietre · filetto · motto, centrato in verticale nello spazio tra sigillo e firma, con un solo passo g tra gli elementi.
+   Corpi misurati sulla carta ingrandita (--sa): a schermo nome ≥ 10,5px, pietre ≥ 10px, motto ≥ 9,5px. */
+.tc__back{--u:4cqw;--m:calc(var(--u) * 2.5);--g:calc(var(--u) * 1.2);transform:rotateY(180deg);justify-content:space-between;align-items:center;
+  padding:var(--m);color:var(--goldl);text-align:center;
   background:
-   radial-gradient(70% 38% at 50% 22%,rgba(227,203,149,.14),transparent 72%),
-   radial-gradient(60% 40% at 50% 60%,rgba(201,169,110,.08),transparent 70%),
+   radial-gradient(70% 38% at 50% 50%,rgba(227,203,149,.10),transparent 72%),
    repeating-linear-gradient(45deg,rgba(201,169,110,.075) 0 1px,transparent 1px 7cqw),
    repeating-linear-gradient(-45deg,rgba(201,169,110,.075) 0 1px,transparent 1px 7cqw),
    linear-gradient(180deg,var(--back1,#1c1712),var(--back2,#0f0d0b));
   border:1px solid rgba(201,169,110,.55)}
 .deck--senti .tc__back{--back1:#3a1621;--back2:#1d0a10}
 .deck--des .tc__back{--back1:#18233d;--back2:#0b111f}
-.tc__back::before{content:"";position:absolute;inset:3.6cqw;border:1px solid rgba(227,203,149,.45);border-radius:2.6cqw;pointer-events:none}
-.tc__back::after{content:"";position:absolute;inset:5.6cqw;border:1px solid rgba(201,169,110,.16);border-radius:1.6cqw;pointer-events:none}
+.tc__back::before{content:"";position:absolute;inset:var(--u);border:1px solid rgba(227,203,149,.45);border-radius:calc(var(--u) * .65);pointer-events:none}
+.tc__back::after{content:"";position:absolute;inset:calc(var(--u) * 1.5);border:1px solid rgba(201,169,110,.18);border-radius:calc(var(--u) * .4);pointer-events:none}
 .tc__back > *{position:relative;flex:0 0 auto}
-.tc__back .tc__seal{display:grid;place-items:center;width:34cqw;filter:drop-shadow(0 0 3cqw rgba(227,203,149,.18))}
+.tc__back .tc__seal{display:block;width:28cqw;filter:drop-shadow(0 0 3cqw rgba(227,203,149,.16))}
 .tc__back .tc__seal img{display:block;width:100%;height:auto}
-.tc__bname{display:block;margin-top:3cqw;white-space:pre-line;text-wrap:balance;
-  font:400 max(calc(10.5px / var(--sa,1)),min(11.5cqw,calc(86cqw / 7.2)))/1.1 var(--serif,Baskervville,Georgia,serif);color:var(--goldl)}
-.tc__brule{display:block;width:46cqw;height:1px;margin:3.6cqw 0 3.4cqw;background:linear-gradient(90deg,transparent,rgba(227,203,149,.85),transparent)}
-.tc__brule::after{content:"";position:absolute;left:50%;top:50%;width:2.4cqw;height:2.4cqw;background:var(--goldl);transform:translate(-50%,-50%) rotate(45deg)}
+.tc__bgroup{flex:1 1 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--g);width:100%;min-height:0}
+.tc__bname{display:block;white-space:pre-line;text-wrap:balance;
+  font:500 max(calc(10.5px / var(--sa,1)),min(11.7cqw,calc(86cqw / 6.75)))/1.1 var(--serif,Baskervville,Georgia,serif);letter-spacing:.01em;color:var(--goldl)}
+.tc__brule{display:block;position:relative;flex:0 0 auto;width:calc(var(--u) * 11);height:1px;background:linear-gradient(90deg,transparent,rgba(227,203,149,.85),transparent)}
+.tc__brule::after{content:"";position:absolute;left:50%;top:50%;width:calc(var(--u) * .6);height:calc(var(--u) * .6);background:var(--goldl);transform:translate(-50%,-50%) rotate(45deg)}
+.tc__brule--plain{width:calc(var(--u) * 7);background:linear-gradient(90deg,transparent,rgba(227,203,149,.6),transparent)}
+.tc__brule--plain::after{content:none}
 .tc__stones{display:flex;flex-direction:column;align-items:center;
-  font:500 max(calc(10px / var(--sa,1)),7.6cqw)/1.18 var(--sans,Figtree,Arial,sans-serif);letter-spacing:.01em;color:#eee7db;text-wrap:balance;hyphens:none;overflow-wrap:normal}
+  font:500 max(calc(10px / var(--sa,1)),7cqw)/1.18 var(--sans,Figtree,Arial,sans-serif);letter-spacing:.01em;color:#eee7db;text-wrap:balance;hyphens:none;overflow-wrap:normal}
 .tc__stones > span{display:block}
-/* punto oro tra una pietra e l'altra */
-.tc__stones > span + span::before{content:"";display:block;width:1.8cqw;height:1.8cqw;margin:1.6cqw auto 1.6cqw;background:rgba(227,203,149,.8);transform:rotate(45deg)}
-.tc__bmotto{display:block;margin-top:auto;padding-top:3cqw;font:italic 400 max(calc(9.5px / var(--sa,1)),7cqw)/1.18 var(--serif,Baskervville,Georgia,serif);color:rgba(227,203,149,.85);text-wrap:balance}
-.tc__bmotto::before{content:"";display:block;width:28cqw;height:1px;margin:0 auto 2.4cqw;background:linear-gradient(90deg,transparent,rgba(227,203,149,.6),transparent)}
-.tc__brand{display:none;margin-top:3cqw;font:400 4.6cqw/1 var(--serif,Baskervville,Georgia,serif);letter-spacing:.32em;text-transform:uppercase;color:rgba(227,203,149,.6)}
-@media (min-width:768px){.tc__brand{display:block}}
+.tc__stones > span + span::before{content:"";display:block;width:calc(var(--u) * .45);height:calc(var(--u) * .45);margin:calc(var(--u) * .4) auto;background:rgba(227,203,149,.8);transform:rotate(45deg)}
+.tc__bmotto{display:block;font:italic 400 max(calc(9.5px / var(--sa,1)),6.4cqw)/1.18 var(--serif,Baskervville,Georgia,serif);color:rgba(227,203,149,.85);text-wrap:balance}
+.tc__brand{display:block;font:400 max(calc(6.5px / var(--sa,1)),4.4cqw)/1 var(--serif,Baskervville,Georgia,serif);letter-spacing:.3em;padding-left:.3em;white-space:nowrap;text-transform:uppercase;color:rgba(227,203,149,.62)}
+@media (max-width:767.98px){
+  .tc__back{--m:calc(var(--u) * 2);--g:calc(var(--u) * .85)}
+  .tc__back .tc__seal{width:20cqw}
+  .tc__stones{line-height:1.1}
+  .tc__stones > span + span::before{margin:calc(var(--u) * .22) auto}
+  .tc__back{--g:calc(var(--u) * .75)}
+  .tc__back .tc__seal{width:17cqw}
+  .tc__bname{font-size:min(calc(13.5px / var(--sa,1)),calc((100cqw - var(--u) * 3) / 6.4));line-height:1.02;letter-spacing:0;margin-inline:calc(var(--u) * -.5)}
+  .tc__bmotto{margin-inline:calc(var(--u) * -.5)}
+}
 
 /* ---------- stati: alone della carta attiva ---------- */
 .tc__glow{position:absolute;inset:-1px;border-radius:7px;pointer-events:none;opacity:0;transition:opacity 300ms ease;
@@ -164,16 +174,7 @@
 .tc__cart{--cpad:1.5cqw;width:100%;margin-inline:0;padding:2.6cqw var(--cpad) 2.6cqw}
 .tc__title{--tfit:calc((92cqw - 2 * var(--cpad)) / 7.2);font-size:max(min(9.5px,var(--tfit)),min(12cqw,var(--tfit)))}
 @media (min-width:768px){.tc__title{font-size:max(min(9.5px,var(--tfit)),min(12cqw,var(--tfit),calc((74cqw - 4px - var(--cpad)) / 7.2)))}}
-/* retro v2 sotto i 768px: stessa gerarchia, spazi un po' più stretti (la carta è piccola e il testo è a corpo fisso) */
-@media (max-width:767.98px){
-  .tc__back{padding:6.5cqw 6cqw 6cqw}
-  .tc__back .tc__seal{width:29cqw}
-  .tc__bname{margin-top:2cqw}
-  .tc__brule{margin:2.8cqw 0 2.6cqw}
-  .tc__stones > span + span::before{margin:1.1cqw auto}
-  .tc__bmotto{padding-top:2cqw}
-  .tc__bmotto::before{margin-bottom:1.8cqw}
-}
+
 
 /* 19/11 23:10: su mobile la carta è 3:5 come nel riferimento di Michael (ricerca/iphone-michael-2302/riferimento.png, Gioia 146×242) */
 @media (max-width:767.98px){.deck .tc{aspect-ratio:3/5}}
@@ -193,3 +194,16 @@
   .tc__back{visibility:visible;opacity:0;transition:opacity 220ms ease}
   .tc.is-active .tc__back{opacity:1;transition:opacity 220ms ease}
 }
+
+/* ---------- ultimo giro (19/11 23:30): incisioni più luminose e piene, nomi più marcati ----------
+   Incisioni: stesse lastre RWS (nessun asset nuovo); l'immagine passa da 66k a 71k (il disegno occupa ~84% del diametro del disco)
+   ed è ritagliata sul cerchio del disco; oro più brillante e contrastato con un filo di luce che ispessisce il segno. */
+.tc__sym--art{width:calc(71*var(--k));height:calc(71*var(--k));clip-path:circle(calc(31*var(--k)) at 50% 50%)}
+.tc .tc__sym--art img{filter:brightness(1.32) contrast(1.18) saturate(1.15) drop-shadow(0 0 .45px rgba(255,236,180,.95)) drop-shadow(0 0 calc(2.2*var(--k)) rgba(227,203,149,.34))}
+.tc .tc__sym--art img:is([src$="/amore.webp"],[src$="/comunicazione.webp"],[src$="/purificazione.webp"],[src$="/confusione.webp"],[src$="/serenita.webp"]){
+  filter:brightness(1.36) contrast(1.18) saturate(1.15) drop-shadow(0 0 .6px #f3dfa6) drop-shadow(0 0 .6px #f3dfa6) drop-shadow(0 0 calc(2.2*var(--k)) rgba(227,203,149,.34))}
+/* nomi: Baskervville 500 (più marcato e, in questo taglio, più stretto: «Concentrazione» 6,28em), tracking .02em, avorio pieno.
+   Corpo uguale su tutte le carte, deciso da «Concentrazione» (6,55em con il tracking; 6,75 con margine) */
+.tc__title{--tfit:calc((92cqw - 2 * var(--cpad)) / 6.75);font-weight:500;letter-spacing:.02em;color:#fbf4e4;text-shadow:0 1px 2px rgba(0,0,0,.55);
+  font-size:max(min(9.5px,var(--tfit)),min(13cqw,var(--tfit)))}
+@media (min-width:768px){.tc__title{font-size:max(min(9.5px,var(--tfit)),min(13cqw,var(--tfit),calc((74cqw - 4px - var(--cpad)) / 6.75)))}}

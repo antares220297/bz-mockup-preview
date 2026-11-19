@@ -65,8 +65,10 @@
     return `<span class="tc__glow" aria-hidden="true"></span><span class="tc__flip" aria-hidden="true">
 <span class="tc__face tc__front"><span class="tc__num"><i class="tc__bz"></i></span><span class="tc__art"><span class="tc__sym tc__sym--art">${art}</span></span>
 <span class="tc__cart"><span class="tc__title">${c.title}</span></span></span>
-<span class="tc__face tc__back"><span class="tc__seal">${BACKS[deck]?`<img src="${BACKS[deck]}" alt="" decoding="async">`:''}</span><span class="tc__bname">${c.title}</span><span class="tc__brule"></span>
-<span class="tc__stones">${c.stones.map(x=>`<span>${x}</span>`).join('')}</span>${c.motto?`<span class="tc__bmotto">${c.motto}</span>`:''}<span class="tc__brand">Benessere Zen</span></span></span>`;
+<span class="tc__face tc__back"><span class="tc__seal">${BACKS[deck]?`<img src="${BACKS[deck]}" alt="" decoding="async">`:''}</span>
+<span class="tc__bgroup"><span class="tc__bname">${c.title}</span><span class="tc__brule"></span>
+<span class="tc__stones">${c.stones.map(x=>`<span>${x}</span>`).join('')}</span>${c.motto?`<span class="tc__brule tc__brule--plain"></span><span class="tc__bmotto">${c.motto}</span>`:''}</span>
+<span class="tc__brand">Benessere Zen</span></span></span>`;
   }
 
   function Deck(root){
