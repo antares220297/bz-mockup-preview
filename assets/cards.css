@@ -54,8 +54,9 @@
    - da 768 in su, sulla carta coperta deve stare nella striscia scoperta (passo 0,79 × carta − 5cqw di bordo − cpad − 4px):
                                                               (74cqw − 4px − cpad) / 7,2
    - mai più grande di prima (11,2cqw). Niente sillabazione, niente parole spezzate. */
+/* nome: almeno 9,5px quando il cartiglio lo consente (carte piccole a 360) */
 .tc__title{--tfit:calc((90cqw - 2 * var(--cpad)) / 7.2);display:flex;align-items:center;justify-content:center;min-height:2.32em;
-  font:400 min(11.2cqw,var(--tfit))/1.16 var(--serif,Baskervville,Georgia,serif);color:#f3ead8;text-wrap:balance;white-space:pre-line;hyphens:none;overflow-wrap:normal;word-break:normal}
+  font:400 max(min(9.5px,var(--tfit)),min(11.2cqw,var(--tfit)))/1.16 var(--serif,Baskervville,Georgia,serif);color:#f3ead8;text-wrap:balance;white-space:pre-line;hyphens:none;overflow-wrap:normal;word-break:normal}
 @media (min-width:768px){.tc__title{font-size:min(11.2cqw,var(--tfit),calc((74cqw - 4px - var(--cpad)) / 7.2))}}
 .tc__motto{display:block;margin-top:1.6cqw;font:italic 400 7.4cqw/1.2 var(--serif,Baskervville,Georgia,serif);color:rgba(227,203,149,.82)}
 .no-motti .tc__motto{display:none}
