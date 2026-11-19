@@ -32,14 +32,15 @@
      Carta centrale dritta e più alta, laterali ±6° e ±12° (rotMobile 6 per posizione) con caduta 0,07 × altezza × posizione² (0,07 e 0,28);
      carte quasi affiancate (passo 0,78 della carta nel 5+5, 0,85 nel 3+3; nomi coperti ≥ 85%), fila sotto uguale (wideMobile 1), file distanziate 1,1 × altezza. Il 3+3 segue la stessa logica.
      Desktop invariato. */
-  const P={rot:3,curve:.03,rowGap:.8,wide:1.07,sp:.79,spMax:.95,spMobile:.78,sp3:.95,sp3Mobile:.85,fw:.92,sideMobile:11,cap:156,minTwoCol:100,deckCol:.6,edge:16,edgeMobile:8,rotMobile:6,curveMobile:.07,wideMobile:1,stagMobile:0,rowGapMobile:1.1};
+  const P={rot:3,curve:.03,rowGap:1.02,wide:1.07,sp:.79,spMax:.95,spMobile:.78,sp3:.95,sp3Mobile:.85,fw:.92,sideMobile:11,cap:156,minTwoCol:100,deckCol:.6,edge:16,edgeMobile:8,rotMobile:6,curveMobile:.07,wideMobile:1,stagMobile:0,rowGapMobile:1.1,cwMinMobile:78,spMinMobile:.6};
   const MOB=()=>innerWidth<768;
+  const RAT=()=>1.5; // 19/11 22:46 (Michael): carta corta e piena (2:3) ovunque, come rif-arco-michael.png; le pietre stanno sul retro
   const spNow=()=>MOB()?P.spMobile:P.sp;
   const rotNow=()=>MOB()?P.rotMobile:P.rot, curveNow=()=>MOB()?P.curveMobile:P.curve, wideNow=()=>MOB()?P.wideMobile:P.wide, stagNow=()=>MOB()?P.stagMobile:0;
   const sp3Now=()=>MOB()?P.sp3Mobile:P.sp3; // passo delle file da 3 (il 3+3): può essere più ampio, c'è spazio ai lati
   /* la carta più grande per cui il mazzo da 10 (5+5) sta nella larghezza W (desktop: 92% di W; mobile: W meno 18px per lato) */
   function fit10(W,spk){ const sp=spk||spNow(), avail=MOB()?W-2*P.sideMobile:P.fw*W;
-    for(let cw=P.cap;cw>=50;cw-=.5){ const ch=cw*12/7; let a=0;
+    for(let cw=P.cap;cw>=50;cw-=.5){ const ch=cw*RAT(); let a=0;
       for(let i=0;i<10;i++){ const row=i<5?0:1,rel=i%5-2,x=rel*sp*cw*(row?wideNow():1)+(row?-1:1)*stagNow()*sp*cw/2,r=rad(rel*rotNow());
         a=Math.max(a,Math.abs(x)+cw/2*Math.cos(r)+ch/2*Math.abs(Math.sin(r))); }
       if(2*a<=avail) return cw; }
@@ -49,14 +50,15 @@
     H.classList.remove('tar-1col');
     if(innerWidth<768||fit10(d.clientWidth*P.deckCol)<P.minTwoCol) H.classList.add('tar-1col'); }
 
+  /* fronte: logo, disco grande, nome (niente pietre). Retro (si vede quando la carta è scelta: flip 3D sull'asse Y):
+     fondo nel colore del mazzo, stessa cornice oro, logo piccolo, nome, filetto, le 3 pietre una per riga, motto in corsivo */
   function face(c,deck){
     const art=c.art?`<img src="${c.art}" alt="" decoding="async" onerror="this.style.visibility='hidden'">`:'';
-    const back=BACKS[deck]?`<img src="${BACKS[deck]}" alt="" decoding="async">`:'';
     return `<span class="tc__glow" aria-hidden="true"></span><span class="tc__flip" aria-hidden="true">
 <span class="tc__face tc__front"><span class="tc__num"><i class="tc__bz"></i></span><span class="tc__art"><span class="tc__sym tc__sym--art">${art}</span></span>
-<span class="tc__cart"><span class="tc__title">${c.title}</span><span class="tc__motto">${c.motto}</span></span>
-<span class="tc__stones">${c.stones.map(x=>`<span>${x}</span>`).join('')}</span></span>
-<span class="tc__face tc__back"><span class="tc__seal">${back}</span><span class="tc__brand">Benessere Zen</span></span></span>`;
+<span class="tc__cart"><span class="tc__title">${c.title}</span></span></span>
+<span class="tc__face tc__back"><span class="tc__num"><i class="tc__bz"></i></span><span class="tc__bname">${c.title}</span><span class="tc__brule"></span>
+<span class="tc__stones">${c.stones.map(x=>`<span>${x}</span>`).join('')}</span>${c.motto?`<span class="tc__bmotto">${c.motto}</span>`:''}</span></span>`;
   }
 
   function Deck(root){
@@ -72,6 +74,8 @@
     function rowOf(i){ let s=0,r=0; while(i>=s+rowsArr[r]){ s+=rowsArr[r]; r++; } return [r,i-s]; }
     function pose(i,o,g){
       const open=o.open, act=open?o.act:-1, [row,col]=rowOf(i), cnt=rowsArr[row], rel=col-(cnt-1)/2;
+      // riposo: pila ordinata a fronte in su al centro, a metà tra le due file (ogni carta 0,6px sopra la precedente)
+      if(!open) return {rel,isA:false,x:0,y:g.rowGap/2-i*.6,rot:0,sc:1};
       const k=open?1:g.ck, wf=row===rowsArr.length-1?g.wide:1, st=rowsArr.length>1?(row===0?1:-1)*g.stag/2:0;
       let x=(rel*wf+st)*(cnt<=3?g.sp3:g.sp)*k, a=rel*g.rot*(open?1:.45), y=row*g.rowGap+g.curve*rel*rel*(open?1:.45)+(open?0:g.ch*.03);
       const isA=i===act;
@@ -110,30 +114,37 @@
        Il titolo delle coperte scivola a sinistra (al massimo fino al bordo interno del cartiglio) quanto basta per stare nella striscia. */
     function geom(){
       TM=null; // il corpo del nome dipende dalla larghezza: rimisuro
-      const W=stage.clientWidth, cw=fit10(W), ch=cw*12/7; let spk=spNow();
+      const W=stage.clientWidth; let spk=spNow(), cw=fit10(W,spk);
+      // mobile: carta mai sotto cwMinMobile (78px: «Concentrazione» intero a 9,5px); se non ci sta, si stringe il passo del 5+5
+      if(MOB()) while(cw<P.cwMinMobile&&spk>P.spMinMobile+.001){ spk-=.01; cw=fit10(W,spk); }
+      const ch=cw*RAT();
       // carta al tetto (schermi larghi): lo spazio che avanza allarga il passo, fino a spMax, senza rimpicciolire la carta
       if(!MOB()&&cw>=P.cap) while(spk+.01<=P.spMax&&fit10(W,spk+.01)>=P.cap) spk+=.01;
       const sp=cw*spk, sp3=cw*(MOB()?P.sp3Mobile:Math.max(P.sp3,spk)), fine=FINE.matches;
       root.style.setProperty('--cw',cw+'px');
       const T=titleMetrics(); // misuro i nomi alla taglia giusta
-      const g={cw,ch,sp,sp3,rot:rotNow(),wide:wideNow(),stag:stagNow(),rowGap:ch*(MOB()?P.rowGapMobile:P.rowGap),curve:ch*curveNow(),ck:.34,pushX:cw*.05,lift:ch*(fine?.05:.07),scale:fine?1.1:1.15,hw:W/2-(MOB()?P.edgeMobile:P.edge)};
+      const g={cw,ch,sp,sp3,rot:rotNow(),wide:wideNow(),stag:stagNow(),rowGap:ch*(MOB()?P.rowGapMobile:P.rowGap),curve:ch*curveNow(),ck:.34,pushX:cw*.05,lift:ch*(fine?.05:.07),scale:fine?1.1:(MOB()?1.3:1.15),hw:W/2-(MOB()?P.edgeMobile:P.edge)};
       const tx=els.map((_,i)=>{ if(!T) return 0; const [r,col]=rowOf(i); if(col===rowsArr[r]-1) return 0;
         const sw=(rowsArr[r]<=3?sp3:sp)*(r===rowsArr.length-1?wideNow():1), need=(T[i].l+T[i].w)*cw-(sw-4); return need>0?Math.max((T[i].lo-T[i].l)*cw,-need):0; });
       els.forEach((el,i)=>el.style.setProperty('--tx',tx[i].toFixed(1)+'px'));
       const e=extent(g), top=-e.minY+2, H=Math.ceil(e.maxY-e.minY+4);
       G={W,top,H,H0:H,...g,ext:e};
-      root.style.setProperty('--cw',cw+'px'); stage.style.setProperty('--top',top+'px'); stage.style.height=H+'px';
+      root.style.setProperty('--cw',cw+'px'); root.style.setProperty('--sa',g.scale); stage.style.setProperty('--top',top+'px'); stage.style.height=H+'px';
     }
     function render(instant){
       const open=st.open||RM.matches;
-      root.classList.toggle('is-open',open); fan.classList.toggle('is-backs',!open);
+      root.classList.toggle('is-open',open);
       const act=st.active>=0?st.active:st.sel, o={open,act};
       els.forEach((el,i)=>{ const p=pose(i,o,G);
         el.style.transform=`translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px) rotate(${p.rot.toFixed(2)}deg) scale(${p.sc})`;
-        el.style.zIndex=p.isA?50:i+1; el.classList.toggle('is-active',p.isA);
-        // ingresso e uscita a cascata dal centro della fila
-        el.style.setProperty('--d',instant||RM.matches?'0ms':(Math.round(Math.abs(p.rel)*45+rowOf(i)[0]*60))+'ms');
-        el.style.setProperty('--fd',RM.matches?'0ms':(120+Math.round(Math.abs(p.rel)*55+rowOf(i)[0]*60))+'ms');
+        const was=el.classList.contains('is-active');
+        el.style.zIndex=p.isA?50:(was?49:i+1); el.classList.toggle('is-active',p.isA);
+        // apertura e chiusura a cascata dal centro della fila; scelta: la carta esce e poi gira (flip con 140ms di ritardo);
+        // lasciata: prima si rigira, poi rientra (spostamento con 260ms di ritardo)
+        let d=instant||RM.matches?0:Math.round(Math.abs(p.rel)*45+rowOf(i)[0]*60), fd=0;
+        if(!RM.matches){ if(p.isA&&!was){ d=0; fd=140; } else if(was&&!p.isA){ d=260; fd=0; } }
+        el.style.setProperty('--d',d+'ms'); el.style.setProperty('--fd',fd+'ms');
+        if(!p.isA&&was) setTimeout(()=>{ if(!el.classList.contains('is-active')) el.style.zIndex=i+1; },900);
         if(i===st.sel) links[i].setAttribute('aria-current','true'); else links[i].removeAttribute('aria-current'); });
       root.classList.toggle('has-sel',st.sel>=0&&open);
       if(st.sel>=0){ openBtn.href=cards[st.sel].href; openBtn.setAttribute('aria-label',C.openAria(cards[st.sel].title)); }

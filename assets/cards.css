@@ -7,10 +7,11 @@
    ========================================================================== */
 .tc,.tc *{box-sizing:border-box}
 .tc{--acc:#c9a96e;--gold:#c9a96e;--goldl:#e3cb95;--ink:#14110e;
-  width:var(--cw,140px);aspect-ratio:7/12;}
+  width:var(--cw,140px);aspect-ratio:2/3;}
 .tc__flip{position:relative;display:block;width:100%;height:100%;container-type:size;transform-style:preserve-3d;
-  transform:perspective(1100px) rotateY(0deg);transition:transform 760ms cubic-bezier(.3,.7,.2,1);transition-delay:var(--fd,0ms)}
-.is-backs .tc__flip{transform:perspective(1100px) rotateY(180deg)}
+  transform:perspective(calc(var(--cw,140px) * 6)) rotateY(0deg);transition:transform 700ms cubic-bezier(.3,.7,.2,1);transition-delay:var(--fd,0ms)}
+/* carta scelta (hover col mouse, fuoco da tastiera, tocco): esce dal mazzo e gira sull'asse Y mostrando il retro con le pietre */
+.tc.is-active .tc__flip{transform:perspective(calc(var(--cw,140px) * 6)) rotateY(180deg)}
 .tc__face{position:absolute;inset:0;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;
   border-radius:4.5cqw;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;
   box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 14px 30px -12px rgba(0,0,0,.75),0 2px 6px rgba(0,0,0,.5)}
@@ -61,36 +62,40 @@
 .tc__motto{display:block;margin-top:1.6cqw;font:italic 400 7.4cqw/1.2 var(--serif,Baskervville,Georgia,serif);color:rgba(227,203,149,.82)}
 .no-motti .tc__motto{display:none}
 /* pietre: 10px; su carte sotto i ~72px scenderebbero fino a 7cqw per restare dentro la carta (oggi la carta più piccola è 79,5px: sempre 10px) */
-.tc__stones{display:flex;flex-direction:column;flex:0 0 auto;gap:.4cqw;margin-top:3cqw;font:500 max(min(10px,14cqw),7cqw)/1.2 var(--sans,Figtree,Arial,sans-serif);letter-spacing:.02em;color:rgba(238,231,219,.8);text-wrap:balance;hyphens:none;overflow-wrap:normal;
-  opacity:0;visibility:hidden;transition:opacity 200ms ease,visibility 0s 200ms}
-/* le pietre si leggono solo sulla carta scelta o in hover/fuoco */
-/* :hover solo con un mouse vero (su touch l'hover resta «appiccicato» all'ultima carta toccata) e fuoco solo da tastiera */
-.tc.is-active .tc__stones,.tc:has(.tc__hit:focus-visible) .tc__stones{opacity:1;visibility:visible;transition:opacity 200ms ease}
-@media (hover:hover) and (pointer:fine){.tc:hover .tc__stones{opacity:1;visibility:visible;transition:opacity 200ms ease}}
-
-/* ---------- DORSO ---------- */
-.tc__back{transform:rotateY(180deg);justify-content:center;gap:6cqw;color:var(--goldl);
+/* ---------- RETRO (19/11 22:46, Michael): si vede solo sulla carta scelta, dopo il flip ----------
+   Fondo nel colore del mazzo (bordeaux «Come ti senti», blu notte «Cosa desideri»), stessa cornice oro dei fronti,
+   logo BZ piccolo in alto, nome, filetto con punto, le tre pietre una per riga, motto breve in corsivo.
+   Corpi: misurati sulla carta ingrandita (--sa = scala della carta scelta), così a schermo il nome è ≥ 10,5px, le pietre ≥ 10px, il motto ≥ 9,5px. */
+.tc__back{transform:rotateY(180deg);justify-content:flex-start;padding:7cqw 6cqw 7cqw;color:var(--goldl);text-align:center;
   background:
-   radial-gradient(60% 40% at 50% 50%,rgba(201,169,110,.16),transparent 70%),
-   repeating-linear-gradient(45deg,rgba(201,169,110,.075) 0 1px,transparent 1px 7cqw),
-   repeating-linear-gradient(-45deg,rgba(201,169,110,.075) 0 1px,transparent 1px 7cqw),
+   radial-gradient(70% 45% at 50% 30%,rgba(227,203,149,.10),transparent 70%),
    linear-gradient(180deg,var(--back1,#1c1712),var(--back2,#0f0d0b));
   border:1px solid rgba(201,169,110,.55)}
-/* bordeaux «Come ti senti», blu notte «Cosa desideri»: stessa cornice, oro e scala del logo */
 .deck--senti .tc__back{--back1:#3a1621;--back2:#1d0a10}
 .deck--des .tc__back{--back1:#18233d;--back2:#0b111f}
-.tc__back::before{content:"";position:absolute;inset:3.6cqw;border:1px solid rgba(201,169,110,.45);border-radius:2.6cqw}
-.tc__back::after{content:"";position:absolute;inset:5.6cqw;border:1px solid rgba(201,169,110,.16);border-radius:1.6cqw}
-/* logo BZ reale (Buddha + ensō, dal logo del sito) in oro su trasparente, senza riquadro: assets/bz-dorso-oro.webp */
-.tc__back .tc__seal{position:relative;width:70cqw;display:grid;place-items:center}
-.tc__back .tc__seal img{display:block;width:100%;height:auto}
-.tc__brand{position:relative;font:400 6.4cqw/1 var(--serif,Baskervville,Georgia,serif);letter-spacing:.32em;text-transform:uppercase;color:rgba(227,203,149,.75)}
+.tc__back::before{content:"";position:absolute;inset:3.6cqw;border:1px solid rgba(227,203,149,.45);border-radius:2.6cqw;pointer-events:none}
+.tc__back .tc__num{margin-top:0;flex:0 0 auto}
+/* il blocco nome–pietre–motto sta al centro dello spazio sotto il logo */
+.tc__bname{position:relative;display:block;margin-top:auto;padding-top:4cqw;white-space:pre-line;text-wrap:balance;
+  font:400 max(calc(10.5px / var(--sa,1)),min(11.5cqw,calc(86cqw / 7.2)))/1.12 var(--serif,Baskervville,Georgia,serif);color:#f3ead8}
+.tc__brule{position:relative;display:block;flex:0 0 auto;width:44cqw;height:1px;margin:5cqw 0 5cqw;background:linear-gradient(90deg,transparent,rgba(227,203,149,.85),transparent)}
+.tc__brule::after{content:"";position:absolute;left:50%;top:50%;width:2.6cqw;height:2.6cqw;background:var(--goldl);transform:translate(-50%,-50%) rotate(45deg)}
+.tc__stones{position:relative;display:flex;flex-direction:column;gap:2.2cqw;
+  font:500 max(calc(10px / var(--sa,1)),8cqw)/1.2 var(--sans,Figtree,Arial,sans-serif);letter-spacing:.01em;color:rgba(242,236,224,.94);text-wrap:balance;hyphens:none;overflow-wrap:normal}
+.tc__bmotto{position:relative;display:block;margin-top:6cqw;margin-bottom:auto;font:italic 400 max(calc(9.5px / var(--sa,1)),7cqw)/1.2 var(--serif,Baskervville,Georgia,serif);color:rgba(227,203,149,.82);text-wrap:balance}
 
 /* ---------- stati: alone della carta attiva ---------- */
 .tc__glow{position:absolute;inset:-1px;border-radius:7px;pointer-events:none;opacity:0;transition:opacity 300ms ease;
   box-shadow:0 0 0 1px rgba(227,203,149,.9),0 0 26px 2px color-mix(in srgb,var(--acc) 55%,rgba(201,169,110,.5)),0 24px 44px -14px rgba(0,0,0,.9)}
-.tc.is-active .tc__glow{opacity:1}
-@media (prefers-reduced-motion:reduce){.tc__flip,.tc__glow,.tc__stones{transition:none!important}}
+/* l'alone non gira con la carta: si accende a flip quasi finito e si spegne subito quando la carta viene lasciata */
+.tc.is-active .tc__glow{opacity:1;transition:opacity 300ms ease 560ms}
+/* reduced motion: niente flip, il retro compare in dissolvenza sopra il fronte */
+@media (prefers-reduced-motion:reduce){
+  .tc__flip,.tc.is-active .tc__flip{transform:none!important;transition:none!important}
+  .tc__glow{transition:none!important}
+  .tc__back{transform:none;opacity:0;transition:opacity 220ms ease}
+  .tc.is-active .tc__back{opacity:1}
+}
 
 /* ---------- incisioni PD (default): oro su trasparente, riempiono il pozzo del simbolo ---------- */
 .tc__sym--art{width:calc(66*var(--k));height:calc(66*var(--k));filter:none}
@@ -135,3 +140,15 @@
 .tc__sym--art img[src$="/concentrazione.webp"]{transform:rotate(-12deg) scale(1.04)}
 
 
+
+/* ---------- FRONTE pieno (19/11, riferimento di Michael ricerca/iphone-michael-2158/rif-arco-michael.png), tutte le larghezze ----------
+   Carta 2:3, disco grande (74% della larghezza), nome subito sotto, nessuna area pietre (le pietre sono sul retro).
+   Cartiglio largo fin quasi alla cornice interna: «Concentrazione» intero a 9,5px da 78px di carta (decks.js non scende sotto i 78px). */
+.tc__front{padding:7cqw 4cqw 6cqw}
+.tc__front .tc__num{margin-top:0}
+/* disco 74cqw della carta: l'area è larga 92cqw, quindi 74/92 = 80,4% dell'area = 62k con k = 1,2973cqw (dell'area);
+   l'area prende l'altezza che avanza (almeno 78cqw) e il disco ci sta al centro */
+.tc__art{flex:1 0 78cqw;margin:1.5cqw 0 1cqw;--k:min(1.2973cqw,1.6129cqh)}
+.tc__cart{--cpad:1.5cqw;width:100%;margin-inline:0;padding:2.6cqw var(--cpad) 2.6cqw}
+.tc__title{--tfit:calc((92cqw - 2 * var(--cpad)) / 7.2);font-size:max(min(9.5px,var(--tfit)),min(12cqw,var(--tfit)))}
+@media (min-width:768px){.tc__title{font-size:max(min(9.5px,var(--tfit)),min(12cqw,var(--tfit),calc((74cqw - 4px - var(--cpad)) / 7.2)))}}
