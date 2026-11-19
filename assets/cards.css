@@ -207,3 +207,48 @@
 .tc__title{--tfit:calc((92cqw - 2 * var(--cpad)) / 6.75);font-weight:500;letter-spacing:.02em;color:#fbf4e4;text-shadow:0 1px 2px rgba(0,0,0,.55);
   font-size:max(min(9.5px,var(--tfit)),min(13cqw,var(--tfit)))}
 @media (min-width:768px){.tc__title{font-size:max(min(9.5px,var(--tfit)),min(13cqw,var(--tfit),calc((74cqw - 4px - var(--cpad)) / 6.75)))}}
+
+/* ==========================================================================
+   GIRO DEFINITIVO (19/11 notte) · regole universali
+   FRONTE · nome: Baskervville 400 (come nei giri approvati), nessun tracking. Il corpo qui è il TETTO;
+   decks.js (fitTexts) misura ogni nome senza trasformazioni e lo riduce finché sta nella fascia con
+   aria laterale pari allo spazio cornice-bordo (3,6cqw), poi a capo bilanciato, mai sotto 9px.
+   Vale con qualsiasi font (anche il ripiego di sistema, se il webfont non arrivasse).
+   ========================================================================== */
+.tc__title{font-weight:400;letter-spacing:0;font-size:13cqw}
+@media (min-width:768px){.tc__title{font-size:min(13cqw,calc((74cqw - 4px - var(--cpad)) / 7.2))}}
+
+/* RETRO · stessa carta del fronte: stesso bordo esterno, stesso filetto interno (3,6cqw, raggio 2,6cqw), stesso raggio.
+   Unità unica u = 3,6cqw (lo spazio cornice-bordo del fronte). Margine dal filetto al contenuto = 1u su tutti e 4 i lati
+   (padding 2u dal bordo). Colonna: sigillo in alto, gruppo al centro dello spazio che resta (aria uguale sopra e sotto),
+   firma in basso, speculare al sigillo. Passi del gruppo = g (0,75u mobile, 1u desktop); decks.js stringe prima il motto,
+   poi g, solo se il gruppo non ci sta. Corpi a schermo (÷ --sa, la scala della carta scelta): nome 13,5px mobile / 20px desktop,
+   pietre 10 / 12px, motto 9,5 / 11px. */
+.tc__back{--u:3.6cqw;--g:var(--u);--pad:calc(var(--u) * 2);padding:var(--pad);justify-content:space-between;
+  background:
+   radial-gradient(70% 38% at 50% 50%,rgba(227,203,149,.10),transparent 72%),
+   repeating-linear-gradient(45deg,rgba(201,169,110,.075) 0 1px,transparent 1px 7cqw),
+   repeating-linear-gradient(-45deg,rgba(201,169,110,.075) 0 1px,transparent 1px 7cqw),
+   linear-gradient(180deg,var(--back1,#1c1712),var(--back2,#0f0d0b));
+  border:1px solid rgba(201,169,110,.55)}
+.tc__back::before{inset:3.6cqw;border:1px solid rgba(201,169,110,.42);border-radius:2.6cqw}
+.tc__back::after{content:none}
+.tc__back .tc__seal{width:24cqw;filter:drop-shadow(0 0 2cqw rgba(227,203,149,.18))}
+.tc__bgroup{gap:var(--g);width:100%;margin:0}
+.tc__bname{margin:0;font:400 calc(20px / var(--sa,1))/1.06 var(--serif,Baskervville,Georgia,serif);letter-spacing:0;color:var(--goldl);white-space:pre;text-wrap:balance}
+.tc__brule{width:calc(var(--u) * 7);height:1px;margin:0}
+.tc__brule::after{width:calc(var(--u) * .5);height:calc(var(--u) * .5)}
+.tc__brule--plain{width:calc(var(--u) * 4.5)}
+.tc__stones{font:500 calc(12px / var(--sa,1))/1.18 var(--sans,Figtree,Arial,sans-serif);letter-spacing:0}
+.tc__stones > span + span::before{width:calc(var(--u) * .35);height:calc(var(--u) * .35);margin:calc(var(--u) * .3) auto}
+.tc__bmotto{margin:0;font:italic 400 calc(11px * var(--mk,1) / var(--sa,1))/1.18 var(--serif,Baskervville,Georgia,serif)}
+.tc__brand{font-size:calc(7px / var(--sa,1))}
+@media (max-width:767.98px){
+  .tc__back{--g:calc(var(--u) * .75)}
+  .tc__back .tc__seal{width:24cqw}
+  .tc__bname{font-size:calc(13.5px / var(--sa,1));line-height:1.04;margin:0}
+  .tc__stones{font-size:calc(10px / var(--sa,1));line-height:1.15}
+  .tc__stones > span + span::before{margin:calc(var(--u) * .25) auto}
+  .tc__bmotto{font-size:calc(9.5px * var(--mk,1) / var(--sa,1));margin:0}
+  .tc__brand{font-size:calc(6.5px / var(--sa,1))}
+}

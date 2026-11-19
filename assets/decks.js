@@ -71,6 +71,44 @@
 <span class="tc__brand">Benessere Zen</span></span></span>`;
   }
 
+
+  /* GIRO DEFINITIVO · i testi stanno SEMPRE nelle loro fasce, con qualsiasi font (anche il ripiego di sistema).
+     Misura senza trasformazioni (copia nascosta nello stesso contenitore, offsetWidth), quindi vale anche sulle carte ruotate.
+     Fronte: aria laterale = spazio cornice-bordo (3,6% della carta); prima si riduce il corpo, poi a capo bilanciato,
+     mai sotto 9px (in extremis tracking fino a −0,04em). Retro: il nome sta nella larghezza del gruppo; se il gruppo
+     non ci sta in altezza si stringe prima il motto (fino a 0,85), poi i passi (fino a 0,4u). */
+  function natW(el,ws){ const m=el.cloneNode(true); m.style.cssText+=';position:absolute;visibility:hidden;left:0;top:0;width:max-content;max-width:none;min-height:0;margin:0;padding:0;white-space:'+(ws||'pre')+';display:block';
+    el.parentElement.appendChild(m); const w=m.offsetWidth; m.remove(); return w; }
+  function fitLine(t,avail,minPx){
+    t.style.fontSize=t.style.letterSpacing=t.style.whiteSpace=''; const f0=parseFloat(getComputedStyle(t).fontSize);
+    let w=natW(t); if(w<=avail) return f0;
+    let f=f0*avail/w;
+    if(f<minPx&&/ /.test(t.textContent.replace(/\n/g,' '))){ // a capo bilanciato: decide la parola più lunga
+      t.style.whiteSpace='normal'; const words=t.textContent.split(/\s+/); let ww=0;
+      for(const x of words){ const s=document.createElement('span'); s.textContent=x; s.style.font=getComputedStyle(t).font; t.parentElement.appendChild(s); s.style.cssText+=';position:absolute;visibility:hidden;white-space:pre'; ww=Math.max(ww,s.offsetWidth); s.remove(); }
+      f=Math.min(f0,f0*avail/ww); }
+    if(f<minPx){ const n=Math.max(1,t.textContent.trim().length-1), wMin=w*minPx/f0; const ls=Math.max(-.04,(avail-wMin)/(n*minPx));
+      f=minPx; t.style.letterSpacing=ls.toFixed(3)+'em'; t.style.fontSize=f+'px'; const w2=natW(t); if(w2>avail) f=minPx*avail/w2; }
+    t.style.fontSize=(Math.floor(f*100)/100)+'px'; return f; }
+  const L0w=li=>li.offsetWidth;
+  function fitTexts(root,lims){
+    root.querySelectorAll('.tc').forEach((li,ix)=>{
+      const cw=li.offsetWidth; if(!cw) return;
+      const t=li.querySelector('.tc__title'), L=lims&&lims[ix];
+      const f1=fitLine(t,(L?L.band[1]-L.band[0]:t.parentElement.clientWidth-2*.036*cw)-1,9);
+      // carta coperta: il nome prova a stare anche nella parte scoperta del cartiglio, senza scendere sotto 9px
+      if(L){ const av=L.vis[1]-L.vis[0]-1, w=natW(t); if(w>av){ const f2=Math.max(9,f1*av/w); if(f2<f1) t.style.fontSize=(Math.floor(f2*100)/100)+'px';
+        const w9=natW(t); if(w9>av){ const nch=Math.max(1,t.textContent.trim().length-1), fz=parseFloat(t.style.fontSize)||f1; t.style.letterSpacing=Math.max(-.04,(av-w9)/(nch*fz)).toFixed(3)+'em'; } } }
+      const b=li.querySelector('.tc__back'), g=b.querySelector('.tc__bgroup'), nm=b.querySelector('.tc__bname'), mo=b.querySelector('.tc__bmotto');
+      b.style.removeProperty('--mk'); b.style.removeProperty('--g');
+      fitLine(nm,g.clientWidth-1,1);
+      const cs=getComputedStyle(b), u=parseFloat(cs.getPropertyValue('--u'))||.036*cw;
+      const need=()=>{ const k=[...g.children]; const gap=parseFloat(getComputedStyle(g).rowGap)||0; return k.reduce((a,e)=>a+e.offsetHeight,0)+gap*(k.length+1); };
+      // spazio per il gruppo: alto della carta − padding − sigillo − firma (il gruppo ha anche un passo libero sopra e sotto)
+      const room=()=>b.clientHeight-2*parseFloat(cs.paddingTop)-b.querySelector('.tc__seal').offsetHeight-b.querySelector('.tc__brand').offsetHeight;
+      let mk=1; while(mo&&need()>room()&&mk>.86){ mk-=.05; b.style.setProperty('--mk',mk.toFixed(2)); }
+      let gk=parseFloat(getComputedStyle(g).rowGap)/u; while(need()>room()&&gk>.41){ gk-=.05; b.style.setProperty('--g',`calc(var(--u) * ${gk.toFixed(2)})`); }
+    }); }
   function Deck(root){
     const key=root.dataset.deck,cards=D[key],n=cards.length,name=root.dataset.name;
     const stage=root.querySelector('.deck__stage'),fan=root.querySelector('.deck__fan'),openBtn=root.querySelector('.deck__open');
@@ -112,7 +150,7 @@
         const sv=[li.style.transform,li.style.transition,fl.style.transform,fl.style.transition,t.style.transform,t.style.transition];
         li.style.transition=fl.style.transition=t.style.transition='none'; li.style.transform=fl.style.transform=t.style.transform='none';
         const L=li.getBoundingClientRect(), rg=document.createRange(); rg.selectNodeContents(t);
-        const R=[...rg.getClientRects()].filter(r=>r.width>1), cr=t.parentElement.getBoundingClientRect(), cp=parseFloat(getComputedStyle(t.parentElement).paddingLeft)||0;
+        const R=[...rg.getClientRects()].filter(r=>r.width>1), cr=t.parentElement.getBoundingClientRect(), cp=Math.max(parseFloat(getComputedStyle(t.parentElement).paddingLeft)||0,.036*L0w(li));
         [li.style.transform,li.style.transition,fl.style.transform,fl.style.transition,t.style.transform,t.style.transition]=sv;
         if(!L.width||!R.length) return null;
         const x0=Math.min(...R.map(r=>r.left)),x1=Math.max(...R.map(r=>r.right));
@@ -131,15 +169,26 @@
       // carta al tetto (schermi larghi): lo spazio che avanza allarga il passo, fino a spMax, senza rimpicciolire la carta
       if(!MOB()&&cw>=P.cap) while(spk+.01<=P.spMax&&fit10(W,spk+.01)>=P.cap) spk+=.01;
       const sp=cw*spk, sp3=cw*(MOB()?P.sp3Mobile:Math.max(P.sp3,spk)), fine=FINE.matches;
-      root.style.setProperty('--cw',cw+'px');
-      const T=titleMetrics(); // misuro i nomi alla taglia giusta
+      root.style.setProperty('--cw',cw+'px'); root.style.setProperty('--sa',FINE.matches?1.1:(MOB()?1.3:1.15));
       const g={cw,ch,sp,sp3,rot:rotNow(),wide:wideNow(),stag:stagNow(),rowGap:ch*(MOB()?P.rowGapRef:P.rowGap),arc:MOB()?P.arcMobile:null,xs:MOB()?arcSqueeze(W,cw,ch):1,curve:ch*curveNow(),ck:.34,pushX:MOB()?0:cw*.05,lift:ch*(fine?.05:.07),scale:fine?1.1:(MOB()?1.3:1.15),hw:W/2-(MOB()?P.edgeMobile:P.edge)};
-      // carta centrale davanti: a sinistra del centro ogni carta è coperta sul lato destro (il nome scivola a sinistra),
-      // a destra del centro è coperta sul lato sinistro (il nome scivola a destra); la centrale è scoperta
-      const tx=els.map((_,i)=>{ if(!T) return 0; const [r,col]=rowOf(i), rel=col-(rowsArr[r]-1)/2; if(rel===0) return 0;
-        const sw=MOB()?(Math.abs(rel)>1?P.arcMobile[2][0]-P.arcMobile[1][0]:P.arcMobile[1][0])*cw*(rowsArr[r]>3?arcSqueeze(W,cw,ch):1):(rowsArr[r]<=3?sp3:sp)*(r===rowsArr.length-1?wideNow():1);
-        if(rel<0){ const need=(T[i].l+T[i].w)*cw-(sw-4); return need>0?Math.max((T[i].lo-T[i].l)*cw,-need):0; }
-        const need=(cw-sw+4)-T[i].l*cw; return need>0?Math.min(((1-T[i].lo)-(T[i].l+T[i].w))*cw,need):0; });
+      // GIRO DEFINITIVO · parte scoperta del cartiglio di ogni carta nella posa aperta (coordinate della carta, px dal bordo sinistro):
+      // tolgo dalla fascia del nome l'ingombro reale (ruotato) di ogni carta che le sta sopra; il nome si adatta a quella parte e ci si centra.
+      const PO=els.map((_,i)=>pose(i,{open:true,act:-1},g)), Z=els.map((_,i)=>1+rowOf(i)[0]*12+(10-Math.round(Math.abs(PO[i].rel)*2)));
+      const clipX=(pts,y0,y1)=>{ const cut=(P,f,k)=>{ const o=[]; for(let q=0;q<P.length;q++){ const A=P[q],B=P[(q+1)%P.length],ia=f(A),ib=f(B);
+          if(ia) o.push(A); if(ia!==ib){ const t=(k-A[1])/(B[1]-A[1]); o.push([A[0]+t*(B[0]-A[0]),k]); } } return o; };
+        let P=cut(pts,v=>v[1]>=y0,y0); if(P.length) P=cut(P,v=>v[1]<=y1,y1); return P.length?[Math.min(...P.map(v=>v[0])),Math.max(...P.map(v=>v[0]))]:null; };
+      const lims=els.map((li,i)=>{ const t=li.querySelector('.tc__title'),cart=t.parentElement,pad=.036*cw, cl=cart.offsetLeft, cr=cl+cart.offsetWidth;
+        const y0=cart.offsetTop-ch/2, y1=y0+cart.offsetHeight; let segs=[[0,cw]];
+        for(let j=0;j<n;j++){ if(Z[j]<=Z[i]) continue; const a=rad(PO[i].rot), b=rad(PO[j].rot), dx=PO[j].x-PO[i].x, dy=PO[j].y-PO[i].y;
+          const pts=[[-cw/2,-ch/2],[cw/2,-ch/2],[cw/2,ch/2],[-cw/2,ch/2]].map(([u,v])=>{ const X=dx+u*Math.cos(b)-v*Math.sin(b), Y=dy+u*Math.sin(b)+v*Math.cos(b);
+            return [X*Math.cos(a)+Y*Math.sin(a)+cw/2, -X*Math.sin(a)+Y*Math.cos(a)]; });
+          const xs=clipX(pts,y0,y1); if(!xs) continue;
+          segs=segs.flatMap(([s0,e0])=>{ const o=[]; if(xs[0]>s0) o.push([s0,Math.min(e0,xs[0])]); if(xs[1]<e0) o.push([Math.max(s0,xs[1]),e0]); return o.filter(q=>q[1]-q[0]>.5); }); }
+        segs.sort((p,q)=>(q[1]-q[0])-(p[1]-p[0])); const sg=segs[0]||[cw/2,cw/2];
+        return {band:[cl+pad,cr-pad],vis:[Math.max(sg[0]+2,cl+pad),Math.min(sg[1]-2,cr-pad)],mid:(cl+cr)/2}; });
+      fitTexts(root,lims);
+      const tx=els.map((li,i)=>{ const L=lims[i]; if(L.vis[0]<=L.band[0]+.01&&L.vis[1]>=L.band[1]-.01) return 0; const w=natW(li.querySelector('.tc__title'));
+        let c=(L.vis[0]+L.vis[1])/2; c=Math.min(Math.max(c,L.band[0]+w/2),L.band[1]-w/2); return c-L.mid; });
       els.forEach((el,i)=>el.style.setProperty('--tx',tx[i].toFixed(1)+'px'));
       const e=extent(g), top=-e.minY+2, H=Math.ceil(e.maxY-e.minY+4);
       G={W,top,H,H0:H,...g,ext:e};
@@ -234,6 +283,7 @@
   let rt,lastVW=innerWidth;
   const onResize=()=>{ clearTimeout(rt); rt=setTimeout(()=>{ lastVW=innerWidth; relayout(); },80); };
   function init(){ columns(); document.querySelectorAll('.deck[data-deck]').forEach(Deck); equalize();
+    if(document.fonts&&document.fonts.addEventListener) document.fonts.addEventListener('loadingdone',()=>relayout());
     addEventListener('resize',onResize); addEventListener('orientationchange',onResize);
     window.__tarRelayout=relayout; window.__tarParams=P; window.__tarFit10=fit10; }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
