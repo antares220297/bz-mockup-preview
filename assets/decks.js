@@ -35,15 +35,20 @@
   const P={rot:6,curve:.07,rowGap:1.02,wide:1,sp:.79,spMax:.95,spMobile:.78,sp3:.95,sp3Mobile:.85,fw:.92,sideMobile:11,cap:156,minTwoCol:100,deckCol:.6,edge:16,edgeMobile:8,rotMobile:6,curveMobile:.07,wideMobile:1,stagMobile:0,rowGapMobile:1.1,cwMinMobile:78,spMinMobile:.6,
     /* 19/11 23:10: mobile misurato carta per carta su ricerca/iphone-michael-2302/riferimento.png (Gioia 146×242 px immagine, pannello 732 px):
        carta 3:5; per posizione dal centro [x in larghezze carta, caduta in altezze carta, rotazione]; file a 1,124 altezze; margine minimo 2px */
-    ratMobile:5/3, arcMobile:[[0,0,0],[.893,.087,12.35],[1.770,.277,19.1]], rowGapRef:1.124, sideRef:.4, cwMinRef:72};
+    ratMobile:5/3, arcMobile:[[0,0,0],[.893,.087,12.35],[1.770,.277,19.1]], rowGapRef:1.124, sideRef:.4, cwMinRef:72, cwShrink:.965};
   const MOB=()=>innerWidth<768;
   const RAT=()=>MOB()?P.ratMobile:1.5; // 19/11 22:46 (Michael): carta corta e piena (2:3) ovunque, come rif-arco-michael.png; le pietre stanno sul retro
   const spNow=()=>MOB()?P.spMobile:P.sp;
   const rotNow=()=>MOB()?P.rotMobile:P.rot, curveNow=()=>MOB()?P.curveMobile:P.curve, wideNow=()=>MOB()?P.wideMobile:P.wide, stagNow=()=>MOB()?P.stagMobile:0;
   const sp3Now=()=>MOB()?P.sp3Mobile:P.sp3; // passo delle file da 3 (il 3+3): può essere più ampio, c'è spazio ai lati
   /* la carta più grande per cui il mazzo da 10 (5+5) sta nella larghezza W (desktop: 92% di W; mobile: W meno 18px per lato) */
+  /* 20/11 00:12 (Michael): il 5+5 non tocca più il pannello. Margine laterale dallo stage: 7px a 318px di stage (telefono 360) → 11px a 388 (telefono 430),
+     +1px di bordo del pannello = 8…12px. Prima si stringe il passo (arcSqueeze), la carta cala al massimo del 3,5% rispetto a prima (cwShrink). */
+  const sideMob=W=>Math.max(7,Math.min(11,7+(W-318)/70*4));
   function fit10(W,spk){
-    if(MOB()){ const [tx,,ro]=P.arcMobile[2], r=rad(ro), k=tx+.5*Math.cos(r)+RAT()/2*Math.sin(r); return Math.max(P.cwMinRef,Math.floor((W-2*P.sideRef)/(2*k)*10)/10); }
+    if(MOB()){ const [tx,,ro]=P.arcMobile[2], r=rad(ro), k=tx+.5*Math.cos(r)+RAT()/2*Math.sin(r);
+      const cw0=Math.max(P.cwMinRef,(W-2*P.sideRef)/(2*k)), cwT=(W-2*sideMob(W))/(2*k);
+      return Math.floor(Math.max(cwT,cw0*P.cwShrink)*10)/10; }
     const sp=spk||spNow(), avail=P.fw*W;
     for(let cw=P.cap;cw>=50;cw-=.5){ const ch=cw*RAT(); let a=0;
       for(let i=0;i<10;i++){ const row=i<5?0:1,rel=i%5-2,x=rel*sp*cw*(row?wideNow():1)+(row?-1:1)*stagNow()*sp*cw/2,r=rad(rel*rotNow());
@@ -52,7 +57,7 @@
     return 50; }
   /* telefoni stretti (sotto ~410px): la carta non scende sotto cwMinRef (72px, nomi ~9px); l'arco si stringe in larghezza quanto serve */
   function arcSqueeze(W,cw,ch){ const [tx,,ro]=P.arcMobile[2], r=rad(ro), ext=cw/2*Math.cos(r)+ch/2*Math.sin(r);
-    return Math.min(1,(W/2-P.sideRef-ext)/(tx*cw)); }
+    return Math.min(1,(W/2-sideMob(W)-ext)/(tx*cw)); }
   /* una colonna sotto i 768px, oppure quando a due colonne la carta verrebbe sotto i 100px: testo sopra, mazzo sotto */
   function columns(){ const H=document.documentElement, d=document.querySelector('.deck[data-deck]'); if(!d) return;
     H.classList.remove('tar-1col');
@@ -88,7 +93,9 @@
       for(const x of words){ const s=document.createElement('span'); s.textContent=x; s.style.font=getComputedStyle(t).font; t.parentElement.appendChild(s); s.style.cssText+=';position:absolute;visibility:hidden;white-space:pre'; ww=Math.max(ww,s.offsetWidth); s.remove(); }
       f=Math.min(f0,f0*avail/ww); }
     if(f<minPx){ const n=Math.max(1,t.textContent.trim().length-1), wMin=w*minPx/f0; const ls=Math.max(-.04,(avail-wMin)/(n*minPx));
-      f=minPx; t.style.letterSpacing=ls.toFixed(3)+'em'; t.style.fontSize=f+'px'; const w2=natW(t); if(w2>avail) f=minPx*avail/w2; }
+      f=minPx; let l2=ls; t.style.fontSize=f+'px'; t.style.letterSpacing=l2.toFixed(3)+'em'; let w2=natW(t);
+      while(w2>avail&&l2>-.04){ l2=Math.max(-.04,l2-.005); t.style.letterSpacing=l2.toFixed(3)+'em'; w2=natW(t); }
+      if(w2>avail) f=minPx*avail/w2; }
     t.style.fontSize=(Math.floor(f*100)/100)+'px'; return f; }
   const L0w=li=>li.offsetWidth;
   function fitTexts(root,lims){
@@ -186,7 +193,7 @@
           segs=segs.flatMap(([s0,e0])=>{ const o=[]; if(xs[0]>s0) o.push([s0,Math.min(e0,xs[0])]); if(xs[1]<e0) o.push([Math.max(s0,xs[1]),e0]); return o.filter(q=>q[1]-q[0]>.5); }); }
         segs.sort((p,q)=>(q[1]-q[0])-(p[1]-p[0])); const sg=segs[0]||[cw/2,cw/2];
         return {band:[cl+pad,cr-pad],vis:[Math.max(sg[0]+2,cl+pad),Math.min(sg[1]-2,cr-pad)],mid:(cl+cr)/2}; });
-      fitTexts(root,lims);
+      fitTexts(root,lims); root.__lims=lims;
       const tx=els.map((li,i)=>{ const L=lims[i]; if(L.vis[0]<=L.band[0]+.01&&L.vis[1]>=L.band[1]-.01) return 0; const w=natW(li.querySelector('.tc__title'));
         let c=(L.vis[0]+L.vis[1])/2; c=Math.min(Math.max(c,L.band[0]+w/2),L.band[1]-w/2); return c-L.mid; });
       els.forEach((el,i)=>el.style.setProperty('--tx',tx[i].toFixed(1)+'px'));

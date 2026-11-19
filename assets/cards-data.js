@@ -172,20 +172,6 @@ window.BZ_DECKS={
    "art": "assets/carte/serenita.webp"
   },
   {
-   "slug": "coraggio",
-   "title": "Coraggio",
-   "motto": "Il passo che rimandi",
-   "stones": [
-    "Occhio di tigre",
-    "Corniola",
-    "Diaspro rosso"
-   ],
-   "href": "/collections/desiderio-coraggio",
-   "symbol": "lorc/lion",
-   "accent": "#c47a4e",
-   "art": "assets/carte/coraggio.webp"
-  },
-  {
    "slug": "concentrazione",
    "title": "Concentrazione",
    "motto": "A mente lucida",
@@ -198,6 +184,20 @@ window.BZ_DECKS={
    "symbol": "lorc/candle-light",
    "accent": "#8fa6c4",
    "art": "assets/carte/concentrazione.webp"
+  },
+  {
+   "slug": "coraggio",
+   "title": "Coraggio",
+   "motto": "Il passo che rimandi",
+   "stones": [
+    "Occhio di tigre",
+    "Corniola",
+    "Diaspro rosso"
+   ],
+   "href": "/collections/desiderio-coraggio",
+   "symbol": "lorc/lion",
+   "accent": "#c47a4e",
+   "art": "assets/carte/coraggio.webp"
   },
   {
    "slug": "comunicazione",
