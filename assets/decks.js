@@ -28,12 +28,11 @@
      Per avere ≥85% di nome anche su Concentrazione/Comunicazione nel 5+5 servirebbe passo 0,73 → carta 72,5px a 390: nome 8,1px e le pietre (10px)
      non ci stanno più (il disco scende al 12% della carta). Misure in shots/finale-pannelli/controlli.md.
      Desktop: file da 3 a passo 0,95; quando la carta è al tetto anche il passo del 5+5 cresce fino a spMax. */
-  /* 19/11 22:10 (Michael: carte un po' più grandi, mazzi verso l'esterno, «studiare la geometria»). Studio a 430 (shots/finale-pannelli/foglio-geometrie-430.png):
-     arco più marcato, file sfalsate e fila sotto più larga NON scoprono di più i nomi a parità di carta (il nome sta sotto il centro della carta:
-     ruotando, il bordo della carta vicina ci scende sopra; la caduta verticale fa coprire i nomi della fila sopra dalla fila sotto) e fanno
-     rimpicciolire la carta. Scelta: stessa geometria, passo 0,55 / 0,8, mazzo espanso fino a 14px dal bordo dello stage (sideMobile) e carta
-     estratta ≥ 8px dallo stage (≥ 12px dal pannello). Parametri *Mobile (rot, curve, wide, stag) lasciati per ritoccare l'arco solo su mobile. */
-  const P={rot:3,curve:.03,rowGap:.8,wide:1.07,sp:.79,spMax:.95,spMobile:.55,sp3:.95,sp3Mobile:.8,fw:.92,sideMobile:14,cap:156,minTwoCol:100,deckCol:.6,edge:16,edgeMobile:8,rotMobile:3,curveMobile:.03,wideMobile:1.07,stagMobile:0};
+  /* 19/11 22:45 (riferimento di Michael, ricerca/iphone-michael-2158/rif-arco-michael.png): su mobile ogni fila è un arco a mano di carte.
+     Carta centrale dritta e più alta, laterali ±6° e ±12° (rotMobile 6 per posizione) con caduta 0,07 × altezza × posizione² (0,07 e 0,28);
+     carte quasi affiancate (passo 0,78 della carta nel 5+5, 0,85 nel 3+3; nomi coperti ≥ 85%), fila sotto uguale (wideMobile 1), file distanziate 1,1 × altezza. Il 3+3 segue la stessa logica.
+     Desktop invariato. */
+  const P={rot:3,curve:.03,rowGap:.8,wide:1.07,sp:.79,spMax:.95,spMobile:.78,sp3:.95,sp3Mobile:.85,fw:.92,sideMobile:11,cap:156,minTwoCol:100,deckCol:.6,edge:16,edgeMobile:8,rotMobile:6,curveMobile:.07,wideMobile:1,stagMobile:0,rowGapMobile:1.1};
   const MOB=()=>innerWidth<768;
   const spNow=()=>MOB()?P.spMobile:P.sp;
   const rotNow=()=>MOB()?P.rotMobile:P.rot, curveNow=()=>MOB()?P.curveMobile:P.curve, wideNow=()=>MOB()?P.wideMobile:P.wide, stagNow=()=>MOB()?P.stagMobile:0;
@@ -117,7 +116,7 @@
       const sp=cw*spk, sp3=cw*(MOB()?P.sp3Mobile:Math.max(P.sp3,spk)), fine=FINE.matches;
       root.style.setProperty('--cw',cw+'px');
       const T=titleMetrics(); // misuro i nomi alla taglia giusta
-      const g={cw,ch,sp,sp3,rot:rotNow(),wide:wideNow(),stag:stagNow(),rowGap:ch*P.rowGap,curve:ch*curveNow(),ck:.34,pushX:cw*.05,lift:ch*(fine?.05:.07),scale:fine?1.1:1.15,hw:W/2-(MOB()?P.edgeMobile:P.edge)};
+      const g={cw,ch,sp,sp3,rot:rotNow(),wide:wideNow(),stag:stagNow(),rowGap:ch*(MOB()?P.rowGapMobile:P.rowGap),curve:ch*curveNow(),ck:.34,pushX:cw*.05,lift:ch*(fine?.05:.07),scale:fine?1.1:1.15,hw:W/2-(MOB()?P.edgeMobile:P.edge)};
       const tx=els.map((_,i)=>{ if(!T) return 0; const [r,col]=rowOf(i); if(col===rowsArr[r]-1) return 0;
         const sw=(rowsArr[r]<=3?sp3:sp)*(r===rowsArr.length-1?wideNow():1), need=(T[i].l+T[i].w)*cw-(sw-4); return need>0?Math.max((T[i].lo-T[i].l)*cw,-need):0; });
       els.forEach((el,i)=>el.style.setProperty('--tx',tx[i].toFixed(1)+'px'));
