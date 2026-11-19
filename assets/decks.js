@@ -80,24 +80,22 @@
         const sv=[li.style.transform,li.style.transition,fl.style.transform,fl.style.transition,t.style.transform,t.style.transition];
         li.style.transition=fl.style.transition=t.style.transition='none'; li.style.transform=fl.style.transform=t.style.transform='none';
         const L=li.getBoundingClientRect(), rg=document.createRange(); rg.selectNodeContents(t);
-        const R=[...rg.getClientRects()].filter(r=>r.width>1), cr=t.parentElement.getBoundingClientRect(), cp=parseFloat(getComputedStyle(t.parentElement).paddingLeft)||0;
+        const R=[...rg.getClientRects()].filter(r=>r.width>1);
         [li.style.transform,li.style.transition,fl.style.transform,fl.style.transition,t.style.transform,t.style.transition]=sv;
         if(!L.width||!R.length) return null;
         const x0=Math.min(...R.map(r=>r.left)),x1=Math.max(...R.map(r=>r.right));
-        // lo: il nome scivola a sinistra al massimo fino al bordo interno del cartiglio (mai fuori dal cartiglio)
-        out.push({l:(x0-L.left)/L.width,w:(x1-x0)/L.width,lo:(cr.left+cp-L.left)/L.width}); }
+        out.push({l:(x0-L.left)/L.width,w:(x1-x0)/L.width}); }
       return TM=out;
     }
     if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>{TM=null;geom();render(true);equalize();});
+    const PAD=.05;
     /* le carte a destra stanno sopra: di ogni carta coperta resta una striscia a sinistra larga quanto il passo.
-       Il titolo delle coperte scivola a sinistra (al massimo fino al bordo interno del cartiglio) quanto basta per stare nella striscia. */
+       Il titolo delle coperte scivola a sinistra (fino al margine PAD) quanto basta per stare nella striscia. */
     function geom(){
-      TM=null; // il corpo del nome dipende dalla larghezza: rimisuro
-      const W=stage.clientWidth, cw=fit10(W), ch=cw*12/7, sp=cw*spNow(), fine=FINE.matches;
-      root.style.setProperty('--cw',cw+'px'); const T=titleMetrics(); // misuro i nomi alla taglia giusta
+      const W=stage.clientWidth, cw=fit10(W), ch=cw*12/7, sp=cw*spNow(), fine=FINE.matches, T=titleMetrics();
       const g={cw,ch,sp,rot:P.rot,rowGap:ch*P.rowGap,curve:ch*P.curve,ck:.34,pushX:cw*.05,lift:ch*(fine?.05:.07),scale:fine?1.1:1.15,hw:W/2};
       const tx=els.map((_,i)=>{ if(!T) return 0; const [r,col]=rowOf(i); if(col===rowsArr[r]-1) return 0;
-        const sw=sp*(r===rowsArr.length-1?P.wide:1), need=(T[i].l+T[i].w)*cw-(sw-4); return need>0?Math.max((T[i].lo-T[i].l)*cw,-need):0; });
+        const sw=sp*(r===rowsArr.length-1?P.wide:1), need=(T[i].l+T[i].w)*cw-(sw-4); return need>0?Math.max((PAD-T[i].l)*cw,-need):0; });
       els.forEach((el,i)=>el.style.setProperty('--tx',tx[i].toFixed(1)+'px'));
       const e=extent(g), top=-e.minY+2, H=Math.ceil(e.maxY-e.minY+4);
       G={W,top,H,H0:H,...g,ext:e};

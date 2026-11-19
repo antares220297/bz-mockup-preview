@@ -1,6 +1,0 @@
-/* Variante di confronto: le due card accanto alla hero disegnate in «Incisione oro su nero».
-   Testi, link e struttura identici a home.html; cambia solo l'immagine (incisione PD ricolorata oro, fondo trasparente). */
-a.photo-card.small.photo-card--incisa{background:radial-gradient(70% 70% at 74% 40%,rgba(201,169,110,.13),transparent 70%),#141312;border:1px solid rgba(201,169,110,.55)}
-a.photo-card.small.photo-card--incisa::before{content:"";position:absolute;inset:7px;z-index:2;pointer-events:none;border:1px solid rgba(201,169,110,.32);border-radius:calc(var(--rl,28px) - 6px)}
-a.photo-card.small.photo-card--incisa>img{inset:auto;top:9%;right:7%;width:50%;height:80%;object-fit:contain;object-position:right center;opacity:1;filter:none;transform:none}
-a.photo-card.small.photo-card--incisa::after{background:linear-gradient(90deg,rgba(20,19,18,.92) 0%,rgba(20,19,18,.55) 42%,transparent 66%)}
