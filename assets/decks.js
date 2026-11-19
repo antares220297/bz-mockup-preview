@@ -32,7 +32,7 @@
      Carta centrale dritta e più alta, laterali ±6° e ±12° (rotMobile 6 per posizione) con caduta 0,07 × altezza × posizione² (0,07 e 0,28);
      carte quasi affiancate (passo 0,78 della carta nel 5+5, 0,85 nel 3+3; nomi coperti ≥ 85%), fila sotto uguale (wideMobile 1), file distanziate 1,1 × altezza. Il 3+3 segue la stessa logica.
      Desktop invariato. */
-  const P={rot:3,curve:.03,rowGap:1.02,wide:1.07,sp:.79,spMax:.95,spMobile:.78,sp3:.95,sp3Mobile:.85,fw:.92,sideMobile:11,cap:156,minTwoCol:100,deckCol:.6,edge:16,edgeMobile:8,rotMobile:6,curveMobile:.07,wideMobile:1,stagMobile:0,rowGapMobile:1.1,cwMinMobile:78,spMinMobile:.6};
+  const P={rot:6,curve:.07,rowGap:1.02,wide:1,sp:.79,spMax:.95,spMobile:.78,sp3:.95,sp3Mobile:.85,fw:.92,sideMobile:11,cap:156,minTwoCol:100,deckCol:.6,edge:16,edgeMobile:8,rotMobile:6,curveMobile:.07,wideMobile:1,stagMobile:0,rowGapMobile:1.1,cwMinMobile:78,spMinMobile:.6};
   const MOB=()=>innerWidth<768;
   const RAT=()=>1.5; // 19/11 22:46 (Michael): carta corta e piena (2:3) ovunque, come rif-arco-michael.png; le pietre stanno sul retro
   const spNow=()=>MOB()?P.spMobile:P.sp;
@@ -51,14 +51,14 @@
     if(innerWidth<768||fit10(d.clientWidth*P.deckCol)<P.minTwoCol) H.classList.add('tar-1col'); }
 
   /* fronte: logo, disco grande, nome (niente pietre). Retro (si vede quando la carta è scelta: flip 3D sull'asse Y):
-     fondo nel colore del mazzo, stessa cornice oro, logo piccolo, nome, filetto, le 3 pietre una per riga, motto in corsivo */
+     retro v2 (dai dorsi approvati): fondo e grana del dorso, cornice doppia, sigillo BZ, nome, filetto, 3 pietre separate da punti, motto sopra un filetto, «Benessere Zen» */
   function face(c,deck){
     const art=c.art?`<img src="${c.art}" alt="" decoding="async" onerror="this.style.visibility='hidden'">`:'';
     return `<span class="tc__glow" aria-hidden="true"></span><span class="tc__flip" aria-hidden="true">
 <span class="tc__face tc__front"><span class="tc__num"><i class="tc__bz"></i></span><span class="tc__art"><span class="tc__sym tc__sym--art">${art}</span></span>
 <span class="tc__cart"><span class="tc__title">${c.title}</span></span></span>
-<span class="tc__face tc__back"><span class="tc__num"><i class="tc__bz"></i></span><span class="tc__bname">${c.title}</span><span class="tc__brule"></span>
-<span class="tc__stones">${c.stones.map(x=>`<span>${x}</span>`).join('')}</span>${c.motto?`<span class="tc__bmotto">${c.motto}</span>`:''}</span></span>`;
+<span class="tc__face tc__back"><span class="tc__seal">${BACKS[deck]?`<img src="${BACKS[deck]}" alt="" decoding="async">`:''}</span><span class="tc__bname">${c.title}</span><span class="tc__brule"></span>
+<span class="tc__stones">${c.stones.map(x=>`<span>${x}</span>`).join('')}</span>${c.motto?`<span class="tc__bmotto">${c.motto}</span>`:''}<span class="tc__brand">Benessere Zen</span></span></span>`;
   }
 
   function Deck(root){
@@ -124,8 +124,12 @@
       root.style.setProperty('--cw',cw+'px');
       const T=titleMetrics(); // misuro i nomi alla taglia giusta
       const g={cw,ch,sp,sp3,rot:rotNow(),wide:wideNow(),stag:stagNow(),rowGap:ch*(MOB()?P.rowGapMobile:P.rowGap),curve:ch*curveNow(),ck:.34,pushX:cw*.05,lift:ch*(fine?.05:.07),scale:fine?1.1:(MOB()?1.3:1.15),hw:W/2-(MOB()?P.edgeMobile:P.edge)};
-      const tx=els.map((_,i)=>{ if(!T) return 0; const [r,col]=rowOf(i); if(col===rowsArr[r]-1) return 0;
-        const sw=(rowsArr[r]<=3?sp3:sp)*(r===rowsArr.length-1?wideNow():1), need=(T[i].l+T[i].w)*cw-(sw-4); return need>0?Math.max((T[i].lo-T[i].l)*cw,-need):0; });
+      // carta centrale davanti: a sinistra del centro ogni carta è coperta sul lato destro (il nome scivola a sinistra),
+      // a destra del centro è coperta sul lato sinistro (il nome scivola a destra); la centrale è scoperta
+      const tx=els.map((_,i)=>{ if(!T) return 0; const [r,col]=rowOf(i), rel=col-(rowsArr[r]-1)/2; if(rel===0) return 0;
+        const sw=(rowsArr[r]<=3?sp3:sp)*(r===rowsArr.length-1?wideNow():1);
+        if(rel<0){ const need=(T[i].l+T[i].w)*cw-(sw-4); return need>0?Math.max((T[i].lo-T[i].l)*cw,-need):0; }
+        const need=(cw-sw+4)-T[i].l*cw; return need>0?Math.min(((1-T[i].lo)-(T[i].l+T[i].w))*cw,need):0; });
       els.forEach((el,i)=>el.style.setProperty('--tx',tx[i].toFixed(1)+'px'));
       const e=extent(g), top=-e.minY+2, H=Math.ceil(e.maxY-e.minY+4);
       G={W,top,H,H0:H,...g,ext:e};
@@ -138,13 +142,15 @@
       els.forEach((el,i)=>{ const p=pose(i,o,G);
         el.style.transform=`translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px) rotate(${p.rot.toFixed(2)}deg) scale(${p.sc})`;
         const was=el.classList.contains('is-active');
-        el.style.zIndex=p.isA?50:(was?49:i+1); el.classList.toggle('is-active',p.isA);
+        // ordine come la mano di carte di Michael: in ogni fila la centrale davanti, poi a scalare verso i bordi; la fila sotto sopra quella sopra
+        const [rw]=rowOf(i), zb=1+rw*12+(10-Math.round(Math.abs(p.rel)*2));
+        el.style.zIndex=p.isA?50:(was?49:zb); el.classList.toggle('is-active',p.isA);
         // apertura e chiusura a cascata dal centro della fila; scelta: la carta esce e poi gira (flip con 140ms di ritardo);
         // lasciata: prima si rigira, poi rientra (spostamento con 260ms di ritardo)
         let d=instant||RM.matches?0:Math.round(Math.abs(p.rel)*45+rowOf(i)[0]*60), fd=0;
         if(!RM.matches){ if(p.isA&&!was){ d=0; fd=140; } else if(was&&!p.isA){ d=260; fd=0; } }
         el.style.setProperty('--d',d+'ms'); el.style.setProperty('--fd',fd+'ms');
-        if(!p.isA&&was) setTimeout(()=>{ if(!el.classList.contains('is-active')) el.style.zIndex=i+1; },900);
+        if(!p.isA&&was) setTimeout(()=>{ if(!el.classList.contains('is-active')) el.style.zIndex=zb; },900);
         if(i===st.sel) links[i].setAttribute('aria-current','true'); else links[i].removeAttribute('aria-current'); });
       root.classList.toggle('has-sel',st.sel>=0&&open);
       if(st.sel>=0){ openBtn.href=cards[st.sel].href; openBtn.setAttribute('aria-label',C.openAria(cards[st.sel].title)); }
@@ -157,7 +163,9 @@
     /* desktop: la carta (posa aperta) sotto il puntatore; vince quella sopra */
     function pickFromPointer(e){
       const r=stage.getBoundingClientRect(), px=e.clientX-r.left-r.width/2, py=e.clientY-r.top;
-      for(let i=n-1;i>=0;i--){ const p=pose(i,{open:true,act:-1},G), t=-rad(p.rot), dx=px-p.x, dy=py-(G.top+p.y+G.ch/2);
+      // vince la carta che sta davanti (stesso ordine di render: fila sotto, poi la più vicina al centro)
+      const zOf=i=>{ const [r,c]=rowOf(i); return r*12-Math.abs(c-(rowsArr[r]-1)/2)*2; };
+      for(const i of [...Array(n).keys()].sort((a,b)=>zOf(b)-zOf(a))){ const p=pose(i,{open:true,act:-1},G), t=-rad(p.rot), dx=px-p.x, dy=py-(G.top+p.y+G.ch/2);
         const u=dx*Math.cos(t)-dy*Math.sin(t), v=dx*Math.sin(t)+dy*Math.cos(t); if(Math.abs(u)<=G.cw/2&&Math.abs(v)<=G.ch/2) return i; }
       return -1;
     }

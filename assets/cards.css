@@ -62,27 +62,39 @@
 .tc__motto{display:block;margin-top:1.6cqw;font:italic 400 7.4cqw/1.2 var(--serif,Baskervville,Georgia,serif);color:rgba(227,203,149,.82)}
 .no-motti .tc__motto{display:none}
 /* pietre: 10px; su carte sotto i ~72px scenderebbero fino a 7cqw per restare dentro la carta (oggi la carta più piccola è 79,5px: sempre 10px) */
-/* ---------- RETRO (19/11 22:46, Michael): si vede solo sulla carta scelta, dopo il flip ----------
-   Fondo nel colore del mazzo (bordeaux «Come ti senti», blu notte «Cosa desideri»), stessa cornice oro dei fronti,
-   logo BZ piccolo in alto, nome, filetto con punto, le tre pietre una per riga, motto breve in corsivo.
-   Corpi: misurati sulla carta ingrandita (--sa = scala della carta scelta), così a schermo il nome è ≥ 10,5px, le pietre ≥ 10px, il motto ≥ 9,5px. */
-.tc__back{transform:rotateY(180deg);justify-content:flex-start;padding:7cqw 6cqw 7cqw;color:var(--goldl);text-align:center;
+/* ---------- RETRO v2 (19/11 23:00): il dorso approvato diventa il retro informativo; si vede solo sulla carta scelta, dopo il flip ----------
+   Dal dorso: fondo bordeaux («Come ti senti») / blu notte («Cosa desideri») con la grana a losanghe e la luce al centro,
+   cornice doppia (bordo + filetto a 3,6cqw come i fronti, più il filetto tenue a 5,6cqw del dorso), logo BZ Buddha + ensō in oro (assets/bz-dorso-oro.webp) come sigillo.
+   Sotto: nome in serif oro, filetto con punto, le tre pietre in avorio separate da punti oro, motto in corsivo sopra un filetto, «Benessere Zen» spaziato (solo ≥768px).
+   Corpi misurati sulla carta ingrandita (--sa = scala della carta scelta): a schermo nome ≥ 10,5px, pietre ≥ 10px, motto ≥ 9,5px. */
+.tc__back{transform:rotateY(180deg);justify-content:flex-start;padding:8cqw 7cqw 7.5cqw;color:var(--goldl);text-align:center;
   background:
-   radial-gradient(70% 45% at 50% 30%,rgba(227,203,149,.10),transparent 70%),
+   radial-gradient(70% 38% at 50% 22%,rgba(227,203,149,.14),transparent 72%),
+   radial-gradient(60% 40% at 50% 60%,rgba(201,169,110,.08),transparent 70%),
+   repeating-linear-gradient(45deg,rgba(201,169,110,.075) 0 1px,transparent 1px 7cqw),
+   repeating-linear-gradient(-45deg,rgba(201,169,110,.075) 0 1px,transparent 1px 7cqw),
    linear-gradient(180deg,var(--back1,#1c1712),var(--back2,#0f0d0b));
   border:1px solid rgba(201,169,110,.55)}
 .deck--senti .tc__back{--back1:#3a1621;--back2:#1d0a10}
 .deck--des .tc__back{--back1:#18233d;--back2:#0b111f}
 .tc__back::before{content:"";position:absolute;inset:3.6cqw;border:1px solid rgba(227,203,149,.45);border-radius:2.6cqw;pointer-events:none}
-.tc__back .tc__num{margin-top:0;flex:0 0 auto}
-/* il blocco nome–pietre–motto sta al centro dello spazio sotto il logo */
-.tc__bname{position:relative;display:block;margin-top:auto;padding-top:4cqw;white-space:pre-line;text-wrap:balance;
-  font:400 max(calc(10.5px / var(--sa,1)),min(11.5cqw,calc(86cqw / 7.2)))/1.12 var(--serif,Baskervville,Georgia,serif);color:#f3ead8}
-.tc__brule{position:relative;display:block;flex:0 0 auto;width:44cqw;height:1px;margin:5cqw 0 5cqw;background:linear-gradient(90deg,transparent,rgba(227,203,149,.85),transparent)}
-.tc__brule::after{content:"";position:absolute;left:50%;top:50%;width:2.6cqw;height:2.6cqw;background:var(--goldl);transform:translate(-50%,-50%) rotate(45deg)}
-.tc__stones{position:relative;display:flex;flex-direction:column;gap:2.2cqw;
-  font:500 max(calc(10px / var(--sa,1)),8cqw)/1.2 var(--sans,Figtree,Arial,sans-serif);letter-spacing:.01em;color:rgba(242,236,224,.94);text-wrap:balance;hyphens:none;overflow-wrap:normal}
-.tc__bmotto{position:relative;display:block;margin-top:6cqw;margin-bottom:auto;font:italic 400 max(calc(9.5px / var(--sa,1)),7cqw)/1.2 var(--serif,Baskervville,Georgia,serif);color:rgba(227,203,149,.82);text-wrap:balance}
+.tc__back::after{content:"";position:absolute;inset:5.6cqw;border:1px solid rgba(201,169,110,.16);border-radius:1.6cqw;pointer-events:none}
+.tc__back > *{position:relative;flex:0 0 auto}
+.tc__back .tc__seal{display:grid;place-items:center;width:34cqw;filter:drop-shadow(0 0 3cqw rgba(227,203,149,.18))}
+.tc__back .tc__seal img{display:block;width:100%;height:auto}
+.tc__bname{display:block;margin-top:3cqw;white-space:pre-line;text-wrap:balance;
+  font:400 max(calc(10.5px / var(--sa,1)),min(11.5cqw,calc(86cqw / 7.2)))/1.1 var(--serif,Baskervville,Georgia,serif);color:var(--goldl)}
+.tc__brule{display:block;width:46cqw;height:1px;margin:3.6cqw 0 3.4cqw;background:linear-gradient(90deg,transparent,rgba(227,203,149,.85),transparent)}
+.tc__brule::after{content:"";position:absolute;left:50%;top:50%;width:2.4cqw;height:2.4cqw;background:var(--goldl);transform:translate(-50%,-50%) rotate(45deg)}
+.tc__stones{display:flex;flex-direction:column;align-items:center;
+  font:500 max(calc(10px / var(--sa,1)),7.6cqw)/1.18 var(--sans,Figtree,Arial,sans-serif);letter-spacing:.01em;color:#eee7db;text-wrap:balance;hyphens:none;overflow-wrap:normal}
+.tc__stones > span{display:block}
+/* punto oro tra una pietra e l'altra */
+.tc__stones > span + span::before{content:"";display:block;width:1.8cqw;height:1.8cqw;margin:1.6cqw auto 1.6cqw;background:rgba(227,203,149,.8);transform:rotate(45deg)}
+.tc__bmotto{display:block;margin-top:auto;padding-top:3cqw;font:italic 400 max(calc(9.5px / var(--sa,1)),7cqw)/1.18 var(--serif,Baskervville,Georgia,serif);color:rgba(227,203,149,.85);text-wrap:balance}
+.tc__bmotto::before{content:"";display:block;width:28cqw;height:1px;margin:0 auto 2.4cqw;background:linear-gradient(90deg,transparent,rgba(227,203,149,.6),transparent)}
+.tc__brand{display:none;margin-top:3cqw;font:400 4.6cqw/1 var(--serif,Baskervville,Georgia,serif);letter-spacing:.32em;text-transform:uppercase;color:rgba(227,203,149,.6)}
+@media (min-width:768px){.tc__brand{display:block}}
 
 /* ---------- stati: alone della carta attiva ---------- */
 .tc__glow{position:absolute;inset:-1px;border-radius:7px;pointer-events:none;opacity:0;transition:opacity 300ms ease;
@@ -152,3 +164,13 @@
 .tc__cart{--cpad:1.5cqw;width:100%;margin-inline:0;padding:2.6cqw var(--cpad) 2.6cqw}
 .tc__title{--tfit:calc((92cqw - 2 * var(--cpad)) / 7.2);font-size:max(min(9.5px,var(--tfit)),min(12cqw,var(--tfit)))}
 @media (min-width:768px){.tc__title{font-size:max(min(9.5px,var(--tfit)),min(12cqw,var(--tfit),calc((74cqw - 4px - var(--cpad)) / 7.2)))}}
+/* retro v2 sotto i 768px: stessa gerarchia, spazi un po' più stretti (la carta è piccola e il testo è a corpo fisso) */
+@media (max-width:767.98px){
+  .tc__back{padding:6.5cqw 6cqw 6cqw}
+  .tc__back .tc__seal{width:29cqw}
+  .tc__bname{margin-top:2cqw}
+  .tc__brule{margin:2.8cqw 0 2.6cqw}
+  .tc__stones > span + span::before{margin:1.1cqw auto}
+  .tc__bmotto{padding-top:2cqw}
+  .tc__bmotto::before{margin-bottom:1.8cqw}
+}
