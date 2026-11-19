@@ -174,3 +174,22 @@
   .tc__bmotto{padding-top:2cqw}
   .tc__bmotto::before{margin-bottom:1.8cqw}
 }
+
+/* 19/11 23:10: su mobile la carta è 3:5 come nel riferimento di Michael (ricerca/iphone-michael-2302/riferimento.png, Gioia 146×242) */
+@media (max-width:767.98px){.deck .tc{aspect-ratio:3/5}}
+
+/* 19/11 23:10 · fix iOS Safari: sulla carta girata l'incisione del fronte restava visibile sul retro.
+   1) backface nascosto anche sui figli (WebKit non lo eredita sugli strati composti come img con filter) e preserve-3d col prefisso;
+   2) rete di sicurezza: a metà rotazione (90°: con la curva cubic-bezier(.3,.7,.2,1) da 700ms ci si arriva dopo 135ms, cioè --fd + 135ms) il fronte sparisce a scatto e il retro compare, al ritorno l'inverso.
+   Solo opacity/visibility a scatto, nessuna nuova animazione. */
+.tc__flip{-webkit-transform-style:preserve-3d;transform-style:preserve-3d}
+.tc__face,.tc__face *{-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.tc__front{transition:opacity 0s linear 135ms,visibility 0s linear 135ms}
+.tc__back{opacity:0;visibility:hidden;transition:opacity 0s linear 135ms,visibility 0s linear 135ms}
+.tc.is-active .tc__front{opacity:0;visibility:hidden;transition-delay:calc(var(--fd,0ms) + 135ms),calc(var(--fd,0ms) + 135ms)}
+.tc.is-active .tc__back{opacity:1;visibility:visible;transition-delay:calc(var(--fd,0ms) + 135ms),calc(var(--fd,0ms) + 135ms)}
+@media (prefers-reduced-motion:reduce){
+  .tc__front,.tc.is-active .tc__front{opacity:1;visibility:visible;transition:none}
+  .tc__back{visibility:visible;opacity:0;transition:opacity 220ms ease}
+  .tc.is-active .tc__back{opacity:1;transition:opacity 220ms ease}
+}

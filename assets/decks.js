@@ -32,19 +32,27 @@
      Carta centrale dritta e più alta, laterali ±6° e ±12° (rotMobile 6 per posizione) con caduta 0,07 × altezza × posizione² (0,07 e 0,28);
      carte quasi affiancate (passo 0,78 della carta nel 5+5, 0,85 nel 3+3; nomi coperti ≥ 85%), fila sotto uguale (wideMobile 1), file distanziate 1,1 × altezza. Il 3+3 segue la stessa logica.
      Desktop invariato. */
-  const P={rot:6,curve:.07,rowGap:1.02,wide:1,sp:.79,spMax:.95,spMobile:.78,sp3:.95,sp3Mobile:.85,fw:.92,sideMobile:11,cap:156,minTwoCol:100,deckCol:.6,edge:16,edgeMobile:8,rotMobile:6,curveMobile:.07,wideMobile:1,stagMobile:0,rowGapMobile:1.1,cwMinMobile:78,spMinMobile:.6};
+  const P={rot:6,curve:.07,rowGap:1.02,wide:1,sp:.79,spMax:.95,spMobile:.78,sp3:.95,sp3Mobile:.85,fw:.92,sideMobile:11,cap:156,minTwoCol:100,deckCol:.6,edge:16,edgeMobile:8,rotMobile:6,curveMobile:.07,wideMobile:1,stagMobile:0,rowGapMobile:1.1,cwMinMobile:78,spMinMobile:.6,
+    /* 19/11 23:10: mobile misurato carta per carta su ricerca/iphone-michael-2302/riferimento.png (Gioia 146×242 px immagine, pannello 732 px):
+       carta 3:5; per posizione dal centro [x in larghezze carta, caduta in altezze carta, rotazione]; file a 1,124 altezze; margine minimo 2px */
+    ratMobile:5/3, arcMobile:[[0,0,0],[.893,.087,12.35],[1.770,.277,19.1]], rowGapRef:1.124, sideRef:.4, cwMinRef:72};
   const MOB=()=>innerWidth<768;
-  const RAT=()=>1.5; // 19/11 22:46 (Michael): carta corta e piena (2:3) ovunque, come rif-arco-michael.png; le pietre stanno sul retro
+  const RAT=()=>MOB()?P.ratMobile:1.5; // 19/11 22:46 (Michael): carta corta e piena (2:3) ovunque, come rif-arco-michael.png; le pietre stanno sul retro
   const spNow=()=>MOB()?P.spMobile:P.sp;
   const rotNow=()=>MOB()?P.rotMobile:P.rot, curveNow=()=>MOB()?P.curveMobile:P.curve, wideNow=()=>MOB()?P.wideMobile:P.wide, stagNow=()=>MOB()?P.stagMobile:0;
   const sp3Now=()=>MOB()?P.sp3Mobile:P.sp3; // passo delle file da 3 (il 3+3): può essere più ampio, c'è spazio ai lati
   /* la carta più grande per cui il mazzo da 10 (5+5) sta nella larghezza W (desktop: 92% di W; mobile: W meno 18px per lato) */
-  function fit10(W,spk){ const sp=spk||spNow(), avail=MOB()?W-2*P.sideMobile:P.fw*W;
+  function fit10(W,spk){
+    if(MOB()){ const [tx,,ro]=P.arcMobile[2], r=rad(ro), k=tx+.5*Math.cos(r)+RAT()/2*Math.sin(r); return Math.max(P.cwMinRef,Math.floor((W-2*P.sideRef)/(2*k)*10)/10); }
+    const sp=spk||spNow(), avail=P.fw*W;
     for(let cw=P.cap;cw>=50;cw-=.5){ const ch=cw*RAT(); let a=0;
       for(let i=0;i<10;i++){ const row=i<5?0:1,rel=i%5-2,x=rel*sp*cw*(row?wideNow():1)+(row?-1:1)*stagNow()*sp*cw/2,r=rad(rel*rotNow());
         a=Math.max(a,Math.abs(x)+cw/2*Math.cos(r)+ch/2*Math.abs(Math.sin(r))); }
       if(2*a<=avail) return cw; }
     return 50; }
+  /* telefoni stretti (sotto ~410px): la carta non scende sotto cwMinRef (72px, nomi ~9px); l'arco si stringe in larghezza quanto serve */
+  function arcSqueeze(W,cw,ch){ const [tx,,ro]=P.arcMobile[2], r=rad(ro), ext=cw/2*Math.cos(r)+ch/2*Math.sin(r);
+    return Math.min(1,(W/2-P.sideRef-ext)/(tx*cw)); }
   /* una colonna sotto i 768px, oppure quando a due colonne la carta verrebbe sotto i 100px: testo sopra, mazzo sotto */
   function columns(){ const H=document.documentElement, d=document.querySelector('.deck[data-deck]'); if(!d) return;
     H.classList.remove('tar-1col');
@@ -78,6 +86,7 @@
       if(!open) return {rel,isA:false,x:0,y:g.rowGap/2-i*.6,rot:0,sc:1};
       const k=open?1:g.ck, wf=row===rowsArr.length-1?g.wide:1, st=rowsArr.length>1?(row===0?1:-1)*g.stag/2:0;
       let x=(rel*wf+st)*(cnt<=3?g.sp3:g.sp)*k, a=rel*g.rot*(open?1:.45), y=row*g.rowGap+g.curve*rel*rel*(open?1:.45)+(open?0:g.ch*.03);
+      if(g.arc){ const t=g.arc[Math.round(Math.abs(rel))], sg=Math.sign(rel); x=sg*t[0]*g.cw*(cnt>3?g.xs:1); a=sg*t[2]; y=row*g.rowGap+t[1]*g.ch; }
       const isA=i===act;
       if(act>=0&&!isA&&rowOf(act)[0]===row) x+=Math.sign(i-act)*g.pushX;
       let rot=a, sc=act>=0?(isA?g.scale:.97):1;
@@ -116,18 +125,17 @@
       TM=null; // il corpo del nome dipende dalla larghezza: rimisuro
       const W=stage.clientWidth; let spk=spNow(), cw=fit10(W,spk);
       // mobile: carta mai sotto cwMinMobile (78px: «Concentrazione» intero a 9,5px); se non ci sta, si stringe il passo del 5+5
-      if(MOB()) while(cw<P.cwMinMobile&&spk>P.spMinMobile+.001){ spk-=.01; cw=fit10(W,spk); }
       const ch=cw*RAT();
       // carta al tetto (schermi larghi): lo spazio che avanza allarga il passo, fino a spMax, senza rimpicciolire la carta
       if(!MOB()&&cw>=P.cap) while(spk+.01<=P.spMax&&fit10(W,spk+.01)>=P.cap) spk+=.01;
       const sp=cw*spk, sp3=cw*(MOB()?P.sp3Mobile:Math.max(P.sp3,spk)), fine=FINE.matches;
       root.style.setProperty('--cw',cw+'px');
       const T=titleMetrics(); // misuro i nomi alla taglia giusta
-      const g={cw,ch,sp,sp3,rot:rotNow(),wide:wideNow(),stag:stagNow(),rowGap:ch*(MOB()?P.rowGapMobile:P.rowGap),curve:ch*curveNow(),ck:.34,pushX:cw*.05,lift:ch*(fine?.05:.07),scale:fine?1.1:(MOB()?1.3:1.15),hw:W/2-(MOB()?P.edgeMobile:P.edge)};
+      const g={cw,ch,sp,sp3,rot:rotNow(),wide:wideNow(),stag:stagNow(),rowGap:ch*(MOB()?P.rowGapRef:P.rowGap),arc:MOB()?P.arcMobile:null,xs:MOB()?arcSqueeze(W,cw,ch):1,curve:ch*curveNow(),ck:.34,pushX:MOB()?0:cw*.05,lift:ch*(fine?.05:.07),scale:fine?1.1:(MOB()?1.3:1.15),hw:W/2-(MOB()?P.edgeMobile:P.edge)};
       // carta centrale davanti: a sinistra del centro ogni carta è coperta sul lato destro (il nome scivola a sinistra),
       // a destra del centro è coperta sul lato sinistro (il nome scivola a destra); la centrale è scoperta
       const tx=els.map((_,i)=>{ if(!T) return 0; const [r,col]=rowOf(i), rel=col-(rowsArr[r]-1)/2; if(rel===0) return 0;
-        const sw=(rowsArr[r]<=3?sp3:sp)*(r===rowsArr.length-1?wideNow():1);
+        const sw=MOB()?(Math.abs(rel)>1?P.arcMobile[2][0]-P.arcMobile[1][0]:P.arcMobile[1][0])*cw*(rowsArr[r]>3?arcSqueeze(W,cw,ch):1):(rowsArr[r]<=3?sp3:sp)*(r===rowsArr.length-1?wideNow():1);
         if(rel<0){ const need=(T[i].l+T[i].w)*cw-(sw-4); return need>0?Math.max((T[i].lo-T[i].l)*cw,-need):0; }
         const need=(cw-sw+4)-T[i].l*cw; return need>0?Math.min(((1-T[i].lo)-(T[i].l+T[i].w))*cw,need):0; });
       els.forEach((el,i)=>el.style.setProperty('--tx',tx[i].toFixed(1)+'px'));
