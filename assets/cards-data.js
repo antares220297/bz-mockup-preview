@@ -1,12 +1,13 @@
 /* Benessere Zen · mazzi delle intenzioni · DATI DELLE CARTE (facce definitive: arcani Rider-Waite 1909, pubblico dominio)
    Faccia: `art` = incisione PD oro su trasparente (assets/carte/<slug>.webp, fonti in SOURCES-carte.md); dorsi in BZ_BACKS.
    «Come ti senti» ha 6 carte (19/11): Insicurezza (IV L'Imperatore) e Senso di blocco (X La Ruota della Fortuna) con pietre del bot BZ e motti di copy-carte.md §6.
+   Nomi composti: a capo esplicito (\n, reso da white-space:pre-line in cards.css), mai parole spezzate.
    Pietre: pietre-carte.md (confermate dal bot BZ, 19/11), in ordine di rilevanza. */
 window.BZ_COPY={
   openLabel:"Apri la carta",            /* fallback breve: "Apri" */
-  openAria:t=>"Apri la carta "+t,
+  openAria:t=>"Apri la carta "+t.replace(/\s+/g," "),
   deckAria:(name,n)=>"Mazzo "+name+", "+n+" carte",
-  cardAria:(t,i,n)=>t+", carta "+i+" di "+n,
+  cardAria:(t,i,n)=>t.replace(/\s+/g," ")+", carta "+i+" di "+n,
   help:"Scorri le carte e scegline una per vedere i prodotti.",
   showMotti:false                       /* regola Copywriter: «Tristezza e poco slancio» va a capo => motti tolti da tutte le carte */
 };
@@ -14,7 +15,7 @@ window.BZ_DECKS={
  "senti": [
   {
    "slug": "agitazione",
-   "title": "Agitazione e rabbia",
+   "title": "Agitazione\ne rabbia",
    "motto": "Quando tutto corre troppo",
    "stones": [
     "Ametista",
@@ -28,7 +29,7 @@ window.BZ_DECKS={
   },
   {
    "slug": "tristezza",
-   "title": "Tristezza e poco slancio",
+   "title": "Tristezza e\npoco slancio",
    "motto": "Quando la luce sembra poca",
    "stones": [
     "Citrino",
@@ -85,7 +86,7 @@ window.BZ_DECKS={
   },
   {
    "slug": "blocco",
-   "title": "Senso di blocco",
+   "title": "Senso\ndi blocco",
    "motto": "Quando tutto sembra fermo",
    "stones": [
     "Ossidiana neve",

@@ -41,18 +41,28 @@
 .tc__sym{position:relative;z-index:1;width:40cqw;height:40cqw;color:var(--goldl);
   filter:drop-shadow(0 0 3cqw color-mix(in srgb,var(--acc) 55%,transparent))}
 .tc__sym svg,.tc__sym img{display:block;width:100%;height:100%;object-fit:contain}
-.tc__cart{position:relative;width:100%;padding:3.4cqw 3cqw 3.2cqw;border-top:1px solid rgba(201,169,110,.5);border-bottom:1px solid rgba(201,169,110,.5)}
+/* cartiglio: largo fin quasi alla cornice interna (5–95cqw, la cornice è a 3,6cqw); dentro, almeno 2,5px di aria ai lati del nome */
+.tc__cart{--cpad:max(2.5px,2.5cqw);position:relative;width:calc(100% + 6cqw);margin-inline:-3cqw;padding:3.4cqw var(--cpad) 3.2cqw;border-top:1px solid rgba(201,169,110,.5);border-bottom:1px solid rgba(201,169,110,.5)}
 .tc__cart::before,.tc__cart::after{content:"";position:absolute;left:50%;width:2.6cqw;height:2.6cqw;background:var(--goldl);transform:translate(-50%,-50%) rotate(45deg)}
 .tc__cart::before{top:0}.tc__cart::after{top:100%}
 /* titolo: stesso corpo su tutte le 14 carte e spazio SEMPRE riservato a due righe (2 × 1,16em), centrato in verticale:
    «Agitazione e rabbia» e «Tristezza e poco slancio» vanno a capo senza spingere il cartiglio né toccare pietre o cornice */
-.tc__title{display:flex;align-items:center;justify-content:center;min-height:2.32em;font:400 11.2cqw/1.16 var(--serif,Baskervville,Georgia,serif);color:#f3ead8;text-wrap:balance;hyphens:manual}
+/* corpo del nome uguale per tutte le carte del mazzo, deciso dalla parola più lunga («Concentrazione»: larga 7,0 em in Baskervville; 7,2 con margine):
+   - deve stare intera su una riga nel cartiglio:            (90cqw − 2·cpad) / 7,2
+   - da 768 in su, sulla carta coperta deve stare nella striscia scoperta (passo 0,79 × carta − 5cqw di bordo − cpad − 4px):
+                                                              (74cqw − 4px − cpad) / 7,2
+   - mai più grande di prima (11,2cqw). Niente sillabazione, niente parole spezzate. */
+.tc__title{--tfit:calc((90cqw - 2 * var(--cpad)) / 7.2);display:flex;align-items:center;justify-content:center;min-height:2.32em;
+  font:400 min(11.2cqw,var(--tfit))/1.16 var(--serif,Baskervville,Georgia,serif);color:#f3ead8;text-wrap:balance;white-space:pre-line;hyphens:none;overflow-wrap:normal;word-break:normal}
+@media (min-width:768px){.tc__title{font-size:min(11.2cqw,var(--tfit),calc((74cqw - 4px - var(--cpad)) / 7.2))}}
 .tc__motto{display:block;margin-top:1.6cqw;font:italic 400 7.4cqw/1.2 var(--serif,Baskervville,Georgia,serif);color:rgba(227,203,149,.82)}
 .no-motti .tc__motto{display:none}
-.tc__stones{display:flex;flex-direction:column;gap:.4cqw;margin-top:3cqw;font:500 max(10px,7cqw)/1.2 var(--sans,Figtree,Arial,sans-serif);letter-spacing:.02em;color:rgba(238,231,219,.8);text-wrap:balance;
+.tc__stones{display:flex;flex-direction:column;gap:.4cqw;margin-top:3cqw;font:500 max(10px,7cqw)/1.2 var(--sans,Figtree,Arial,sans-serif);letter-spacing:.02em;color:rgba(238,231,219,.8);text-wrap:balance;hyphens:none;overflow-wrap:normal;
   opacity:0;visibility:hidden;transition:opacity 200ms ease,visibility 0s 200ms}
 /* le pietre si leggono solo sulla carta scelta o in hover/fuoco */
-.tc.is-active .tc__stones,.tc:hover .tc__stones,.tc:focus-within .tc__stones{opacity:1;visibility:visible;transition:opacity 200ms ease}
+/* :hover solo con un mouse vero (su touch l'hover resta «appiccicato» all'ultima carta toccata) e fuoco solo da tastiera */
+.tc.is-active .tc__stones,.tc:has(.tc__hit:focus-visible) .tc__stones{opacity:1;visibility:visible;transition:opacity 200ms ease}
+@media (hover:hover) and (pointer:fine){.tc:hover .tc__stones{opacity:1;visibility:visible;transition:opacity 200ms ease}}
 
 /* ---------- DORSO ---------- */
 .tc__back{transform:rotateY(180deg);justify-content:center;gap:6cqw;color:var(--goldl);

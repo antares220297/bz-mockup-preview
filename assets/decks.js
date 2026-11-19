@@ -18,14 +18,20 @@
      rot: gradi per posizione nella fila; curve: discesa delle carte esterne (× altezza carta); rowGap: distanza tra le file (× altezza);
      wide: la fila sotto è più larga; sp: passo tra le carte (× larghezza) che lascia leggere per intero i nomi delle carte coperte a 1440
      (0,6 sotto i 768px, dove i nomi coperti sono parziali come in M1); fw: il mazzo da 10 occupa l'85% della colonna; cap: carta massima. */
-  const P={rot:3,curve:.03,rowGap:.8,wide:1.07,sp:.79,spMobile:.6,fw:.85,cap:140,minTwoCol:100,deckCol:.6};
-  const spNow=()=>innerWidth<768?P.spMobile:P.sp;
-  /* la carta più grande per cui il mazzo da 10 (5+5) sta nell'85% della larghezza W */
-  function fit10(W){ const sp=spNow();
+  /* 19/11 sera (Michael da iPhone): carte più grandi.
+     Sotto i 768px il 5+5 aperto riempie il pannello lasciando sideMobile (18px) per lato; passo 0,5: la striscia scoperta di ogni carta
+     resta larga come prima (0,5 × 94 ≈ 0,6 × 79 = 47px a 390), le carte crescono del 19%. Il 3+3 usa la stessa carta.
+     Da 768 in su il 10 occupa il 92% della colonna (era 85%), tetto 156px (era 140): sempre ≥ 16px dal bordo del pannello.
+     edge: distanza minima della carta estratta (ingrandita) dal bordo dello stage. */
+  const P={rot:3,curve:.03,rowGap:.8,wide:1.07,sp:.79,spMobile:.5,fw:.92,sideMobile:18,cap:156,minTwoCol:100,deckCol:.6,edge:16,edgeMobile:10};
+  const MOB=()=>innerWidth<768;
+  const spNow=()=>MOB()?P.spMobile:P.sp;
+  /* la carta più grande per cui il mazzo da 10 (5+5) sta nella larghezza W (desktop: 92% di W; mobile: W meno 18px per lato) */
+  function fit10(W){ const sp=spNow(), avail=MOB()?W-2*P.sideMobile:P.fw*W;
     for(let cw=P.cap;cw>=50;cw-=.5){ const ch=cw*12/7; let a=0;
       for(let i=0;i<10;i++){ const row=i<5?0:1,rel=i%5-2,x=rel*sp*cw*(row?P.wide:1),r=rad(rel*P.rot);
         a=Math.max(a,Math.abs(x)+cw/2*Math.cos(r)+ch/2*Math.abs(Math.sin(r))); }
-      if(2*a<=P.fw*W) return cw; }
+      if(2*a<=avail) return cw; }
     return 50; }
   /* una colonna sotto i 768px, oppure quando a due colonne la carta verrebbe sotto i 100px: testo sopra, mazzo sotto */
   function columns(){ const H=document.documentElement, d=document.querySelector('.deck[data-deck]'); if(!d) return;
@@ -80,22 +86,24 @@
         const sv=[li.style.transform,li.style.transition,fl.style.transform,fl.style.transition,t.style.transform,t.style.transition];
         li.style.transition=fl.style.transition=t.style.transition='none'; li.style.transform=fl.style.transform=t.style.transform='none';
         const L=li.getBoundingClientRect(), rg=document.createRange(); rg.selectNodeContents(t);
-        const R=[...rg.getClientRects()].filter(r=>r.width>1);
+        const R=[...rg.getClientRects()].filter(r=>r.width>1), cr=t.parentElement.getBoundingClientRect(), cp=parseFloat(getComputedStyle(t.parentElement).paddingLeft)||0;
         [li.style.transform,li.style.transition,fl.style.transform,fl.style.transition,t.style.transform,t.style.transition]=sv;
         if(!L.width||!R.length) return null;
         const x0=Math.min(...R.map(r=>r.left)),x1=Math.max(...R.map(r=>r.right));
-        out.push({l:(x0-L.left)/L.width,w:(x1-x0)/L.width}); }
+        // lo: il nome scivola a sinistra al massimo fino al bordo interno del cartiglio (mai fuori dal cartiglio)
+        out.push({l:(x0-L.left)/L.width,w:(x1-x0)/L.width,lo:(cr.left+cp-L.left)/L.width}); }
       return TM=out;
     }
     if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>{TM=null;geom();render(true);equalize();});
-    const PAD=.05;
     /* le carte a destra stanno sopra: di ogni carta coperta resta una striscia a sinistra larga quanto il passo.
-       Il titolo delle coperte scivola a sinistra (fino al margine PAD) quanto basta per stare nella striscia. */
+       Il titolo delle coperte scivola a sinistra (al massimo fino al bordo interno del cartiglio) quanto basta per stare nella striscia. */
     function geom(){
-      const W=stage.clientWidth, cw=fit10(W), ch=cw*12/7, sp=cw*spNow(), fine=FINE.matches, T=titleMetrics();
-      const g={cw,ch,sp,rot:P.rot,rowGap:ch*P.rowGap,curve:ch*P.curve,ck:.34,pushX:cw*.05,lift:ch*(fine?.05:.07),scale:fine?1.1:1.15,hw:W/2};
+      TM=null; // il corpo del nome dipende dalla larghezza: rimisuro
+      const W=stage.clientWidth, cw=fit10(W), ch=cw*12/7, sp=cw*spNow(), fine=FINE.matches;
+      root.style.setProperty('--cw',cw+'px'); const T=titleMetrics(); // misuro i nomi alla taglia giusta
+      const g={cw,ch,sp,rot:P.rot,rowGap:ch*P.rowGap,curve:ch*P.curve,ck:.34,pushX:cw*.05,lift:ch*(fine?.05:.07),scale:fine?1.1:1.15,hw:W/2-(MOB()?P.edgeMobile:P.edge)};
       const tx=els.map((_,i)=>{ if(!T) return 0; const [r,col]=rowOf(i); if(col===rowsArr[r]-1) return 0;
-        const sw=sp*(r===rowsArr.length-1?P.wide:1), need=(T[i].l+T[i].w)*cw-(sw-4); return need>0?Math.max((PAD-T[i].l)*cw,-need):0; });
+        const sw=sp*(r===rowsArr.length-1?P.wide:1), need=(T[i].l+T[i].w)*cw-(sw-4); return need>0?Math.max((T[i].lo-T[i].l)*cw,-need):0; });
       els.forEach((el,i)=>el.style.setProperty('--tx',tx[i].toFixed(1)+'px'));
       const e=extent(g), top=-e.minY+2, H=Math.ceil(e.maxY-e.minY+4);
       G={W,top,H,H0:H,...g,ext:e};
@@ -119,7 +127,7 @@
     function setActive(i){ if(st.active===i) return; st.active=i; render(true); }
     function select(i){ st.sel=i; render(true); // una sola carta scelta nella sezione
       document.querySelectorAll('.deck[data-deck]').forEach(o=>{ if(o!==root&&o.__deck&&o.__deck.st.sel>=0){ o.__deck.st.sel=-1; o.__deck.render(true); } }); }
-    function go(i){ const c=cards[i]; if(DEMO){ toast('Si apre la pagina «'+c.title+'»  →  '+c.href); return; } location.href=c.href; }
+    function go(i){ const c=cards[i]; if(DEMO){ toast('Si apre la pagina «'+c.title.replace(/\s+/g,' ')+'»  →  '+c.href); return; } location.href=c.href; }
     /* desktop: la carta (posa aperta) sotto il puntatore; vince quella sopra */
     function pickFromPointer(e){
       const r=stage.getBoundingClientRect(), px=e.clientX-r.left-r.width/2, py=e.clientY-r.top;
