@@ -43,7 +43,7 @@
       title: "Sapone",
       caption: "Il gesto di ogni mattina, con oli e spezie.",
       veil: "#332415",
-      scene: "assets/officina-scena-sapone.webp?v=4",
+      scene: "assets/officina-scena-sapone.webp?v=5",
       alt: "Una saponetta bagnata su un portasapone in un lavabo di pietra",
       products: [
         ["Sapone alla curcuma", "Holy Lama", "7,90", "sapone-curcuma-holy-lama", "50427684913490", "assets/prod-sapone-curcuma.webp"],
