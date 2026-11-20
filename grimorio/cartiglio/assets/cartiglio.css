@@ -1,0 +1,35 @@
+/* Il cartiglio «Dal grimorio» · 20/11/2026. Doppio filo oro, fondo vellum scuro, righe tipografiche (niente tabella, niente puntini). */
+.ann--ph span{padding:1px 8px;border:1px dashed rgba(23,19,15,.55);border-radius:4px;font-size:12px;font-weight:600;text-align:center;line-height:1.3}
+.use{margin:var(--bz-sp-16) 0 0!important;font-size:14px;line-height:1.55}
+.cart-sec{padding-top:var(--bz-section-gap)}
+.cartiglio{position:relative;margin:0 auto;padding:5px;border:1px solid rgba(201,169,110,.62);
+  background:radial-gradient(120% 70% at 50% 0%,rgba(201,169,110,.085),transparent 62%),radial-gradient(90% 60% at 50% 100%,rgba(201,169,110,.04),transparent 70%),#1c1a16}
+.cartiglio::before{content:"";position:absolute;left:50%;top:-5px;width:8px;height:8px;margin-left:-4px;transform:rotate(45deg);background:var(--bz-gold);box-shadow:0 0 0 4px var(--bz-bg)}
+.cart-in{padding:28px 16px 14px;border:1px solid rgba(201,169,110,.32);text-align:center}
+.cart-kick{margin:0;color:var(--bz-gold);font:600 11px/1.4 var(--bz-font-sans);letter-spacing:.22em;text-transform:uppercase}
+.cart-name{margin:4px 0 0;font:italic 400 40px/1.1 var(--bz-font-serif);color:var(--bz-text)}
+.cart-rule{display:block;width:44px;height:1px;margin:14px auto 12px;background:rgba(201,169,110,.6)}
+.cart-lines{display:grid;gap:7px}
+.cl{margin:0;line-height:1.4;text-wrap:balance}
+.cl-k{margin-right:.4em;color:var(--bz-gold);font:600 10.5px/1 var(--bz-font-sans);letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
+.cl-v{font:400 17.5px/1.4 var(--bz-font-serif);color:var(--bz-text)}
+.cl-v .ph{vertical-align:2px}
+.cart-own{margin:14px auto 0;max-width:34ch;font:italic 400 17px/1.45 var(--bz-font-serif);color:var(--bz-text-2);text-wrap:balance}
+.cart-own .ph{font-style:normal}
+.cart-link{margin-top:2px}
+.cart-link:focus-visible{outline:2px solid var(--bz-gold);outline-offset:3px;border-radius:4px}
+@media(min-width:1024px){
+  .cartiglio{width:clamp(640px,calc((100% - 11 * var(--bz-grid-gap)) / 12 * 6 + 5 * var(--bz-grid-gap)),720px);padding:6px}
+  .cart-in{padding:40px 48px 22px}
+  .cart-name{font-size:52px}
+  .cart-rule{margin:18px auto 16px}
+  .cart-lines{gap:9px}
+  .cl-k{font-size:11.5px;margin-right:.5em}
+  .cl-v{font-size:20px}
+  .cart-own{margin-top:18px;font-size:19px;max-width:40ch}
+}
+/* entrata: sale piano, solo opacity/transform; senza JS o con riduzione del movimento resta ferma */
+@media(prefers-reduced-motion:no-preference){
+  .rise.is-ready{opacity:0;transform:translateY(18px);transition:opacity 700ms var(--bz-ease-enter),transform 700ms var(--bz-ease-enter)}
+  .rise.is-ready.is-in{opacity:1;transform:none}
+}
