@@ -24,7 +24,7 @@
 /* ---------- Accordion DS (§10.5): + / −, altezza senza animazione, contenuto in dissolvenza ---------- */
 .dacc{border-top:1px solid var(--bz-line)}
 .dacc:last-child{border-bottom:1px solid var(--bz-line)}
-.dacc summary{display:flex;align-items:center;gap:12px;min-height:56px;padding:12px 0;cursor:pointer;list-style:none;-webkit-tap-highlight-color:transparent}
+.dacc summary{display:flex;align-items:center;gap:12px;min-height:64px;padding:12px 0;cursor:pointer;list-style:none;-webkit-tap-highlight-color:transparent}
 .dacc summary::-webkit-details-marker{display:none}
 .dacc .s-t{flex:1;min-width:0;font:500 15px/1.35 var(--bz-font-sans)}
 .dacc .pm{display:grid;place-items:center;width:24px;height:24px;color:var(--bz-gold)}
@@ -63,14 +63,81 @@
 .stonecard .tc{--cw:216px;width:var(--cw);aspect-ratio:3/5;--sa:1;position:relative;display:block;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .stonecard .tc:focus-visible{outline:2px solid var(--bz-gold);outline-offset:6px;border-radius:10px}
 .stonecard .tc__front{padding:7cqw 4cqw 7cqw}
-.stonecard .tc__title{min-height:0;font-size:22px}
-.stonecard .tc__motto{display:block;margin-top:1.2cqw;font-size:14px}
-.tc__kw{display:flex;flex-direction:column;gap:1px;margin-top:4cqw;font:600 10.5px/1.3 var(--bz-font-sans);letter-spacing:.1em;text-transform:uppercase;color:rgba(227,203,149,.9)}
-.tc__note{display:block;max-width:100%;padding:0 2cqw;font:italic 400 14.5px/1.45 var(--bz-font-serif);color:#f3ead8;text-wrap:pretty}
-.stonecard .tc__bname{font-size:20px}
+.stonecard .tc__title{min-height:0;font-size:min(10.2cqw,var(--tfit))}
+.stonecard .tc__motto{display:block;margin-top:1.2cqw;font-size:6.5cqw}
+.tc__kw{display:flex;flex-direction:column;gap:1px;margin-top:4cqw;font:600 4.9cqw/1.3 var(--bz-font-sans);letter-spacing:.1em;text-transform:uppercase;color:rgba(227,203,149,.9)}
+.tc__note{display:block;max-width:100%;padding:0 2cqw;font:italic 400 6.7cqw/1.45 var(--bz-font-serif);color:#f3ead8;text-wrap:pretty}
+.stonecard .tc__bname{font-size:9.3cqw}
 .flipbtn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--bz-line-2);border-radius:var(--bz-r-pill);background:none;color:var(--bz-text);font:500 14px/1 var(--bz-font-sans);cursor:pointer}
 .flipbtn .ic{width:20px;height:20px;color:var(--bz-gold)}
 @media(hover:hover){.flipbtn:hover{border-color:var(--bz-gold)}}
 .flipbtn:active{transform:scale(.98)}
 @media(prefers-reduced-motion:reduce){.desc-more,.dacc-b{animation:none}}
 .mute-note{margin:var(--bz-sp-16) 0 0;font-size:var(--bz-fs-xs);color:var(--bz-text-3)}
+
+/* ---------- Mobile: struttura comune ---------- */
+.d-only{display:none!important}
+.thumbs2{display:none}
+.rail{display:contents}
+.tavA-f{display:block}
+.cardch{display:flex;flex-direction:column}
+.cardch-text{display:contents}
+.cardch-h{order:-1}
+
+/* ---------- Desktop (da 1024): griglia a 12 colonne, stessi margini per acquisto e grimorio ---------- */
+@media(min-width:1024px){
+  .d-only{display:flex!important}
+  .top-ic .d-only{display:grid!important}
+  .crumb{padding:4px 0 20px}
+  .pdp2{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--bz-grid-gap);row-gap:0;align-items:start;padding-bottom:0}
+  .gal2{grid-column:1/8;display:grid;grid-template-columns:84px minmax(0,1fr);gap:12px;align-items:start}
+  .thumbs2{display:flex;flex-direction:column;gap:10px}
+  .thumbs2 button{width:84px;height:84px;padding:0;border-radius:14px;overflow:hidden;border:2px solid var(--bz-gold);background:var(--bz-bg);cursor:pointer}
+  .thumbs2 img{width:100%;height:100%;object-fit:cover}
+  .b2{grid-column:8/13;padding-left:var(--bz-sp-32);padding-top:var(--bz-sp-8)}
+  .b2 h1,.b2 .desc{max-width:52ch}
+  .b2 .atc{margin-top:var(--bz-sp-28)}
+
+  .g2{padding-top:var(--bz-sp-88)}
+  .g2 h2{margin-bottom:var(--bz-gap-head-content)}
+  .prose p{font-size:var(--bz-fs-lead);line-height:1.75;max-width:64ch;margin-bottom:var(--bz-sp-20)}
+  .chap summary{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--bz-grid-gap);padding:12px 0}
+  .chap summary .rail{display:flex;align-items:center;gap:12px;grid-column:1/3}
+  .chap summary .s-t{grid-column:3/12;font-size:var(--bz-fs-h4)}
+  .chap summary .pm{grid-column:12/13;justify-self:end}
+  .chap .dacc-b{padding:var(--bz-sp-16) 0 var(--bz-sp-48)}
+  /* testo dei capitoli: colonne 3-8 */
+  .chap .dacc-b.prose{padding-left:calc((100% - 11 * var(--bz-grid-gap)) / 12 * 2 + 2 * var(--bz-grid-gap))}
+  .dropcap::first-letter{font-size:76px;margin:7px 12px 0 0}
+
+  /* A: testo 3-8, tavola 9-12, alta quanto il testo (mai sotto 240px) */
+  .chap .dacc-b.chA-body{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--bz-grid-gap);align-items:stretch;padding-left:0}
+  .chA-text{grid-column:3/9}
+  .chA-text p:last-child{margin-bottom:0}
+  .tavA{grid-column:9/13;margin:0;display:flex;flex-direction:column}
+  .tavA-f{position:relative;flex:1 1 auto;min-height:240px;border-radius:var(--bz-r-img);overflow:hidden}
+  .tavA-f img{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;object-fit:cover;border-radius:0}
+  .tavA figcaption{text-align:left}
+
+  /* B: carta a sinistra (col. 1-4), titolo e prosa a destra (col. 6-12), centrati sulla carta */
+  .cardch{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--bz-grid-gap);align-items:center;padding:var(--bz-sp-48) 0 calc(var(--bz-sp-48) + 60px)}
+  .stonecard{grid-column:1/5;position:relative;margin:0}
+  .stonecard .tc{--cw:clamp(300px,22vw,340px)}
+  .stonecard .flipbtn{position:absolute;top:calc(100% + var(--bz-sp-16));left:50%;transform:translateX(-50%)}
+  .stonecard .flipbtn:active{transform:translateX(-50%) scale(.98)}
+  .cardch-text{display:block;grid-column:6/13}
+  .cardch-h{justify-content:flex-start;gap:12px;text-align:left;margin-bottom:var(--bz-sp-20)}
+  .cardch-h .num{min-width:1.7em;margin-right:-4px}
+  .cardch-text .prose p:last-child{margin-bottom:0}
+  .chB .chap summary{display:flex;padding-left:calc((100% - 11 * var(--bz-grid-gap)) / 12 * 5 + 5 * var(--bz-grid-gap))}
+  .chB .chap summary .rail{display:contents}
+  .chB .chap .dacc-b.prose{padding-left:calc((100% - 11 * var(--bz-grid-gap)) / 12 * 5 + 5 * var(--bz-grid-gap))}
+
+  /* segnaposto alto quanto il testo atteso (circa 3 righe), così l'equilibrio con tavola e carta è quello vero */
+  .ph-blk .ph{display:flex;align-items:flex-start;width:100%;min-height:94px;padding:6px 10px}
+  .tavA-f{min-height:220px}
+  .cardch-h{gap:0;font-size:var(--bz-fs-h3);line-height:1.2}
+  .cardch-h .num,.chB .chap summary .num{min-width:0;width:50px;margin-right:0;flex:none}
+  .chB .chap summary{gap:0}
+  .chB .chap summary .s-t{flex:1}
+}
