@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="https://cdn.shopify.com/shopifycloud/preview-bar/shopify_glyph_black.svg" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Shopify Preview Bar</title>
+    <link rel="preconnect" href="https://cdn.shopify.com/" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.shopify.com/static/fonts/inter/v4/styles.css"
+    />
+    <script type="module" crossorigin src="https://cdn.shopify.com/shopifycloud/preview-bar/app-CPkp0WHO3mJW.js"></script>
+    <link rel="modulepreload" crossorigin href="https://cdn.shopify.com/shopifycloud/preview-bar/vendor-BzORzJP8Sw0G.js">
+    <link rel="modulepreload" crossorigin href="https://cdn.shopify.com/shopifycloud/preview-bar/i18n/i18n-en-U5HhbPYv.js">
+    <link rel="stylesheet" crossorigin href="https://cdn.shopify.com/shopifycloud/preview-bar/assets/vendor.css">
+    <link rel="stylesheet" crossorigin href="https://cdn.shopify.com/shopifycloud/preview-bar/assets/app.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
