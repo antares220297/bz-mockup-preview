@@ -21,18 +21,18 @@
   function layout() {
     var vw = document.documentElement.clientWidth, vh = window.innerHeight, pw;
     desk = vw >= 1024;
-    pw = desk ? Math.min(560, (vw - 176) / 2, (vh - 190) / 1.4) : Math.min((vw - 28) / (1 + 2.1 / 22), (vh - 250) / 1.4);
+    pw = desk ? Math.min(560, (vw - 176) / 2, (vh - 190) / 1.4) : Math.min((vw - 48) / 1.07, (vh - 250) / 1.4);
     pw = Math.floor(pw); var ph = Math.floor(pw * 1.4), fs = pw / 22;
     var sw = desk ? Math.min(vw, Math.round(2 * pw + 300)) : vw, top = 12 + Math.round(OV * pw * 1.5);
     var sh = Math.round(top + ph + OV * pw + 2.6 * fs);
-    var pageL = desk ? sw / 2 : Math.round((sw - pw - 1.25 * fs) / 2);
+    var pageL = desk ? sw / 2 : Math.round(.07 * pw + .07 * .4 * pw + 6);   // a sinistra il filo della metà letta, con i suoi segnapagina
     var vy = (top + ph / 2 - sh / 2) / pw;
     var vxOpen = desk ? 0 : (sw / 2 - pageL) / pw, vxClosed = desk ? .5 : vxOpen;
     function P(x, y, z, vx) { var k = DIST / (DIST - z); return { x: sw / 2 + (x - vx) * pw * k, y: sh / 2 - (y - vy) * pw * k }; }
     var c0 = P(0, HALF + OV, ZTOP, vxClosed), c1 = P(1 + OV, -(HALF + OV), ZTOP, vxClosed);
     var t0 = P(0, HALF, .05, vxOpen), t1 = P(1, -HALF, .05, vxOpen), tc = P(0, HALF, ZTOP, vxClosed);
     var p0 = P(-PM, HALF + OV + PM, 0, vxClosed), p1 = P(1 + OV + PM, 0, 0, vxClosed);
-    lay = { desk: desk, pw: pw, ph: ph, fs: fs, sw: sw, sh: sh, view: { x: state === 'closed' ? vxClosed : vxOpen, y: vy, s: pw }, vxOpen: vxOpen, vxClosed: vxClosed };
+    lay = { P: P, DIST: DIST, desk: desk, pw: pw, ph: ph, fs: fs, sw: sw, sh: sh, view: { x: state === 'closed' ? vxClosed : vxOpen, y: vy, s: pw }, vxOpen: vxOpen, vxClosed: vxClosed };
     var S = root.style, px = function (v) { return v.toFixed(1) + 'px'; };
     S.setProperty('--pw', pw + 'px'); S.setProperty('--ph', ph + 'px'); S.setProperty('--fs', fs.toFixed(3) + 'px');
     S.setProperty('--sw', sw + 'px'); S.setProperty('--sh', sh + 'px');
@@ -187,6 +187,23 @@
 
   root.lbDebug = function () { return { state: state, sheet: sheet, busy: !!(C && C.book.busy), plain: plain, ready: !!C, desk: desk, tab: (root.querySelector('.tab[aria-current]') || {}).textContent || null, stats: C ? C.stats : null, tex: C ? [C.PW, C.PH] : null, dpr: C ? C.book.renderer.getPixelRatio() : null }; };
   root.lbLay = function () { return lay; };
+  // ---- segnapagina: disegnati in WebGL sul foglio del loro capitolo; qui solo bottoni invisibili (≥44 px) che li seguono a ogni frame
+  var TW = .07, TH = Math.min(.19, (.9 - (tabs.length - 1) * .045) / Math.max(1, tabs.length)), stageR = null;
+  function syncTabs() {
+    if (plain) return;
+    var v = C ? C.book.view : lay.view, sw = lay.sw, sh = lay.sh;
+    function pr(x, y, z) { var k = DIST / (DIST - z); return { x: sw / 2 + (x - v.x) * v.s * k, y: sh / 2 - (y - v.y) * v.s * k }; }
+    tabs.forEach(function (b, i) {
+      var inf = C ? C.tabs[i] : { y1: 1 - .05 - i * (TH + .045), y0: 1 - .05 - i * (TH + .045) - TH, sheet: -1 };
+      var left = C ? C.book.progress(inf.sheet) > .5 : false, x0, x1;
+      if (!left) { x0 = 1; x1 = 1 + TW; } else if (!desk) { x0 = -(.07 + TW * .4); x1 = -.07; } else { x0 = -1 - TW; x1 = -1; }
+      var a = pr(x0, (inf.y1 - .5) * 1.4, .06), c = pr(x1, (inf.y0 - .5) * 1.4, .06);
+      var w = Math.max(44, Math.abs(c.x - a.x) + 14), h = Math.max(44, Math.abs(c.y - a.y)), cx = (a.x + c.x) / 2, cy = (a.y + c.y) / 2;
+      var st = b.style; st.left = Math.max(0, Math.min(sw - w, cx - w / 2)).toFixed(1) + 'px'; st.top = (cy - h / 2).toFixed(1) + 'px'; st.width = w.toFixed(1) + 'px'; st.height = h.toFixed(1) + 'px';
+      b.dataset.lato = left ? 'sinistra' : 'destra';
+    });
+  }
+  (function loop() { if (!document.hidden) syncTabs(); requestAnimationFrame(loop); })();
   root.lbPagina = function (i) { return C ? C.renderPage(i).then(function (c) { return c ? c.toDataURL('image/jpeg', .8) : null; }) : null; };
 
   // il motore si scarica solo vicino alla sezione o al primo tocco
