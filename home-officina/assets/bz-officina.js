@@ -8,7 +8,7 @@
       caption: "Si lascia sui polsi, e resta sulla pelle per tutta la sera.",
       veil: "#3a281c",
       scene: "assets/officina-scena-olio.webp",
-      alt: "Una mano applica un olio sul polso accanto a una candela",
+      alt: "Un contagocce lascia cadere una goccia d'olio sul dorso di una mano",
       products: [
         ["Roll-on Ambra", "profumo ayurvedico", "16,50", "olio-profumato-ayurveda-ambra", "54793126642002", "assets/prod-olio-ambra.webp"],
         ["Roll-on Vaniglia", "profumo ayurvedico", "16,50", "olio-profumato-ayurveda-vaniglia", "54793125986642", "assets/prod-olio-vaniglia.webp"],
@@ -20,7 +20,7 @@
       caption: "I sali si sciolgono nell'acqua calda, quando si chiude la porta.",
       veil: "#1e272c",
       scene: "assets/officina-scena-bagno.webp",
-      alt: "Sali versati in una vasca da bagno scura",
+      alt: "Una mano versa i sali da una ciotola nell'acqua di una vasca di pietra",
       products: [
         ["Sali alla lavanda", "himalayani, 500 g", "9,90", "mix-sali-himalayani-500g-relax", "50354138251602", "assets/prod-bagno-lavanda.webp"],
         ["Sali tea tree e lime", "himalayani, 500 g", "9,90", "mix-sali-himalayani-500g-detox", "50354146017618", "assets/prod-bagno-teatree.webp"],
@@ -143,6 +143,7 @@
     heading.textContent = chapter.title;
     caption.textContent = chapter.caption;
     products.innerHTML = chapter.products.map(productCard).join('');
+    products.scrollLeft = 0;
     changeScene(chapter);
   }
 
