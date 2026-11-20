@@ -1,5 +1,8 @@
-/* «Completa il rituale», versione PDP approvata: copiata dal tema anteprima 212741062994 (PR #31, commit d770a04, sections/bz-ritual.liquid + bz-ritual-panel/row), regole lette dal CSS del tema su benesserezen.shop e limitate a .bzr */
-.bzr{--serif:Baskervville,Georgia,serif;--gold:#c9a96e;--ivory2:#cdc4b4;--mute:#958d7f;--goldl:#e3cb95;--line2:rgba(238,231,219,.24);--ivory:#eee7db;--card:#201e1b;--line:rgba(238,231,219,.11);--card2:#29261f;--bz-ls-h2:-.005em;--bz-font-serif:Baskervville,Georgia,serif;--bz-fs-h2:clamp(30px,23.31px + 1.714vw,48px);--bz-lh-h2:1.1;--bz-fs-lead:clamp(16px,15.26px + .19vw,18px);--bz-lh-body:1.6;--bz-text-2:#cdc4b4;--bz-fs-xs:12px;--bz-gold:#c9a96e;--bz-sp-8:8px;--bz-control-h:44px;--bz-sp-16:16px;--bz-r-pill:999px;--bz-line-2:rgba(238,231,219,.24);--bz-text:#eee7db;--bz-font-sans:Figtree,Arial,sans-serif;--bz-dur-hover:.15s;--bz-ease-standard:cubic-bezier(.2,0,0,1);--bz-fs-btn:14px;--bz-sp-24:24px;--bz-on-gold:#17140f;--bz-gold-hover:#e3cb95;--bz-focus-width:2px;--bz-focus-color:#c9a96e;--bz-focus-offset:3px;--bz-ink:#24201b;--bz-fs-price:20px;--bz-lh-price:1.2;--bz-fs-price-lg:clamp(28px,25.03px + .762vw,36px);--bz-container-max:1440px;--bz-sp-28:28px;--bz-sp-20:20px;--bz-ritual-surface:#1a1618;--bz-line-divider:rgba(238,231,219,.12);--bz-sp-72:72px;--bz-sp-12:12px;--bz-r-img:10px;--bz-surface-2:#29261f;--bz-bg:#141312;--bz-icon-sm:18px;--bz-sp-4:4px;--bz-sp-48:48px;--bz-text-3:#958d7f;--bz-sp-40:40px;--bz-r-card:18px;--bz-bg-2:#1b1917;--bz-r-panel:28px;--bz-surface:#201e1b;--bz-fs-body:16px;--bz-fs-sm:14px;--bz-line-field:rgba(238,231,219,.4)}
+/* «Completa il rituale» con il layout della sezione HOME approvata: tema anteprima 212741062994, PR #31 commit d770a04
+   (sections/bz-ritual.liquid → snippets/bz-ritual-panel.liquid + bz-ritual-row.liquid; stili bz-v411c.css, bz-home.css, bz-ds.css),
+   regole lette dal CSS servito in home su benesserezen.shop e limitate a .bzr. Niente pillole in PDP. */
+.bzr{--serif:Baskervville,Georgia,serif;--gold:#c9a96e;--ivory2:#cdc4b4;--mute:#958d7f;--goldl:#e3cb95;--line2:rgba(238,231,219,.24);--ivory:#eee7db;--sans:Figtree,Arial,sans-serif;--bg:#141312;--line:rgba(238,231,219,.11);--r:18px;--deep:#1b1917;--card:#201e1b;--card2:#29261f;--bz-ls-h2:-.005em;--bz-font-serif:Baskervville,Georgia,serif;--bz-fs-h2:clamp(30px,23.31px + 1.714vw,48px);--bz-lh-h2:1.1;--bz-fs-h3:clamp(24px,21.03px + .762vw,32px);--bz-lh-h3:1.15;--bz-fs-lead:clamp(16px,15.26px + .19vw,18px);--bz-lh-body:1.6;--bz-text-2:#cdc4b4;--bz-fs-xs:12px;--bz-gold:#c9a96e;--bz-sp-8:8px;--bz-control-h:44px;--bz-sp-16:16px;--bz-r-pill:999px;--bz-line-2:rgba(238,231,219,.24);--bz-text:#eee7db;--bz-font-sans:Figtree,Arial,sans-serif;--bz-dur-hover:.15s;--bz-ease-standard:cubic-bezier(.2,0,0,1);--bz-fs-btn:14px;--bz-sp-24:24px;--bz-on-gold:#17140f;--bz-gold-hover:#e3cb95;--bz-focus-width:2px;--bz-focus-color:#c9a96e;--bz-focus-offset:3px;--bz-ink:#24201b;--bz-fs-price:20px;--bz-lh-price:1.2;--bz-fs-price-lg:clamp(28px,25.03px + .762vw,36px);--bz-container-max:1440px;--bz-sp-28:28px;--bz-sp-20:20px;--bz-margin:20px;--bz-r-panel:28px;--bz-sp-40:40px;--bz-ritual-surface:#1a1618;--bz-line-divider:rgba(238,231,219,.12);--bz-sp-72:72px;--bz-sp-12:12px;--bz-r-img:10px;--bz-surface-2:#29261f;--bz-bg:#141312;--bz-icon-sm:18px;--bz-sp-4:4px;--bz-sp-48:48px;--bz-text-3:#958d7f;--bz-r-card:18px;--bz-bg-2:#1b1917;--bz-fs-body:16px;--bz-surface:#201e1b;--bz-fs-sm:14px;--bz-grid-gap:12px;--bz-line-field:rgba(238,231,219,.4)}
+@media (min-width:1024px){.bzr{--bz-margin:28px;--bz-grid-gap:20px}}
 .bzr .bz .bz-sr, .bzr .bz-vh { position: absolute; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border: 0px; }
 .bzr .bz-scope * { box-sizing: border-box; }
 .bzr .bz-scope button, .bzr .bz-scope input, .bzr .bz-scope textarea { font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-width: inherit; font-size: inherit; line-height: inherit; font-family: inherit; font-size-adjust: inherit; font-kerning: inherit; font-variant-alternates: inherit; font-variant-ligatures: inherit; font-variant-numeric: inherit; font-variant-east-asian: inherit; font-variant-position: inherit; font-variant-emoji: inherit; font-feature-settings: inherit; font-optical-sizing: inherit; font-variation-settings: inherit; }
@@ -9,12 +12,14 @@
 .bzr .bz-scope h1, .bzr .bz-scope h2, .bzr .bz-scope h3, .bzr .bz-scope p { margin: 0px; }
 .bzr .bz-scope h1, .bzr .bz-scope h2, .bzr .bz-scope h3 { font-family: var(--serif); font-weight: 400; line-height: 1.1; }
 .bzr .bz-scope h2 { font-size: clamp(30px, 3.4vw, 48px); }
+.bzr .bz-scope h3 { font-size: clamp(24px, 2.3vw, 32px); }
 .bzr .bz-scope em { font-weight: 400; color: var(--gold); }
 .bzr .bz-scope p { color: var(--ivory2); margin-top: 16px; max-width: 72ch; }
 .bzr .bz-scope small { font-size: 12px; color: var(--mute); }
 .bzr .bz-scope button { color: inherit; border: 0px; background: none; }
 .bzr .bz-scope a, .bzr .bz-scope button { touch-action: manipulation; }
 .bzr .bz-scope a:focus-visible, .bzr .bz-scope button:focus-visible, .bzr .bz-scope summary:focus-visible, .bzr .bz-scope input:focus-visible, .bzr .bz-scope textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.bzr .bz-scope [hidden] { display: none !important; }
 .bzr .bz-scope .btn { display: inline-flex; align-items: center; justify-content: center; gap: 18px; padding: 14px 24px; border: 1px solid transparent; border-radius: 100px; font-size: 14px; font-weight: 600; line-height: 1.25; max-width: 100%; text-align: center; min-height: 46px; }
 .bzr .bz-scope .gold { background: linear-gradient(120deg,var(--goldl),var(--gold)); color: rgb(33, 27, 17); }
 .bzr .bz-scope .btn:hover { transform: translateY(-2px); }
@@ -24,40 +29,93 @@
 @media (max-width: 900px){.bzr .bz-scope .price { font-size: 22px; }}
 @media (prefers-reduced-motion: reduce){.bzr .bz-scope *, .bzr .bz-scope ::before, .bzr .bz-scope ::after { animation: auto !important; transition: none !important; scroll-behavior: auto !important; }}
 .bzr .bz-scope .ritual-grid { display: grid; grid-template-columns: repeat(3, minmax(0px, 1fr)); gap: 14px; margin-top: 28px; }
+.bzr .bz-scope .ritual-grid h3 { font-size: 29px; }
 .bzr .bz-scope .ritual-grid p { font-size: 14px; }
 @media (max-width: 900px){.bzr .bz-scope .ritual-grid { grid-template-columns: 1fr 1fr; }}
 @media (max-width: 600px){.bzr .bz-scope .ritual-grid { grid-template-columns: 1fr; }}
 .bzr .bz-scope .bz-sh { display: grid; grid-template-columns: minmax(0px, 1fr) auto; align-items: end; gap: 16px 20px; margin: 0px 0px 24px; }
 .bzr .bz-scope .bz-sh > h2, .bzr .bz-scope .bz-sh > .bz-sh-title { grid-column-start: 1; grid-column-end: auto; margin: 0px; min-width: 0px; }
-.bzr .bz-scope .bz-sh > .bz-sh-sub { grid-column-start: 1; grid-column-end: -1; margin: -6px 0px 0px; max-width: 62ch; color: var(--ivory2); font-size: 15px; }
+.bzr .bz-scope .bz-sh > .bz-switch { grid-column-start: 1; grid-column-end: -1; }
 .bzr .bz-scope .bz-vh { width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border: 0px; position: absolute !important; }
 @media (max-width: 767px){.bzr .bz-scope .bz-sh { gap: 14px 12px; margin-bottom: 20px; }}
 @media (prefers-reduced-motion: reduce){.bzr .bz-scope .btn:hover { transform: none; }}
+.bzr .bz-page-home h2 { margin-bottom: 24px; }
+.bzr .bz-page-home .ritual-section { background: linear-gradient(120deg, rgb(44, 29, 32), rgb(34, 28, 24)); padding: 28px; border-radius: 28px; }
+.bzr .bz-page-home .ritual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.bzr .bz-page-home .ritual-list { background: rgb(25, 22, 21); border: 1px solid var(--line); border-radius: 24px; padding: 24px; min-width: 0px; }
+.bzr .bz-page-home .ritual-total { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 24px; }
+.bzr .bz-page-home .ritual-total .price { font-size: 34px; }
+.bzr .bz-page-home .ritual-total .btn { padding: 14px 20px; }
+@media (max-width: 900px){.bzr .bz-page-home .ritual-section { padding: 22px; }}
+@media (max-width: 900px){.bzr .bz-page-home .ritual-grid { gap: 12px; }}
+@media (max-width: 900px){.bzr .bz-page-home .ritual-list { padding: 16px; }}
+@media (max-width: 900px){.bzr .bz-page-home .ritual-total { flex-wrap: wrap; }}
+@media (max-width: 900px){.bzr .bz-page-home .ritual-total .btn { width: 100%; }}
+@media (max-width: 600px){.bzr .bz-page-home .ritual-section { padding: 18px 14px; }}
+@media (max-width: 600px){.bzr .bz-page-home .ritual-grid { grid-template-columns: 1fr; }}
+@media (max-width: 600px){.bzr .bz-page-home .ritual-list { padding: 17px; }}
+@media (max-width: 600px){.bzr .bz-page-home .ritual-total { margin-top: 20px; }}
+@media (prefers-reduced-motion: reduce){.bzr .bz-page-home *, .bzr .bz-page-home ::before, .bzr .bz-page-home ::after { animation: auto !important; scroll-behavior: auto !important; }}
+.bzr .bz-page-home .ritual-grid { grid-template-columns: minmax(0px, 0.9fr) minmax(0px, 1.1fr); align-items: stretch; }
+.bzr .bz-page-home .ritual-row { position: relative; display: grid; grid-template-columns: 24px 56px minmax(0px, 1fr); gap: 14px; align-items: center; padding: 18px 0px; border-bottom: 1px dashed var(--line2); cursor: pointer; }
+.bzr .bz-page-home .ritual-row img { width: 56px; height: 56px; border-radius: 10px; object-fit: cover; }
+.bzr .bz-page-home .ritual-product { font: 14px/1.4 var(--sans); color: var(--ivory); }
+.bzr .bz-page-home .row-price { display: block; font: 20px var(--serif); margin-top: 6px; }
+.bzr .bz-page-home .set-check { display: grid; place-items: center; width: 24px; height: 24px; border: 1.5px solid rgba(238, 231, 219, 0.32); border-radius: 7px; }
+.bzr .bz-page-home .set-check svg { opacity: 0; }
+.bzr .bz-page-home .ritual-row input:checked + .set-check { background: linear-gradient(120deg,var(--goldl),var(--gold)); border-color: transparent; color: rgb(33, 27, 17); }
+.bzr .bz-page-home .ritual-row input:checked + .set-check svg { opacity: 1; }
+.bzr .bz-page-home .ritual-row input:focus-visible + .set-check { outline: 2px solid var(--gold); outline-offset: 4px; }
+.bzr .bz-page-home .ritual-total .price { font-size: 40px; }
+.bzr .bz-page-home .ritual-total .btn { min-height: 48px; }
+.bzr .bz-page-home .ritual-total button:disabled { opacity: 0.45; }
+.bzr .bz-page-home .ritual-visual { position: relative; min-width: 0px; overflow: hidden; border-radius: var(--r); background: var(--deep); }
+.bzr .bz-page-home .ritual-shot { position: relative; height: 100%; min-height: 430px; }
+.bzr .bz-page-home .ritual-caption { position: absolute; inset: 0px; display: flex; flex-direction: column; justify-content: end; padding: 28px; background: linear-gradient(transparent 40%, rgba(13, 12, 11, 0.88) 100%); }
+.bzr .bz-page-home .ritual-caption h3 { font-size: 40px; }
+.bzr .bz-page-home .ritual-caption p { font-size: 14px; color: var(--ivory); margin-top: 10px; }
+@media (min-width: 1024px) and (max-width: 1100px){.bzr .bz-page-home .ritual-grid { grid-template-columns: 1fr 1fr; }}
+@media (max-width: 1023px){.bzr .bz-page-home .ritual-grid { grid-template-columns: 1fr; }}
+@media (max-width: 1023px){.bzr .bz-page-home .ritual-visual { order: -1; }}
+@media (max-width: 1023px){.bzr .bz-page-home .ritual-shot { min-height: 0px; aspect-ratio: 16 / 10; }}
+@media (max-width: 1023px){.bzr .bz-page-home .ritual-list { padding: 24px; }}
+@media (max-width: 767px){.bzr .bz-page-home .ritual-section { padding: 22px 0px; }}
+@media (max-width: 767px){.bzr .bz-page-home .ritual-shot { aspect-ratio: 4 / 3; }}
+@media (max-width: 767px){.bzr .bz-page-home .ritual-caption { padding: 22px; }}
+@media (max-width: 767px){.bzr .bz-page-home .ritual-caption h3 { font-size: 34px; }}
+@media (max-width: 767px){.bzr .bz-page-home .ritual-list { padding: 18px; }}
+@media (max-width: 767px){.bzr .bz-page-home .ritual-row { gap: 10px; }}
+@media (max-width: 767px){.bzr .bz-page-home .ritual-total .btn { width: 100%; }}
 .bzr .ritual-list { background: var(--card); border: 1px solid var(--line); border-radius: 18px; }
 .bzr .btn { border-radius: 999px; }
 .bzr .btn.gold { background: rgb(201, 169, 110); color: rgb(20, 19, 18); border-color: rgb(201, 169, 110); }
 .bzr .ritual-row input:checked + .set-check { background: rgb(201, 169, 110); }
 .bzr .ritual-row img { border-radius: 12px; }
+.bzr .ritual-caption h3 { font-size: clamp(22px, 2vw, 28px); }
 .bzr .ritual-row .row-price { font-size: 22px; }
 .bzr .ritual-total .price { font-size: 28px; }
-.bzr .bz-home, .bzr .bz-home * { box-sizing: border-box; }
-.bzr .bz-home h1, .bzr .bz-home h2, .bzr .bz-home h3 { font-family: Baskervville,var(--serif),Georgia,serif; font-weight: 400; letter-spacing: -0.005em; color: rgb(238, 231, 219); }
-.bzr .bz-home em { font-style: italic; color: rgb(201, 169, 110); }
 .bzr .bz-scope h2 { letter-spacing: var(--bz-ls-h2); text-wrap: balance; hyphens: manual; font-family: var(--bz-font-serif) !important; font-size: var(--bz-fs-h2) !important; font-weight: 400 !important; line-height: var(--bz-lh-h2) !important; }
+.bzr .bz-scope h3 { text-wrap: balance; hyphens: manual; font-family: var(--bz-font-serif) !important; font-size: var(--bz-fs-h3) !important; font-weight: 400 !important; line-height: var(--bz-lh-h3) !important; }
 .bzr .bz-scope p, .bzr .bz-scope .bz-sh-sub { font-size: var(--bz-fs-lead); line-height: var(--bz-lh-body); color: var(--bz-text-2); text-wrap: pretty; hyphens: manual; overflow-wrap: break-word; }
 .bzr .bz-scope em { color: var(--bz-gold); font-weight: 400; }
-.bzr .bz-scope :is(.btn, .bz-row-link) { display: inline-flex; align-items: center; justify-content: center; gap: var(--bz-sp-8); min-height: var(--bz-control-h); padding: 0 var(--bz-sp-16); border-radius: var(--bz-r-pill); border: 1px solid var(--bz-line-2); background: none; color: var(--bz-text); font-family: var(--bz-font-sans); font-weight: 500; line-height: 1; white-space: nowrap; text-decoration: none; transition: background-color var(--bz-dur-hover) var(--bz-ease-standard),border-color var(--bz-dur-hover) var(--bz-ease-standard); font-size: var(--bz-fs-btn) !important; }
+.bzr .bz-ds-reveal { opacity: 0; transform: translateY(12px); }
 .bzr .bz-scope .btn.gold, .bzr .bz-scope a.gold, .bzr .bz-scope button.gold { padding-inline: var(--bz-sp-24); border-color: transparent; background: var(--bz-gold); color: var(--bz-on-gold); font-weight: 600; }
 @media (hover: hover){.bzr .bz-scope .btn.gold:hover, .bzr .bz-scope a.gold:hover, .bzr .bz-scope button.gold:hover { background: var(--bz-gold-hover); }}
-.bzr .bz-scope :is(.btn, .bz-row-link):hover { transform: none; }
-.bzr .bz-scope :is(.btn, .bz-row-link):active { transform: scale(0.98); }
 .bzr .bz-scope :is(a, button, summary, input, textarea):focus-visible { outline: var(--bz-focus-width) solid var(--bz-focus-color); outline-offset: var(--bz-focus-offset); }
-.bzr .bz-scope :is(.btn, .add, .bz-card__add):disabled, .bzr .bz-scope :is(.btn, .add)[aria-disabled="true"] { opacity: 0.38; pointer-events: none; }
-.bzr .bz-scope :is(.price, .bz-price, .row-price, .compare-price, .ay-price) { white-space: nowrap; font-variant-numeric: lining-nums tabular-nums; font-family: var(--bz-font-serif) !important; font-size: var(--bz-fs-price) !important; font-weight: 400 !important; line-height: var(--bz-lh-price) !important; color: var(--bz-text) !important; }
-.bzr .bz-scope :is(.bz-pdp .price, .bz-buy__price strong, .cura-product-copy .price, .ritual-total .price, .bz-price--lg) { font-variant-numeric: lining-nums tabular-nums; font-size: var(--bz-fs-price-lg) !important; font-family: var(--bz-font-serif) !important; font-weight: 400 !important; line-height: var(--bz-lh-price) !important; color: var(--bz-text) !important; }
-.bzr .bz-scope :is(.bz-pair__name, .ritual-product, .cura-product-copy h3) { white-space: normal; overflow-wrap: anywhere; text-wrap: pretty; }
+.bzr .bz-scope :is(.btn, .add)[aria-disabled="true"] { opacity: 0.38; pointer-events: none; }
 .bzr .bz-scope .ritual-section { width: min(100%,calc(var(--bz-container-max) - 2 * var(--bz-sp-28))); margin-inline: auto; padding: 0px; border: 0px; border-radius: 0px; background: none; overflow: visible; }
 .bzr .bz-scope .ritual-section .bz-sh { row-gap: 22px; margin-block-end: var(--bz-sp-20); }
+.bzr .bz-scope .ritual-section--home .bz-sh > h2 { letter-spacing: normal; font-size: clamp(32px, 4vw, 48px) !important; line-height: 1.05 !important; }
+.bzr .bz-scope .ritual-section.ritual-section--home { position: relative; isolation: isolate; width: 100%; padding: var(--bz-sp-16) var(--bz-margin); border-radius: var(--bz-r-panel); background: rgb(27, 23, 20); }
+.bzr .bz-scope .ritual-section--home .ritual-bg { position: absolute; inset: 0px; z-index: -1; border-radius: inherit; opacity: 0; pointer-events: none; background: radial-gradient(ellipse 70% 90% at 78% 30%,var(--ritual-tone,#2b2142),transparent 70%),linear-gradient(125deg,var(--ritual-tone,#2b2142),var(--ritual-tone-end,#171420) 75%); transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.bzr .bz-scope .ritual-section--home .ritual-bg.on { opacity: 1; }
+.bzr .bz-scope .ritual-bg[data-tone="set-0"] { --ritual-tone: #2b2142; --ritual-tone-end: #171420; }
+.bzr .bz-scope .ritual-bg[data-tone="set-1"] { --ritual-tone: #3d1e15; --ritual-tone-end: #1d1511; }
+.bzr .bz-scope .ritual-bg[data-tone="set-2"] { --ritual-tone: #1c222b; --ritual-tone-end: #111214; }
+.bzr .bz-scope .ritual-bg[data-tone="set-3"] { --ritual-tone: #3b1e2b; --ritual-tone-end: #1c1518; }
+.bzr .bz-scope .ritual-bg[data-tone="set-4"] { --ritual-tone: #16233f; --ritual-tone-end: #12151c; }
+.bzr .bz-scope .ritual-bg[data-tone="set-5"] { --ritual-tone: #1f1b3a; --ritual-tone-end: #22180f; }
+@media (prefers-reduced-motion: reduce){.bzr .bz-scope .ritual-section--home .ritual-bg { transition: none; }}
 .bzr .bz-scope .ritual-section .ritual-grid { display: grid; grid-template-columns: minmax(0px, 1fr); grid-template-areas: "panel" "visual"; gap: var(--bz-sp-16); max-width: 640px; margin: 0px auto; }
 .bzr .bz-scope .ritual-section .ritual-list { grid-row-start: panel; grid-column-start: panel; grid-row-end: panel; grid-column-end: panel; min-width: 0px; padding: var(--bz-sp-20); border: 0px; border-radius: var(--bz-sp-24); background: var(--bz-ritual-surface); box-shadow: inset 0 0 0 1px var(--bz-line-divider); }
 .bzr .bz-scope .ritual-section .ritual-rows { display: grid; }
@@ -86,21 +144,37 @@
 .bzr .bz-scope .ritual-section .ritual-status { flex: 1 0 100%; margin: 0px; order: 3; }
 .bzr .bz-scope .ritual-section .ritual-status { font-size: 13px; }
 .bzr .bz-scope .ritual-section .ritual-status:empty { position: absolute; }
+.bzr .bz-scope .ritual-section--home :is(.ritual-count, .ritual-compare) { color: var(--bz-text-2); }
 .bzr .bz-scope .ritual-section .ritual-visual { grid-row-start: visual; grid-column-start: visual; grid-row-end: visual; grid-column-end: visual; order: 0; position: relative; margin-inline: var(--bz-sp-40); overflow: hidden; border-radius: var(--bz-r-card); background: var(--bz-bg-2); aspect-ratio: 16 / 10; }
 .bzr .bz-scope .ritual-section .ritual-shot { position: absolute; inset: 0px; width: 100%; height: 100%; min-height: 0px; aspect-ratio: auto; object-fit: cover; }
+.bzr .bz-scope .ritual-section .ritual-caption { position: absolute; inset: auto var(--bz-sp-20) 18px; z-index: 1; display: block; padding: 0px; background: none; }
+.bzr .bz-scope .ritual-section .ritual-caption h3 { text-wrap: wrap; font-size: 28px !important; line-height: 1.05 !important; }
+.bzr .bz-scope .ritual-section .ritual-caption p { margin: var(--bz-sp-4) 0 0; font-size: 13px; color: var(--bz-text-2); }
+.bzr .bz-scope .ritual-section--home .ritual-caption { padding: var(--bz-sp-8) var(--bz-sp-12); border-radius: var(--bz-r-img); background: rgba(20, 19, 18, 0.85); }
 @media (min-width: 768px){.bzr .bz-scope .ritual-section .ritual-grid:not(.ritual-grid--solo) { grid-template-areas: "visual" "panel"; }}
 @media not (min-width: 1024px){.bzr .bz-scope .ritual-section { display: flex; flex-direction: column; }}
 @media not (min-width: 1024px){.bzr .bz-scope .ritual-section .bz-sh, .bzr .bz-scope .ritual-section .ritual-grid:not([hidden]) { display: contents; }}
 @media not (min-width: 1024px){.bzr .bz-scope .ritual-section .bz-sh > h2 { margin-block-end: 22px; }}
-@media not (min-width: 1024px){.bzr .bz-scope .ritual-section .bz-sh > .bz-sh-sub { margin-block-end: var(--bz-sp-20); }}
 @media not (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-visual { order: 1; margin: 0 0 var(--bz-sp-20); width: 100%; aspect-ratio: 16 / 9; }}
 @media not (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-visual::after { content: ""; position: absolute; inset: 0px; pointer-events: none; background: linear-gradient(0deg, rgba(20, 19, 18, 0.86), rgba(20, 19, 18, 0.5) 38%, rgba(20, 19, 18, 0) 70%); }}
 @media not (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-shot { object-position: center 58%; }}
+@media not (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-caption { inset: auto var(--bz-sp-16) 14px; }}
+@media not (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-caption h3 { font-size: clamp(26px, 7vw, 32px) !important; }}
+@media not (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-caption p { line-height: 18px; }}
 @media not (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-list { order: 3; }}
+@media (min-width: 768px) and (not (min-width: 1024px)){.bzr .bz-scope .ritual-section .ritual-caption { inset-inline-start: var(--bz-sp-28); bottom: var(--bz-sp-24); }}
+@media (min-width: 768px) and (not (min-width: 1024px)){.bzr .bz-scope .ritual-section .ritual-caption h3 { font-size: var(--bz-sp-40) !important; }}
+@media (min-width: 768px) and (not (min-width: 1024px)){.bzr .bz-scope .ritual-section .ritual-caption p { font-size: 15px; line-height: 22px; }}
+@media (min-width: 1024px){.bzr .bz-scope .ritual-section.ritual-section--home { padding: var(--bz-sp-24); }}
+@media (min-width: 1024px){.bzr .bz-scope .ritual-section--home .ritual-product { display: -webkit-box; -webkit-box-orient: vertical; line-clamp: 2 -webkit-legacy; overflow: hidden; }}
 @media (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-grid { max-width: none; gap: var(--bz-sp-24); align-items: start; }}
 @media (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-visual { aspect-ratio: 21 / 9; margin: 0px; border-radius: var(--bz-r-panel); }}
 @media (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-visual::after { content: ""; position: absolute; inset: 0px; pointer-events: none; background: linear-gradient(90deg, rgba(20, 19, 18, 0.78), rgba(20, 19, 18, 0.4) 16%, rgba(20, 19, 18, 0.08) 28%, rgba(20, 19, 18, 0) 42%); }}
 @media (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-shot { object-position: center 58%; }}
+@media (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-caption { inset: 50% auto auto 36px; transform: translateY(-50%); max-width: 240px; }}
+@media (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-caption h3 { font-size: clamp(32px, 3vw, 44px) !important; }}
+@media (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-caption em { display: block; }}
+@media (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-caption p { margin-top: var(--bz-sp-8); font-size: var(--bz-fs-body); line-height: 24px; }}
 @media (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-list { padding: 0px; border-radius: 0px; background: none; box-shadow: none; }}
 @media (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-rows { grid-template-columns: repeat(3, minmax(0px, 1fr)); align-items: stretch; gap: var(--bz-sp-20); }}
 @media (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-row { display: flex; flex-direction: column; align-items: stretch; gap: 6px; height: auto; min-height: 0px; padding: var(--bz-sp-16); background: var(--bz-surface); border-radius: var(--bz-sp-16); box-shadow: none; }}
@@ -113,25 +187,42 @@
 @media (min-width: 1024px){.bzr .bz-scope .ritual-section .ritual-total .btn { width: auto; min-width: 220px; height: var(--bz-sp-48); margin-inline-start: auto; font-size: 15px !important; }}
 @media (min-width: 1280px){.bzr .bz-scope .ritual-section .ritual-row { padding: var(--bz-sp-20); }}
 @media (min-width: 1280px){.bzr .bz-scope .ritual-section .ritual-product { font-size: 18px; line-height: 24px; }}
+.bzr .bz-scope .ritual-section[hidden], .bzr .bz-scope .ritual-section .ritual-grid[hidden] { display: none; }
+.bzr .bz-scope :is(.ritual-section--home, .ritual-section--product):not([hidden]) { display: block; }
+.bzr .bz-scope :is(.ritual-section--home, .ritual-section--product) .bz-sh { display: grid; }
+.bzr .bz-scope :is(.ritual-section--home, .ritual-section--product) .ritual-grid { max-width: none; }
 .bzr .bz-scope .ritual-section--home .ritual-grid:not([hidden]), .bzr .bz-scope .ritual-section--product .ritual-grid:not([hidden]) { display: grid; }
+.bzr .bz-scope .ritual-section--home .ritual-grid:not(.ritual-grid--solo) { grid-template-areas: "visual" "panel"; }
+.bzr .bz-scope .ritual-section--home .ritual-visual { display: grid; gap: var(--bz-sp-8); align-content: start; margin: 0px; aspect-ratio: auto; background: none; }
 .bzr .bz-scope .ritual-section--home .ritual-visual::after, .bzr .bz-scope .ritual-section--product .ritual-visual::after { content: none; }
-.bzr .bz-scope .ritual-section--product .ritual-list { background: color-mix(in srgb,var(--bz-ritual-surface),white 7%); }
+.bzr .bz-scope .ritual-section--home .ritual-shot { position: static; display: block; height: auto; aspect-ratio: 4 / 3; object-fit: contain; object-position: center center; border-radius: var(--bz-r-card); }
+.bzr .bz-scope .ritual-section--home .ritual-caption { position: static; transform: none; max-width: none; background: none; }
+.bzr .bz-scope .ritual-section--home .ritual-caption h3 { font-size: 24px !important; }
+.bzr .bz-scope .ritual-section--home .ritual-caption em { display: inline; }
+.bzr .bz-scope .ritual-section--home .ritual-caption p { font-size: var(--bz-fs-sm); }
+.bzr .bz-scope :is(.ritual-section--home, .ritual-section--product) .ritual-list { padding: clamp(var(--bz-sp-12),2vw,var(--bz-sp-24)); border-radius: var(--bz-r-panel); box-shadow: inset 0 0 0 1px var(--bz-line-divider); }
+.bzr .bz-scope .ritual-section--home .ritual-list { background: rgba(255, 255, 255, 0.08); }
+.bzr .bz-scope .ritual-section--home .ritual-rows { grid-template-columns: repeat(3, minmax(0px, 1fr)); gap: clamp(var(--bz-sp-8),1.5vw,var(--bz-sp-20)); }
+.bzr .bz-scope .ritual-section--home .ritual-row { display: flex; flex-direction: column; align-items: stretch; gap: var(--bz-sp-4); min-width: 0px; min-height: 0px; padding: 0px; background: none; box-shadow: none; overflow-wrap: anywhere; }
+.bzr .bz-scope .ritual-section--home .ritual-row-media { max-width: 160px; }
 .bzr .bz-scope .ritual-section--home :is(.ritual-row-media, .ritual-item, .row-price) { align-self: auto; }
-.bzr .bz-scope .ritual-section--product .ritual-grid:not(.ritual-grid--solo) { grid-template-areas: "panel"; }
-.bzr .bz-scope .ritual-section--product .ritual-visual { display: none; }
-.bzr .bz-scope .ritual-section--product .row-price { align-self: center; }
-@media (min-width: 1024px){.bzr .bz-scope .ritual-section--product .ritual-grid:not(.ritual-grid--solo) { grid-template-columns: minmax(0px, 1fr) minmax(0px, 260px); grid-template-areas: "panel visual"; align-items: stretch; }}
-@media (min-width: 1024px){.bzr .bz-scope .ritual-section--product .ritual-visual { display: block; aspect-ratio: auto; }}
-@media (min-width: 1024px){.bzr .bz-scope .ritual-section--product .ritual-shot { object-position: center center; }}
-@media (min-width: 1024px){.bzr .bz-scope .ritual-section--product .ritual-row { display: grid; align-items: center; padding: var(--bz-sp-8) 0; min-height: 0px; background: none; }}
-@media (min-width: 1024px){.bzr .bz-scope .ritual-section--product .ritual-rows { grid-template-columns: minmax(0px, 1fr); }}
-@media (min-width: 1024px){.bzr .bz-scope .ritual-section--product .ritual-item { display: flex; }}
-@media (min-width: 1024px){.bzr .bz-scope .ritual-section--product .row-price { text-align: end; }}
+.bzr .bz-scope .ritual-section--home .ritual-product { display: block; font-size: var(--bz-fs-sm); line-height: 1.35; }
+.bzr .bz-scope .ritual-section--home .row-price { margin-top: auto; text-align: start; font-size: var(--bz-fs-body) !important; }
+@media (max-width: 767px){.bzr .bz-scope .ritual-section--home .ritual-product { display: -webkit-box; -webkit-box-orient: vertical; line-clamp: 3 -webkit-legacy; overflow: hidden; }}
+@media (min-width: 1024px){.bzr .bz-scope .ritual-section--home .ritual-grid:not(.ritual-grid--solo) { grid-template-columns: minmax(0px, 42fr) minmax(0px, 58fr); grid-template-areas: "visual panel"; align-items: stretch; }}
+@media (min-width: 1024px){.bzr .bz-scope .ritual-section--home .ritual-grid:not(.ritual-grid--solo) .ritual-list { display: flex; flex-direction: column; }}
+@media (min-width: 1024px){.bzr .bz-scope .ritual-section--home .ritual-grid:not(.ritual-grid--solo) .ritual-total { margin-top: auto; }}
+@media (min-width: 1024px){.bzr .bz-scope .ritual-section--home .ritual-rows { gap: var(--bz-grid-gap); }}
+@media (min-width: 1024px){.bzr .bz-scope .ritual-section--home .ritual-grid:not(.ritual-grid--solo) .ritual-rows { flex: 1 1 0%; align-content: center; }}
+@media (min-width: 1024px){.bzr .bz-scope .ritual-section--home .ritual-row-media { max-width: none; }}
+@media (min-width: 1024px){.bzr .bz-scope .ritual-section--home .ritual-product { font-size: 16px; }}
+@media (min-width: 1024px){.bzr .bz-scope .ritual-section--home .row-price { font-size: 18px !important; }}
 .bzr .bz-scope input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="number"]) { height: var(--bz-control-h); min-height: var(--bz-control-h); padding: 0 var(--bz-sp-20); border: 1px solid var(--bz-line-field); border-radius: var(--bz-r-pill); background: var(--bz-surface); color: var(--bz-text); font-size: var(--bz-fs-body); line-height: 1; }
 .bzr .bz-scope input::placeholder { color: var(--bz-text-3); opacity: 1; }
 @media (prefers-reduced-motion: reduce){.bzr *, .bzr ::before, .bzr ::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }}
-/* regole del sorgente PR #31 (assets/bz-ds.css @ d770a04) non ancora nel CSS servito */
-.bzr .bz-scope :is(.bz-product-tile__sub,.ritual-row__sub){display:block;
+@media (prefers-reduced-motion: reduce){.bzr .bz-ds-reveal, .bzr .bz-ds-reveal.is-in, .bzr .bz-motion .bz-reveal, .bzr .bz-motion .bz-reveal.is-in { opacity: 1 !important; transform: none !important; transition: opacity 0.15s linear !important; }}
+/* sottotitolo riga: regola di assets/bz-ds.css @ d770a04 */
+.bzr .bz-scope .ritual-row__sub{display:block;
   min-width:0;
   max-height:32px;
   margin:0;
@@ -143,15 +234,11 @@
   overflow-wrap:normal;
   word-break:normal;
   hyphens:manual;}
-.bzr .bz-scope .ritual-section .ritual-row.is-unavailable{cursor:default}
-.bzr .bz-scope .ritual-row:has(input:not(:checked)) .ritual-thumb{opacity:.7}
-.bzr .bz-scope .ritual-section .ritual-compare{display:block;
-  color:var(--bz-text-3);
-  font-size:var(--bz-fs-sm);}
-.bzr .bz-scope .ritual-section .ritual-saving{display:inline-flex;
-  padding:var(--bz-sp-4) 10px;
-  border:1px solid var(--bz-line-2);
-  border-radius:var(--bz-r-pill);
-  color:var(--bz-gold);
-  font-size:var(--bz-fs-xs);}
-.bzr .bz-scope .ritual-section[hidden], .bzr .bz-scope .ritual-section .ritual-grid[hidden]{display:none}
+/* VELATURA (PDP): base scura neutra uguale per tutti; sopra un alone sfumato nel colore del prodotto, sempre scuro e spento.
+   --bz-veil arriva dalla sezione (metafield custom.velatura, poi mappa pietra/collezione → famiglia); se manca resta il neutro. */
+.bzr .bz-scope .ritual-section--home{--bz-veil:#2a2725;background:#1b1714}
+.bzr .bz-scope .ritual-section--home .ritual-bg{background:
+  radial-gradient(ellipse 70% 62% at 72% 62%,var(--bz-veil),transparent 72%),
+  radial-gradient(ellipse 60% 50% at 18% 12%,color-mix(in srgb,var(--bz-veil) 55%,transparent),transparent 70%)}
+/* AA sopra la velatura: il conteggio (12px) passa da --bz-text-3 a avorio al 70% (≥ 6:1 su tutte le velature) */
+.bzr .bz-scope .ritual-section--home .ritual-count{color:color-mix(in srgb,var(--bz-text) 70%,transparent)}
