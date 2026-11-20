@@ -28,11 +28,14 @@
 .lb-ribbon,.lb-open{position:absolute;left:var(--cx);top:var(--cy);width:var(--cw);height:var(--ch);z-index:4}
 .lb-ribbon{pointer-events:none}
 .lb-ribbon>*{position:absolute;display:block;max-width:none;transition:transform 620ms cubic-bezier(.3,.6,.3,1),opacity 480ms linear}
-.lb-ribbon{--k:calc(var(--cw) * .000625)}
+.lb-ribbon{--k:calc(var(--cw) * .000625);overflow:hidden;border-radius:0 .2em .2em 0}
+/* nastro in obliquo sul piatto (−60°): entra dal taglio inferiore ed esce da quello superiore, così non passa mai sulle linguette */
+.rb-rot{position:absolute;left:50%;top:50%;width:calc(var(--ch) * 1.3);height:calc(var(--k) * 114);margin:calc(var(--k) * -57) 0 0 calc(var(--ch) * -.65);transform:rotate(-60deg)}
+.rb-rot .rb-band{position:absolute;display:block;top:0!important;height:100%!important;transition:transform 620ms cubic-bezier(.3,.6,.3,1),opacity 480ms linear}
 .rb-band{top:calc(56% - var(--k) * 57);height:calc(var(--k) * 114);background:url(img/nastro/fascia2.webp) center/200% 100% no-repeat;filter:drop-shadow(0 .1em .14em rgba(0,0,0,.5))}
 .rb-band--l{left:-.6%;width:50.8%;transform-origin:left center;background-position:left center}
 .rb-band--r{right:-.6%;width:50.8%;transform-origin:right center;background-position:right center}
-.rb-knot{left:calc(50% - var(--k) * 174);top:calc(56% - var(--k) * 57);width:calc(var(--k) * 360);height:calc(var(--k) * 354)}
+.rb-knot{left:calc(50% - var(--k) * 174);top:calc(50% - var(--k) * 57);transform:rotate(-34deg);transform-origin:48% 16%;width:calc(var(--k) * 360);height:calc(var(--k) * 354)}
 .rb-knot img{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 .12em .16em rgba(0,0,0,.5));transform-origin:48% 16%;transition:transform 560ms cubic-bezier(.3,.6,.3,1),opacity 420ms linear}
 .is-untying .rb-nodo{transform:translateY(10%) rotate(-7deg) scale(.72);opacity:0}
 .is-untying .rb-band--l{transform:translateX(-14%) scaleX(.3);opacity:0;transition-delay:150ms}
