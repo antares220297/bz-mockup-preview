@@ -2278,46 +2278,75 @@ Vedi tutto
 </section>
 
 
-</div><div id="shopify-section-template--33797065933138__bz_stones" class="shopify-section"><section class="bz-officina" id="officina" aria-labelledby="officina-title">
+</div><div id="shopify-section-template--33797065933138__bz_stones" class="shopify-section"><section class="bz-officina" id="officina" data-bz-officina aria-labelledby="officina-title">
+  <div class="bz-officina-veil" aria-hidden="true"></div>
   <div class="bz-sh">
     <h2 id="officina-title" class="bz-ds-reveal is-in">L'officina del <em>corpo</em></h2>
   </div>
-  <div class="bz-officina-track" tabindex="0" aria-label="Capitoli dell'officina del corpo">
-    <a class="bz-officina-card" href="https://benesserezen.shop/collections/profumi-in-olio">
-      <img src="assets/officina-olio.jpg" alt="Profumo ayurvedico roll-on all'ambra" width="1200" height="1500" loading="lazy" decoding="async">
-      <div class="bz-officina-cap">
-        <h3>Olio</h3>
-        <p>Si lascia sui polsi, e resta sulla pelle per tutta la sera.</p>
-      </div>
-    </a>
-    <a class="bz-officina-card" href="https://benesserezen.shop/collections/sali-da-bagno">
-      <img src="assets/officina-bagno.jpg" alt="Sali himalayani alla lavanda" width="1200" height="1500" loading="lazy" decoding="async">
-      <div class="bz-officina-cap">
-        <h3>Bagno</h3>
-        <p>I sali si sciolgono nell'acqua calda, quando si chiude la porta.</p>
-      </div>
-    </a>
-    <a class="bz-officina-card" href="https://benesserezen.shop/collections/candele-e-brucia-candele">
-      <img src="assets/officina-candela.jpg" alt="Candela Song of India Sleep" width="1200" height="1500" loading="lazy" decoding="async">
-      <div class="bz-officina-cap">
-        <h3>Candela</h3>
-        <p>Si accende e la stanza cambia odore.</p>
-      </div>
-    </a>
-    <a class="bz-officina-card" href="https://benesserezen.shop/collections/saponi-naturali-ayurvedici">
-      <img src="assets/officina-sapone.jpg" alt="Sapone ayurvedico alla curcuma" width="1200" height="1500" loading="lazy" decoding="async">
-      <div class="bz-officina-cap">
-        <h3>Sapone</h3>
-        <p>Il gesto di ogni mattina, con oli e spezie.</p>
-      </div>
-    </a>
-    <a class="bz-officina-card" href="https://benesserezen.shop/collections/te-e-tisane-ayurvediche">
-      <img src="assets/officina-tisana.jpg" alt="Tè yogi speziato" width="1200" height="1500" loading="lazy" decoding="async">
-      <div class="bz-officina-cap">
-        <h3>Tisana</h3>
-        <p>Una tazza calda, quando si ha un momento solo per sé.</p>
-      </div>
-    </a>
+  <div class="bz-pills" role="tablist" aria-label="Capitoli dell'officina del corpo">
+    <button type="button" role="tab" id="officina-tab-olio" aria-controls="officina-panel" aria-selected="true" tabindex="0">Olio</button>
+    <button type="button" role="tab" id="officina-tab-bagno" aria-controls="officina-panel" aria-selected="false" tabindex="-1">Bagno</button>
+    <button type="button" role="tab" id="officina-tab-candela" aria-controls="officina-panel" aria-selected="false" tabindex="-1">Candela</button>
+    <button type="button" role="tab" id="officina-tab-sapone" aria-controls="officina-panel" aria-selected="false" tabindex="-1">Sapone</button>
+    <button type="button" role="tab" id="officina-tab-tisana" aria-controls="officina-panel" aria-selected="false" tabindex="-1">Tisana</button>
+  </div>
+  <div id="officina-panel" role="tabpanel" aria-labelledby="officina-tab-olio" tabindex="0">
+    <div class="bz-officina-breakout">
+      <figure class="bz-officina-stage">
+        <img class="bz-officina-scene" src="assets/officina-scena-olio.webp" alt="Una mano applica un olio sul polso accanto a una candela" loading="lazy" decoding="async" draggable="false">
+        <figcaption class="bz-officina-cap">
+          <h3>Olio</h3>
+          <p>Si lascia sui polsi, e resta sulla pelle per tutta la sera.</p>
+        </figcaption>
+      </figure>
+    </div>
+    <div class="bz-officina-prods">
+      <article class="product bz-product-tile has-nome-vetrina bz-product-tile--vertical">
+        <a class="bz-product-tile__link" href="https://benesserezen.shop/products/olio-profumato-ayurveda-ambra">
+          <div class="bz-product-tile__media">
+            <img src="assets/prod-olio-ambra.webp" alt="Roll-on Ambra" width="600" height="600" loading="lazy" decoding="async">
+          </div>
+          <h3 class="bz-product-tile__title">Roll-on Ambra</h3>
+          <p class="bz-product-tile__sub">profumo ayurvedico</p>
+        </a>
+        <div class="product-bottom bz-product-tile__bottom">
+          <div class="price">16,50&nbsp;€</div>
+          <button class="add" type="button" data-bz-add="54793126642002" aria-label="Aggiungi al carrello: Roll-on Ambra">
+            <svg viewBox="0 -960 960 960" class="" aria-hidden="true" focusable="false" fill="currentColor"><path d="M457.31-457.31H220v-45.38h237.31V-740h45.38v237.31H740v45.38H502.69V-220h-45.38v-237.31Z"></path></svg>
+          </button>
+        </div>
+      </article>
+      <article class="product bz-product-tile has-nome-vetrina bz-product-tile--vertical">
+        <a class="bz-product-tile__link" href="https://benesserezen.shop/products/olio-profumato-ayurveda-vaniglia">
+          <div class="bz-product-tile__media">
+            <img src="assets/prod-olio-vaniglia.webp" alt="Roll-on Vaniglia" width="600" height="600" loading="lazy" decoding="async">
+          </div>
+          <h3 class="bz-product-tile__title">Roll-on Vaniglia</h3>
+          <p class="bz-product-tile__sub">profumo ayurvedico</p>
+        </a>
+        <div class="product-bottom bz-product-tile__bottom">
+          <div class="price">16,50&nbsp;€</div>
+          <button class="add" type="button" data-bz-add="54793125986642" aria-label="Aggiungi al carrello: Roll-on Vaniglia">
+            <svg viewBox="0 -960 960 960" class="" aria-hidden="true" focusable="false" fill="currentColor"><path d="M457.31-457.31H220v-45.38h237.31V-740h45.38v237.31H740v45.38H502.69V-220h-45.38v-237.31Z"></path></svg>
+          </button>
+        </div>
+      </article>
+      <article class="product bz-product-tile has-nome-vetrina bz-product-tile--vertical">
+        <a class="bz-product-tile__link" href="https://benesserezen.shop/products/olio-profumato-naturale-sandalwood-10-ml">
+          <div class="bz-product-tile__media">
+            <img src="assets/prod-olio-sandalo.webp" alt="Roll-on Sandalo" width="600" height="600" loading="lazy" decoding="async">
+          </div>
+          <h3 class="bz-product-tile__title">Roll-on Sandalo</h3>
+          <p class="bz-product-tile__sub">profumo ayurvedico</p>
+        </a>
+        <div class="product-bottom bz-product-tile__bottom">
+          <div class="price">16,50&nbsp;€</div>
+          <button class="add" type="button" data-bz-add="53658083230034" aria-label="Aggiungi al carrello: Roll-on Sandalo">
+            <svg viewBox="0 -960 960 960" class="" aria-hidden="true" focusable="false" fill="currentColor"><path d="M457.31-457.31H220v-45.38h237.31V-740h45.38v237.31H740v45.38H502.69V-220h-45.38v-237.31Z"></path></svg>
+          </button>
+        </div>
+      </article>
+    </div>
   </div>
   <a class="bz-row-link" href="https://benesserezen.shop/collections/ayurveda">
     Tutta l'Ayurveda
@@ -2566,4 +2595,5 @@ document.addEventListener("DOMContentLoaded", function() {
   <style> /* === Homepage: heading unificati come "Cosa ci rende diversi" (no colore) === */:root {--zen-heading-font: "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; --zen-heading-weight: 500; --zen-heading-lh: 1.2; --zen-heading-mb: 20px;}  /* Scopo solo homepage (Dawn = .template-index; fallback body.index) */.template-index,body.index {}  /* Base: famiglia, peso, interlinea, tracking, margine — colore lasciato ereditare */.template-index :is(h1,h2,h3,.h1,.h2,.h3, .title,.section-title,.page-title, .title-wrapper-with-link .title, .rich-text__heading, .collection-list .title, .multicolumn .title, .testimonials__heading, .zen-quiz-title, /* quiz */ .zen-title /* why-us */) {font-family: var(--zen-heading-font) !important; font-weight: var(--zen-heading-weight) !important; line-height: var(--zen-heading-lh) !important; letter-spacing: normal !important; margin-bottom: var( --zen-heading-mb ); /* NIENTE color qui: ogni sezione mantiene il proprio */}  /* Dimensioni coerenti (stile .zen-why-us .zen-title) */.template-index :is( h1, .h1, .page-title, .title-wrapper-with-link .title, .collection-list .title, .testimonials__heading, .zen-quiz-title, .zen-title ) {font-size: clamp(32px, 5vw, 48px) !important;} .template-index :is(h2, .h2, .section-title) {font-size: clamp(28px, 4.2vw, 40px) !important;} .template-index :is(h3, .h3, .multicolumn .title) {font-size: clamp(22px, 3.2vw, 30px) !important;} #ScrollTop, .scroll-to-top, .scroll-top-btn {display: none !important;} </style>
 <script src="assets/standard-actions-8408a04556.js" type="module" data-source-attribution="shopify.standard_actions"></script>
 
-<div tabindex="-1" aria-hidden="true" id="web-pixels-manager-sandbox-container" data-shopify-privacy="exclude" style="height: 0px !important; width: 0px !important; position: fixed !important; visibility: hidden !important; overflow: hidden !important; z-index: -100 !important; margin: 0px !important; padding: 0px !important; border: 0px !important;"><iframe tabindex="-1" aria-hidden="true" name="web-pixel-sandbox-CUSTOM-shopify-custom-pixel-LAX-15451528w2c618d7fpfa16f52dm59493539" src="assets/file-f0b10ff5f6.bin" id="web-pixel-sandbox-CUSTOM-shopify-custom-pixel-LAX-15451528w2c618d7fpfa16f52dm59493539" sandbox="allow-scripts allow-forms" style="height: 0px !important; width: 0px !important; visibility: hidden !important;"></iframe></div><script src="https://www.googletagmanager.com/gtag/js?id=G-8ZS80B113S"></script><script src="https://www.googletagmanager.com/gtag/js?id=GT-PZ6GLK33"></script><div id="PBarNextFrameWrapper" popover="manual" style="height: calc(68px + env(safe-area-inset-bottom, 0)); position: fixed; box-sizing: border-box; overflow: hidden; margin: 0px; background-color: transparent !important;"><iframe id="PBarNextFrame" src="assets/index-928ab2e716.bin" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation allow-scripts allow-forms" style="width: 100%; height: 100dvh; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; position: absolute; bottom: 0px; left: 0px;"></iframe></div></body></html>
+<div tabindex="-1" aria-hidden="true" id="web-pixels-manager-sandbox-container" data-shopify-privacy="exclude" style="height: 0px !important; width: 0px !important; position: fixed !important; visibility: hidden !important; overflow: hidden !important; z-index: -100 !important; margin: 0px !important; padding: 0px !important; border: 0px !important;"><iframe tabindex="-1" aria-hidden="true" name="web-pixel-sandbox-CUSTOM-shopify-custom-pixel-LAX-15451528w2c618d7fpfa16f52dm59493539" src="assets/file-f0b10ff5f6.bin" id="web-pixel-sandbox-CUSTOM-shopify-custom-pixel-LAX-15451528w2c618d7fpfa16f52dm59493539" sandbox="allow-scripts allow-forms" style="height: 0px !important; width: 0px !important; visibility: hidden !important;"></iframe></div><script src="https://www.googletagmanager.com/gtag/js?id=G-8ZS80B113S"></script><script src="https://www.googletagmanager.com/gtag/js?id=GT-PZ6GLK33"></script><div id="PBarNextFrameWrapper" popover="manual" style="height: calc(68px + env(safe-area-inset-bottom, 0)); position: fixed; box-sizing: border-box; overflow: hidden; margin: 0px; background-color: transparent !important;"><iframe id="PBarNextFrame" src="assets/index-928ab2e716.bin" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation allow-scripts allow-forms" style="width: 100%; height: 100dvh; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; position: absolute; bottom: 0px; left: 0px;"></iframe></div>    <script src="assets/bz-officina.js" defer></script>
+</body></html>

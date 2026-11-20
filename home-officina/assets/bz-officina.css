@@ -1,63 +1,73 @@
 .bz-officina {
+  --officina-veil: #3a281c;
+  position: relative;
+  isolation: isolate;
   background: var(--bz-bg);
   color: var(--bz-text);
+  touch-action: pan-y;
+}
+
+.bz-officina-veil {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background-color: var(--officina-veil);
+  mask-image: radial-gradient(ellipse at 50% 48%, #000 22%, transparent 75%);
+  transition: background-color 240ms;
 }
 
 .bz-officina > .bz-sh > h2 em {
   color: var(--bz-gold);
 }
 
-.bz-officina-track {
+html .bz-scope .bz-officina .bz-pills {
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  overflow: visible;
+  margin-block: 0 var(--bz-sp-20, 20px);
+}
+
+html .bz-scope .bz-officina .bz-pills > button {
+  padding-inline: clamp(8px, 2.4vw, 18px);
+}
+
+.bz-officina-breakout {
   width: 100vw;
   max-width: 100vw;
   margin-left: calc(50% - 50vw);
   padding-inline: var(--bz-margin);
   box-sizing: border-box;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: var(--bz-margin);
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
 }
 
-.bz-officina-track::-webkit-scrollbar {
-  display: none;
-}
-
-.bz-officina-card {
-  flex: 0 0 78vw;
-  aspect-ratio: 3 / 4;
-  scroll-snap-align: start;
+.bz-officina-stage {
   position: relative;
+  height: clamp(320px, 110vw, 520px);
+  margin: 0;
   overflow: hidden;
   border-radius: var(--bz-r-card);
-  text-decoration: none;
-  color: inherit;
+  touch-action: pan-y;
+  user-select: none;
 }
 
-.bz-officina-card:last-child {
-  scroll-snap-align: end;
-}
-
-.bz-officina-card img {
+.bz-officina-scene {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
-.bz-officina-card img[src="assets/officina-bagno.jpg"] {
-  object-position: center 35%;
+.bz-officina-scene--outgoing {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .bz-officina-cap {
   position: absolute;
   inset: auto 0 0;
-  padding: 40px 20px 20px;
-  background: linear-gradient(to top, rgba(20, 16, 13, .92), rgba(20, 16, 13, .55) 45%, transparent);
+  padding: 52px 20px 20px;
+  background: linear-gradient(to top, rgba(20, 16, 13, .94), rgba(20, 16, 13, .65) 50%, transparent);
 }
 
 html .bz-scope .bz-officina-cap h3 {
@@ -70,34 +80,38 @@ html .bz-scope .bz-officina-cap h3 {
   letter-spacing: 0;
 }
 
-.bz-officina-cap p {
+html .bz-scope .bz-officina-cap p {
   margin: 0;
   color: var(--bz-text-2);
   font: 400 15px / 1.4 var(--bz-font-sans);
   hyphens: manual;
 }
 
-.bz-officina-track:focus-visible,
-.bz-officina > .bz-row-link:focus-visible {
-  outline: 2px solid var(--bz-gold);
-  outline-offset: -2px;
+.bz-officina-prods {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--bz-grid-gap, 12px);
+  margin-top: var(--bz-sp-20, 20px);
 }
 
-.bz-officina-card:focus-visible::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: 2px solid var(--bz-gold);
-  border-radius: inherit;
-  pointer-events: none;
+html .bz-scope .bz-officina .bz-product-tile .bz-product-tile__bottom {
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px;
+  padding-inline: 0;
+}
+
+html .bz-scope .bz-officina :focus-visible {
+  outline: 2px solid var(--bz-gold);
+  outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bz-officina,
-  .bz-officina * {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
+  .bz-officina-veil {
+    transition: none;
+  }
+
+  .bz-officina-scene--outgoing {
+    display: none;
   }
 }
 
