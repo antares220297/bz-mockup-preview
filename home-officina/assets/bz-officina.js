@@ -7,8 +7,8 @@
       title: "Olio",
       caption: "Si lascia sui polsi, e resta sulla pelle per tutta la sera.",
       veil: "#3a281c",
-      scene: "assets/officina-scena-olio.webp",
-      alt: "Un contagocce lascia cadere una goccia d'olio sul dorso di una mano",
+      scene: "assets/officina-scena-olio.webp?v=4",
+      alt: "Un contagocce lascia cadere una goccia d'olio sul palmo di una mano",
       products: [
         ["Roll-on Ambra", "profumo ayurvedico", "16,50", "olio-profumato-ayurveda-ambra", "54793126642002", "assets/prod-olio-ambra.webp"],
         ["Roll-on Vaniglia", "profumo ayurvedico", "16,50", "olio-profumato-ayurveda-vaniglia", "54793125986642", "assets/prod-olio-vaniglia.webp"],
@@ -43,8 +43,8 @@
       title: "Sapone",
       caption: "Il gesto di ogni mattina, con oli e spezie.",
       veil: "#332415",
-      scene: "assets/officina-scena-sapone.webp",
-      alt: "Saponetta dorata accanto a una candela e a bastoncini di cannella",
+      scene: "assets/officina-scena-sapone.webp?v=4",
+      alt: "Una saponetta bagnata su un portasapone in un lavabo di pietra",
       products: [
         ["Sapone alla curcuma", "Holy Lama", "7,90", "sapone-curcuma-holy-lama", "50427684913490", "assets/prod-sapone-curcuma.webp"],
         ["Sapone alla rosa", "Holy Lama", "7,90", "sapone-yogi-di-holy-lama-alla-rosa", "54793131721042", "assets/prod-sapone-rosa.webp"],
