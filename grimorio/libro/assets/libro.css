@@ -28,45 +28,37 @@
 .lb-ribbon,.lb-open{position:absolute;left:var(--cx);top:var(--cy);width:var(--cw);height:var(--ch);z-index:4}
 .lb-ribbon{pointer-events:none}
 .lb-ribbon>*{position:absolute;display:block;max-width:none;transition:transform 620ms cubic-bezier(.3,.6,.3,1),opacity 480ms linear}
-.rb-band{top:52.6%;height:4.4%;background:url(img/nastro/fascia.webp) center/100% 100% no-repeat;filter:drop-shadow(0 .14em .18em rgba(0,0,0,.55))}
-.rb-band--l{left:-1.2%;width:51.5%;transform-origin:left center;background-position:left center;background-size:200% 100%}
-.rb-band--r{right:-1.6%;width:51.5%;transform-origin:right center;background-position:right center;background-size:200% 100%}
-.rb-knot{left:50%;top:54.8%;width:62%;margin-left:-31%;aspect-ratio:600/484;transform:translateY(-27%)}
-.rb-knot img{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 .2em .25em rgba(0,0,0,.5));transition:transform 620ms cubic-bezier(.3,.6,.3,1),opacity 460ms linear}
-.rb-bow{transform-origin:50% 14%}
-.rb-tl{transform-origin:47% 27%}.rb-tr{transform-origin:55% 27%}
-.is-untying .rb-bow{transform:scale(.35) rotate(-8deg);opacity:0;transition-duration:420ms,300ms}
-.is-untying .rb-tl{transform:rotate(24deg) translate(-6%,10%);opacity:0;transition-delay:70ms}
-.is-untying .rb-tr{transform:rotate(-26deg) translate(6%,10%);opacity:0;transition-delay:70ms}
-.is-untying .rb-band--l{transform:translateX(-18%) scaleX(.35);opacity:0;transition-delay:160ms}
-.is-untying .rb-band--r{transform:translateX(18%) scaleX(.35);opacity:0;transition-delay:160ms}
+.lb-ribbon{--k:calc(var(--cw) * .000625)}
+.rb-band{top:calc(56% - var(--k) * 57);height:calc(var(--k) * 114);background:url(img/nastro/fascia2.webp) center/200% 100% no-repeat;filter:drop-shadow(0 .1em .14em rgba(0,0,0,.5))}
+.rb-band--l{left:-.6%;width:50.8%;transform-origin:left center;background-position:left center}
+.rb-band--r{right:-.6%;width:50.8%;transform-origin:right center;background-position:right center}
+.rb-knot{left:calc(50% - var(--k) * 174);top:calc(56% - var(--k) * 57);width:calc(var(--k) * 360);height:calc(var(--k) * 354)}
+.rb-knot img{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 .12em .16em rgba(0,0,0,.5));transform-origin:48% 16%;transition:transform 560ms cubic-bezier(.3,.6,.3,1),opacity 420ms linear}
+.is-untying .rb-nodo{transform:translateY(10%) rotate(-7deg) scale(.72);opacity:0}
+.is-untying .rb-band--l{transform:translateX(-14%) scaleX(.3);opacity:0;transition-delay:150ms}
+.is-untying .rb-band--r{transform:translateX(14%) scaleX(.3);opacity:0;transition-delay:150ms}
 .lb:not([data-state="closed"]) .lb-ribbon{visibility:hidden}
 .lb:not([data-state="closed"]) .lb-open{display:none}
 .lb-open{border:0;padding:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .lb-open:focus-visible{outline:2px solid var(--bz-gold);outline-offset:4px;border-radius:6px}
-@media (prefers-reduced-motion:no-preference){.lb[data-state="closed"]:not(.is-untying) .rb-bow{animation:rb-breathe 2.8s ease-in-out infinite}}
-@keyframes rb-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
 
 /* linguette: nastri di seta fotografici, bottoni veri; con il libro chiuso seguono la copertina */
 .lb-tabs{position:absolute;left:var(--tx);top:var(--ty);width:var(--pw);height:var(--ph);z-index:3;pointer-events:none;transition:transform 1150ms cubic-bezier(.65,0,.35,1),opacity 300ms linear}
 .lb[data-state="closed"] .lb-tabs{transform:translateX(var(--tdx))}
-.lb-tabs--v{position:absolute;left:100%;top:7%;display:flex;flex-direction:column;gap:.45em}
-.lb-tabs--h{position:absolute;top:100%;left:28%;display:flex;gap:.5em}
-.tab{position:relative;pointer-events:auto;margin:0;padding:0;border:0;cursor:pointer;color:#f6ecd8;font:inherit;-webkit-tap-highlight-color:transparent;background:var(--tbg) center/100% 100% no-repeat;
-  box-shadow:.06em .12em .22em rgba(0,0,0,.55);transition:transform 260ms cubic-bezier(.2,.7,.2,1),filter 260ms}
-.tab span{display:block;font:italic 400 .8em/1 "EB Garamond",Baskervville,serif;letter-spacing:.02em;white-space:nowrap;text-shadow:0 1px 1px rgba(0,0,0,.55)}
-.tab::before{content:"";position:absolute;inset:-8px}
-.tab--v{width:1.6em;height:6.8em;border-radius:0 .18em .18em 0;writing-mode:vertical-rl;transform:translateX(-.35em);display:flex;align-items:center;justify-content:center}
-.tab--v span{transform:translateX(.12em)}
-.tab--h{height:1.62em;min-width:5.6em;padding:0 .75em;border-radius:0 0 .18em .18em;transform:translateY(-.35em);display:flex;align-items:center;justify-content:center}
-.tab--h span{transform:translateY(.12em)}
-.tab--v.tab-0{--tbg:url(img/linguetta-0.webp)}.tab--h.tab-0{--tbg:url(img/linguetta-0h.webp)}.tab--v.tab-1{--tbg:url(img/linguetta-1.webp)}.tab--h.tab-1{--tbg:url(img/linguetta-1h.webp)}.tab--v.tab-2{--tbg:url(img/linguetta-2.webp)}.tab--h.tab-2{--tbg:url(img/linguetta-2h.webp)}.tab--v.tab-3{--tbg:url(img/linguetta-3.webp)}.tab--h.tab-3{--tbg:url(img/linguetta-3h.webp)}.tab--v.tab-4{--tbg:url(img/linguetta-0.webp)}.tab--h.tab-4{--tbg:url(img/linguetta-0h.webp)}.tab--v.tab-5{--tbg:url(img/linguetta-1.webp)}.tab--h.tab-5{--tbg:url(img/linguetta-1h.webp)}
-.tab{filter:saturate(.8) brightness(.86)}
-.tab[aria-current="true"]{filter:none;transform:none}
-.tab[aria-current="true"]::after{content:"";position:absolute;background:rgba(246,236,216,.85)}
-.tab--v[aria-current="true"]::after{right:.24em;top:.7em;bottom:.7em;width:1px}
-.tab--h[aria-current="true"]::after{bottom:.26em;left:.75em;right:.75em;height:1px}
-@media (hover:hover){.tab:hover{filter:none}.tab--v:hover{transform:translateX(-.18em)}.tab--h:hover{transform:translateY(-.18em)}.tab[aria-current="true"]:hover{transform:none}}
+/* tutte sul taglio destro: segnapagina di seta infilati tra i fogli, a filo del bordo, sfalsati in altezza */
+.lb-tabs--v{position:absolute;left:100%;top:5.5%;display:flex;flex-direction:column;gap:.62em}
+.tab{position:relative;pointer-events:auto;margin:0;padding:0;border:0;cursor:pointer;color:#efe3cc;font:inherit;-webkit-tap-highlight-color:transparent;
+  background:linear-gradient(90deg,rgba(20,10,8,.62),rgba(20,10,8,.22) 28%,rgba(20,10,8,0) 55%),var(--tbg) center/100% 100% no-repeat;
+  box-shadow:.05em .08em .14em rgba(0,0,0,.45);filter:saturate(.62) brightness(.8);transition:transform 260ms cubic-bezier(.2,.7,.2,1),filter 260ms}
+.tab span{display:block;font:italic 400 .72em/1 "EB Garamond",Baskervville,serif;letter-spacing:.02em;white-space:nowrap;color:#f7eedd;text-shadow:0 0 2px rgba(0,0,0,.7),0 1px 1px rgba(0,0,0,.6)}
+.tab::before{content:"";position:absolute;top:-6px;bottom:-6px;left:-16px;right:-10px}
+.tab--v{width:1.45em;height:6.3em;margin-left:-.42em;border-radius:0 .12em .12em 0;writing-mode:vertical-rl;display:flex;align-items:center;justify-content:center}
+.tab--v span{transform:translateX(.14em)}
+.tab--v:nth-child(2){margin-left:-.36em}.tab--v:nth-child(3){margin-left:-.46em}.tab--v:nth-child(4){margin-left:-.39em}
+.tab-0{--tbg:url(img/linguetta-0.webp)}.tab-1{--tbg:url(img/linguetta-1.webp)}.tab-2{--tbg:url(img/linguetta-2.webp)}.tab-3{--tbg:url(img/linguetta-3.webp)}.tab-4{--tbg:url(img/linguetta-0.webp)}.tab-5{--tbg:url(img/linguetta-1.webp)}
+.tab[aria-current="true"]{filter:saturate(.85) brightness(.95);transform:translateX(.12em)}
+.tab[aria-current="true"]::after{content:"";position:absolute;right:.22em;top:.7em;bottom:.7em;width:1px;background:rgba(239,227,204,.7)}
+@media (hover:hover){.tab:hover{filter:saturate(.8) brightness(.92)}}
 .tab:focus-visible{outline:2px solid var(--bz-gold);outline-offset:2px}
 
 /* pagine HTML: in WebGL restano nel DOM solo per i motori di ricerca e i lettori di schermo */

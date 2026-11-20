@@ -187,6 +187,7 @@
 
   root.lbDebug = function () { return { state: state, sheet: sheet, busy: !!(C && C.book.busy), plain: plain, ready: !!C, desk: desk, tab: (root.querySelector('.tab[aria-current]') || {}).textContent || null, stats: C ? C.stats : null, tex: C ? [C.PW, C.PH] : null, dpr: C ? C.book.renderer.getPixelRatio() : null }; };
   root.lbLay = function () { return lay; };
+  root.lbPagina = function (i) { return C ? C.renderPage(i).then(function (c) { return c ? c.toDataURL('image/jpeg', .8) : null; }) : null; };
 
   // il motore si scarica solo vicino alla sezione o al primo tocco
   if (!plain) {
