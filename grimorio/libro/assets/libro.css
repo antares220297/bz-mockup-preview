@@ -165,3 +165,17 @@
 .lb:not(.is-plain) .tab{position:absolute;margin:0;background:none;box-shadow:none;filter:none;transform:none;border-radius:4px;color:transparent}
 .lb:not(.is-plain) .tab span,.lb:not(.is-plain) .tab::after{opacity:0}
 .lb:not(.is-plain) .tab::before{inset:0}
+
+/* giro 4: si tocca la linguetta anche a libro chiuso (sopra il bottone «apri») */
+.lb:not(.is-plain) .lb-tabs{z-index:5}
+.lb:not(.is-plain) .tab{pointer-events:auto}
+/* giro 4: indice dei capitoli sotto il libro */
+.lb-chap{display:flex;justify-content:center;align-items:center;gap:0;margin:6px auto 0;max-width:100%;overflow-x:auto;scrollbar-width:none;white-space:nowrap;-webkit-overflow-scrolling:touch}
+.lb-chap::-webkit-scrollbar{display:none}
+.lb-ch{position:relative;flex:none;min-height:44px;padding:0 9px;border:0;background:none;font:italic 400 15px/1 var(--bz-font-serif,Baskervville,Georgia,serif);color:var(--bz-text-3,#958d7f);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color .2s}
+.lb-ch+.lb-ch::before{content:"";position:absolute;left:-2px;top:50%;width:3px;height:3px;margin-top:-1.5px;border-radius:50%;background:var(--bz-gold,#c9a96e);opacity:.5}
+.lb-ch[aria-current]{color:var(--bz-gold,#c9a96e)}
+.lb-ch[aria-current]::after{content:"";position:absolute;left:9px;right:9px;bottom:9px;height:1px;background:currentColor;opacity:.7}
+.lb-ch:focus-visible{outline:2px solid var(--bz-gold,#c9a96e);outline-offset:-4px;border-radius:6px}
+@media (hover:hover){.lb-ch:not([aria-current]):hover{color:var(--bz-text-2,#cdc4b4)}}
+.lb-chap+.lb-ctrl{margin-top:2px}

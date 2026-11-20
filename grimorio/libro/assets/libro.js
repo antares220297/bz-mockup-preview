@@ -8,7 +8,7 @@
   var stage = root.querySelector('.lb-stage'), gl = root.querySelector('.lb-gl'), flip = root.querySelector('.lb-flip');
   var openB = root.querySelector('.lb-open'), live = root.querySelector('#lb-live');
   var prevB = root.querySelector('.lb-prev'), nextB = root.querySelector('.lb-next');
-  var tabs = [].slice.call(root.querySelectorAll('.tab'));
+  var tabs = [].slice.call(root.querySelectorAll('.tab')), chaps = [].slice.call(root.querySelectorAll('.lb-ch'));
   var all = [].slice.call(flip.querySelectorAll('.pg'));
   function webgl() { try { var c = document.createElement('canvas'); return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl'))); } catch (e) { return false; } }
   var plain = RM || /plain=1/.test(Q) || !webgl();
@@ -21,11 +21,11 @@
   function layout() {
     var vw = document.documentElement.clientWidth, vh = window.innerHeight, pw;
     desk = vw >= 1024;
-    pw = desk ? Math.min(560, (vw - 176) / 2, (vh - 190) / 1.4) : Math.min((vw - 48) / 1.07, (vh - 250) / 1.4);
+    pw = desk ? Math.min(560, (vw - 176) / 2, (vh - 190) / 1.4) : Math.min((vw - 10) / 1.19, (vh - 300) / 1.4);
     pw = Math.floor(pw); var ph = Math.floor(pw * 1.4), fs = pw / 22;
     var sw = desk ? Math.min(vw, Math.round(2 * pw + 300)) : vw, top = 12 + Math.round(OV * pw * 1.5);
     var sh = Math.round(top + ph + OV * pw + 2.6 * fs);
-    var pageL = desk ? sw / 2 : Math.round(.07 * pw + .07 * .4 * pw + 6);   // a sinistra il filo della metà letta, con i suoi segnapagina
+    var pageL = desk ? sw / 2 : Math.round(.07 * pw + .085 * .4 * pw + 4);   // a sinistra il filo della metà letta, con i suoi segnapagina
     var vy = (top + ph / 2 - sh / 2) / pw;
     var vxOpen = desk ? 0 : (sw / 2 - pageL) / pw, vxClosed = desk ? .5 : vxOpen;
     function P(x, y, z, vx) { var k = DIST / (DIST - z); return { x: sw / 2 + (x - vx) * pw * k, y: sh / 2 - (y - vy) * pw * k }; }
@@ -53,7 +53,7 @@
   function mark() {
     var ns = state === 'closed' ? [] : visibleNs(), top = Math.max.apply(null, ns.concat([-1])), act = -1;
     tabs.forEach(function (t, i) { if (top >= +t.dataset.to) act = i; });
-    tabs.forEach(function (t, i) { if (i === act) t.setAttribute('aria-current', 'true'); else t.removeAttribute('aria-current'); });
+    tabs.concat(chaps).forEach(function (t, i) { if (i % tabs.length === act) t.setAttribute('aria-current', 'true'); else t.removeAttribute('aria-current'); });
     var max = C ? C.book.sheetCount : plainMax();
     prevB.disabled = state === 'closed' || sheet <= 0;
     nextB.disabled = sheet >= max;
@@ -150,7 +150,7 @@
 
   // ---- eventi
   openB.addEventListener('click', function () { load(); open(); });
-  tabs.forEach(function (t) { t.addEventListener('click', function () { load(); go(+t.dataset.to); }); });
+  tabs.concat(chaps).forEach(function (t) { t.addEventListener('click', function () { load(); go(+t.dataset.to); }); });
   prevB.addEventListener('click', function () { step(-1); });
   nextB.addEventListener('click', function () { load(); step(1); });
   stage.addEventListener('keydown', function (e) {
@@ -188,7 +188,7 @@
   root.lbDebug = function () { return { state: state, sheet: sheet, busy: !!(C && C.book.busy), plain: plain, ready: !!C, desk: desk, tab: (root.querySelector('.tab[aria-current]') || {}).textContent || null, stats: C ? C.stats : null, tex: C ? [C.PW, C.PH] : null, dpr: C ? C.book.renderer.getPixelRatio() : null }; };
   root.lbLay = function () { return lay; };
   // ---- segnapagina: disegnati in WebGL sul foglio del loro capitolo; qui solo bottoni invisibili (≥44 px) che li seguono a ogni frame
-  var TW = .07, TH = Math.min(.19, (.9 - (tabs.length - 1) * .045) / Math.max(1, tabs.length)), stageR = null;
+  var TW = .085, TH = Math.min(.19, (.9 - (tabs.length - 1) * .045) / Math.max(1, tabs.length)), stageR = null;
   function syncTabs() {
     if (plain) return;
     var v = C ? C.book.view : lay.view, sw = lay.sw, sh = lay.sh;
