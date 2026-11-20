@@ -69,7 +69,7 @@
   function load() {
     if (plain || C || loading) return; loading = true;
     var tl = performance.now();
-    import('./libro-3d.js?v=g6').then(function (m) {
+    import('./libro-3d.js?v=g8').then(function (m) {
       return m.init(root, {
         host: gl, single: !desk, pw: lay.pw, view: lay.view, base: 'assets/', maxDpr: +(Q.match(/dpr=([\d.]+)/) || [0, 2])[1],
         shadowMap: desk ? 2048 : 1024,
