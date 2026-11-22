@@ -12,14 +12,14 @@
 .lb{--pw:367px;--ph:514px;--fs:16.7px;--sw:430px;--sh:580px;--cx:21px;--cy:12px;--cw:374px;--ch:521px;--tx:21px;--ty:12px;--tdx:0px;position:relative;padding:var(--bz-section-gap) 0 0;overflow-x:hidden;overflow-x:clip}
 .lb::before{content:"";position:absolute;left:50%;top:calc(var(--bz-section-gap) + 60px);width:min(1500px,180vw);height:calc(var(--sh) + 120px);transform:translateX(-50%);background:radial-gradient(closest-side,rgba(201,169,110,.12),rgba(201,169,110,.045) 55%,transparent);pointer-events:none}
 .lb-wrap{position:relative}
-.lb-kick{margin:0 0 6px;color:var(--bz-gold);font:600 11px/1.4 var(--bz-font-sans);letter-spacing:.22em;text-transform:uppercase}
+.lb-kick{margin:0 0 4px;color:var(--bz-gold);font:600 11px/1.4 var(--bz-font-sans);letter-spacing:.22em;text-transform:uppercase}
 .lb-head h2{margin:0;font:400 var(--bz-fs-h2)/var(--bz-lh-h2) var(--bz-font-serif)}
 .lb-head h2 em{color:var(--bz-gold)}
-.lb-lead{margin:6px 0 0;color:var(--bz-text-2);font-size:15px;line-height:1.45}
+.lb-lead{margin:4px 0 0;color:var(--bz-text-2);font-size:15px;line-height:1.45}
 .lb-hint-o{display:none}.lb:not([data-state="closed"]) .lb-hint-c{display:none}.lb:not([data-state="closed"]) .lb-hint-o{display:inline}
 
 /* palco: largo quanto la pagina (a pieno schermo su mobile), alto quanto serve */
-.lb-stage{position:relative;width:var(--sw);height:var(--sh);margin:6px 0 0 calc(50% - var(--sw) / 2);font-size:var(--fs);outline:none;-webkit-tap-highlight-color:transparent}
+.lb-stage{position:relative;width:var(--sw);height:var(--sh);margin:4px 0 0 calc(50% - var(--sw) / 2);font-size:var(--fs);outline:none;-webkit-tap-highlight-color:transparent}
 .lb-stage:focus-visible{outline:2px solid var(--bz-gold);outline-offset:-2px;border-radius:8px}
 .lb-gl{position:absolute;inset:0;z-index:1}
 .lb-poster{position:absolute;z-index:2;left:var(--px0);top:var(--py0);width:var(--pw0);height:auto;max-width:none;pointer-events:none;transition:opacity 500ms linear}
@@ -183,12 +183,16 @@
 .lb:not(.is-plain) .lb-tabs{z-index:5}
 .lb:not(.is-plain) .tab{pointer-events:auto}
 /* giro 4: indice dei capitoli sotto il libro */
-.lb-chap{display:flex;justify-content:center;align-items:center;gap:0;margin:2px auto 0;max-width:100%;overflow-x:auto;scrollbar-width:none;white-space:nowrap;-webkit-overflow-scrolling:touch}
-.lb-chap::-webkit-scrollbar{display:none}
-.lb-ch{position:relative;flex:none;min-height:44px;padding:0 9px;border:0;background:none;font:italic 400 16px/1 "IM Fell English",var(--bz-font-serif,Georgia),serif;color:var(--bz-text-3,#958d7f);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color .2s}
-.lb-ch+.lb-ch::before{content:"";position:absolute;left:-2px;top:50%;width:3px;height:3px;margin-top:-1.5px;border-radius:50%;background:var(--bz-gold,#c9a96e);opacity:.5}
-.lb-ch[aria-current]{color:var(--bz-gold,#c9a96e)}
-.lb-ch[aria-current]::after{content:"";position:absolute;left:9px;right:9px;bottom:9px;height:1px;background:currentColor;opacity:.7}
-.lb-ch:focus-visible{outline:2px solid var(--bz-gold,#c9a96e);outline-offset:-4px;border-radius:6px}
-@media (hover:hover){.lb-ch:not([aria-current]):hover{color:var(--bz-text-2,#cdc4b4)}}
-.lb-chap+.lb-ctrl{margin-top:2px}
+/* [g9c] selettore dei capitoli: pillole con i token della toolbar Filtri/Ordina approvata (.chip / .sort: 1px, raggio 999px, Figtree 500 14px, avorio; attivo pieno avorio con testo scuro; focus oro 2px)
+   il bordo è oro sottile, come la toolbar al passaggio; 2×2 a 430, una riga su desktop */
+.lb-chap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:8px 0 0}
+.lb-ch{display:flex;align-items:center;justify-content:center;min-height:44px;margin:0;padding:0 12px;border:1px solid rgba(201,169,110,.45);border-radius:999px;background:transparent;font:500 14px/1 var(--bz-font-sans);color:var(--bz-text,#eee7db);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color .18s ease,color .18s ease,border-color .18s ease}
+.lb-ch[aria-current]{background:var(--bz-text,#eee7db);border-color:var(--bz-text,#eee7db);color:var(--bz-bg,#141312)}
+.lb-ch:active{background:rgba(201,169,110,.18)}.lb-ch[aria-current]:active{background:#d9d1c3}
+.lb-ch:focus-visible{outline:2px solid var(--bz-gold,#c9a96e);outline-offset:2px}
+@media (hover:hover){.lb-ch:not([aria-current]):hover{border-color:var(--bz-gold,#c9a96e)}}
+@media (min-width:768px){.lb-chap{display:flex;justify-content:center;flex-wrap:wrap}.lb-ch{padding:0 20px}}
+@media (prefers-reduced-motion:reduce){.lb-ch{transition:none}}
+
+/* [g9c] a 430 la sezione resta in uno schermo con il selettore 2×2: meno aria sopra l'occhiello e frecce nella riserva vuota sotto il libro (il libro non cambia) */
+@media (max-width:767px){.lb{padding-top:32px}.lb::before{top:92px}.lb-ctrl,.lb-chap+.lb-ctrl{position:relative;z-index:6;margin-top:-28px}}
