@@ -69,7 +69,7 @@
   function load() {
     if (plain || C || loading) return; loading = true;
     var tl = performance.now();
-    import('./libro-3d.js?v=g8').then(function (m) {
+    import('./libro-3d.js?v=g9').then(function (m) {
       return m.init(root, {
         host: gl, single: !desk, pw: lay.pw, view: lay.view, base: 'assets/', maxDpr: +(Q.match(/dpr=([\d.]+)/) || [0, 2])[1],
         shadowMap: desk ? 2048 : 1024,
@@ -151,6 +151,13 @@
   // ---- eventi
   openB.addEventListener('click', function () { load(); open(); });
   tabs.concat(chaps).forEach(function (t) { t.addEventListener('click', function () { load(); go(+t.dataset.to); }); });
+  // [g9] indice del frontespizio: le voci HTML (versione semplice) e, sopra il WebGL, bottoni invisibili che seguono le voci dipinte
+  var tocBox = root.querySelector('.lb-toc'), tocDom = [].slice.call(root.querySelectorAll('.fr-e'));
+  tocDom.forEach(function (t) { t.addEventListener('click', function () { load(); go(+t.dataset.to); }); });
+  var tocHit = tocDom.map(function (t) {
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'lb-toc-hit'; b.dataset.to = t.dataset.to; b.tabIndex = -1;
+    b.addEventListener('click', function () { go(+b.dataset.to); }); tocBox.appendChild(b); return b;
+  });
   prevB.addEventListener('click', function () { step(-1); });
   nextB.addEventListener('click', function () { load(); step(1); });
   stage.addEventListener('keydown', function (e) {
@@ -203,7 +210,19 @@
       b.dataset.lato = left ? 'sinistra' : 'destra';
     });
   }
-  (function loop() { if (!document.hidden) syncTabs(); requestAnimationFrame(loop); })();
+  function syncToc() {
+    var f = C && C.stats.fills && C.stats.fills['2'], toc = f && f.toc, on = !!toc && state === 'open' && !C.book.busy && sheet === sheetFor(2);
+    tocBox.classList.toggle('is-on', on); if (!on) return;
+    var v = C.book.view, sw = lay.sw, sh = lay.sh;
+    function pr(x, y, z) { var k = DIST / (DIST - z); return { x: sw / 2 + (x - v.x) * v.s * k, y: sh / 2 - (y - v.y) * v.s * k }; }
+    toc.forEach(function (r) {
+      var b = tocHit.filter(function (h) { return +h.dataset.to === r.to; })[0]; if (!b) return;
+      var a = pr(r.x0, (.5 - r.y0) * 1.4, .05), c = pr(r.x1, (.5 - r.y1) * 1.4, .05);
+      var h = Math.max(44, c.y - a.y), cy = (a.y + c.y) / 2, st = b.style;
+      st.left = a.x.toFixed(1) + 'px'; st.width = (c.x - a.x).toFixed(1) + 'px'; st.top = (cy - h / 2).toFixed(1) + 'px'; st.height = h.toFixed(1) + 'px';
+    });
+  }
+  (function loop() { if (!document.hidden) { syncTabs(); if (!plain) syncToc(); } requestAnimationFrame(loop); })();
   root.lbPagina = function (i) { return C ? C.renderPage(i).then(function (c) { return c ? c.toDataURL('image/jpeg', .8) : null; }) : null; };
 
   // il motore si scarica solo vicino alla sezione o al primo tocco

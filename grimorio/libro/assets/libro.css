@@ -18,7 +18,7 @@
 .lb-hint-o{display:none}.lb:not([data-state="closed"]) .lb-hint-c{display:none}.lb:not([data-state="closed"]) .lb-hint-o{display:inline}
 
 /* palco: largo quanto la pagina (a pieno schermo su mobile), alto quanto serve */
-.lb-stage{position:relative;width:var(--sw);height:var(--sh);margin:14px 0 0 calc(50% - var(--sw) / 2);font-size:var(--fs);outline:none;-webkit-tap-highlight-color:transparent}
+.lb-stage{position:relative;width:var(--sw);height:var(--sh);margin:6px 0 0 calc(50% - var(--sw) / 2);font-size:var(--fs);outline:none;-webkit-tap-highlight-color:transparent}
 .lb-stage:focus-visible{outline:2px solid var(--bz-gold);outline-offset:-2px;border-radius:8px}
 .lb-gl{position:absolute;inset:0;z-index:1}
 .lb-poster{position:absolute;z-index:2;left:var(--px0);top:var(--py0);width:var(--pw0);height:auto;max-width:none;pointer-events:none;transition:opacity 500ms linear}
@@ -112,7 +112,18 @@
 .fr-t{margin:.05em 0 0!important;font-family:"Pirata One","IM Fell English",serif;font-size:2.6em;line-height:1;color:#9a3a2b}
 .fr-s{font-style:italic;color:#6d5640}
 .fig--front img{max-height:13em}
-.fr-i{margin-top:.6em!important;font-size:.82em;letter-spacing:.02em;font-style:italic;color:#8b6c4c;text-wrap:balance}
+.fr-toc{display:grid;grid-template-columns:1fr 1fr;gap:0 .9em;margin-top:.75em;text-align:left}
+.fr-col::before{content:"pag.";display:block;text-align:right;font-style:italic;font-size:.72em;color:#8b6c4c}
+.fr-e{display:flex;align-items:baseline;width:100%;min-height:44px;margin:0;padding:0;border:0;background:none;font:inherit;color:#2e2119;cursor:pointer;text-align:left;-webkit-tap-highlight-color:transparent}
+.fr-n{font-style:italic;font-size:.96em;white-space:nowrap}
+.fr-e::after{content:"";order:1;flex:1;min-width:1em;margin:0 .3em;border-bottom:.12em dotted rgba(110,80,52,.6);transform:translateY(-.2em)}
+.fr-p{order:2;font-size:.92em;font-variant-numeric:oldstyle-nums}
+.fr-e:active{background:rgba(201,169,110,.18)}
+/* [g9] sopra il WebGL: bottoni invisibili sulle voci dipinte dell'indice, solo col frontespizio aperto e fermo */
+.lb-toc{position:absolute;inset:0;z-index:5;pointer-events:none;display:none}.lb-toc.is-on{display:block}
+.lb-toc-hit{position:absolute;margin:0;padding:0;border:0;border-radius:4px;background:transparent;pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s}
+.lb-toc-hit:active{background:rgba(201,169,110,.2)}
+@media (hover:hover){.lb-toc-hit:hover{background:rgba(201,169,110,.1)}}
 /* copertina, sguardie */
 .pg--cover{background:#2b1832}
 .cv{position:absolute;inset:0;border-radius:0 .32em .32em 0;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(0,0,0,.5),inset .45em 0 .6em -.2em rgba(0,0,0,.55),inset -1px 0 0 rgba(255,220,160,.12)}
@@ -130,7 +141,7 @@
 .fig--sm img{max-height:7.4em}
 .fig--fin{margin-top:.6em}.fig--fin img{max-height:5.6em}
 /* comandi */
-.lb-ctrl{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:10px}
+.lb-ctrl{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:2px}
 .lb-nav{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1px solid var(--bz-line-2);background:none;color:var(--bz-text);cursor:pointer}
 .lb-nav .ic{width:20px;height:20px}
 .lb-nav:disabled{opacity:.35;cursor:default}
@@ -171,7 +182,7 @@
 .lb:not(.is-plain) .lb-tabs{z-index:5}
 .lb:not(.is-plain) .tab{pointer-events:auto}
 /* giro 4: indice dei capitoli sotto il libro */
-.lb-chap{display:flex;justify-content:center;align-items:center;gap:0;margin:6px auto 0;max-width:100%;overflow-x:auto;scrollbar-width:none;white-space:nowrap;-webkit-overflow-scrolling:touch}
+.lb-chap{display:flex;justify-content:center;align-items:center;gap:0;margin:2px auto 0;max-width:100%;overflow-x:auto;scrollbar-width:none;white-space:nowrap;-webkit-overflow-scrolling:touch}
 .lb-chap::-webkit-scrollbar{display:none}
 .lb-ch{position:relative;flex:none;min-height:44px;padding:0 9px;border:0;background:none;font:italic 400 16px/1 "IM Fell English",var(--bz-font-serif,Georgia),serif;color:var(--bz-text-3,#958d7f);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color .2s}
 .lb-ch+.lb-ch::before{content:"";position:absolute;left:-2px;top:50%;width:3px;height:3px;margin-top:-1.5px;border-radius:50%;background:var(--bz-gold,#c9a96e);opacity:.5}
